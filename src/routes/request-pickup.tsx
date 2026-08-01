@@ -40,13 +40,62 @@ const perks = [
   { icon: ShieldCheck, label: "Government authorized" },
 ];
 
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createRequest, fetchMaterials } from "../lib/api";
+
 function RequestPickup() {
+  const { data: liveMaterials } = useQuery({
+    queryKey: ["materials"],
+    queryFn: fetchMaterials,
+  });
+
   const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [scrapType, setScrapType] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [preferredDate, setPreferredDate] = useState("");
+  const [preferredSlot, setPreferredSlot] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const requestMutation = useMutation({
+    mutationFn: createRequest,
+    onSuccess: () => {
+      setSubmitted(true);
+      toast.success("Pickup request received! Our team will call you shortly.");
+      // Reset form
+      setName("");
+      setPhone("");
+      setAddress("");
+      setScrapType("");
+      setQuantity("");
+      setPreferredDate("");
+      setPreferredSlot("");
+      setNotes("");
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to submit pickup request. Please try again.");
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    toast.success("Pickup request received! Our team will call you shortly.");
+    if (!scrapType || !quantity || !preferredSlot) {
+      toast.error("Please fill in all select fields.");
+      return;
+    }
+    requestMutation.mutate({
+      name,
+      phone,
+      address,
+      scrapType,
+      quantity,
+      preferredDate,
+      preferredSlot,
+      notes,
+    });
   };
 
   if (submitted) {
@@ -93,39 +142,68 @@ function RequestPickup() {
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="name">Full name</Label>
-                <Input id="name" required placeholder="Your name" />
+                <Input
+                  id="name"
+                  required
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone number</Label>
-                <Input id="phone" type="tel" required placeholder="+91 98765 43210" />
+                <Input
+                  id="phone"
+                  type="tel"
+                  required
+                  placeholder="+91 98765 43210"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="address">Pickup address</Label>
-              <Input id="address" required placeholder="Flat, building, area, city" />
+              <Input
+                id="address"
+                required
+                placeholder="Flat, building, area, city"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>Scrap type</Label>
-                <Select required>
+                <Select value={scrapType} onValueChange={setScrapType} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select material" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ewaste">E-Waste</SelectItem>
-                    <SelectItem value="metal">Metals</SelectItem>
-                    <SelectItem value="paper">Paper & Cardboard</SelectItem>
-                    <SelectItem value="plastic">Plastics</SelectItem>
-                    <SelectItem value="appliance">Appliances</SelectItem>
-                    <SelectItem value="mixed">Mixed / Bulk</SelectItem>
+                    {liveMaterials && liveMaterials.length > 0 ? (
+                      liveMaterials.map((m) => (
+                        <SelectItem key={m.id} value={m.id}>
+                          {m.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <>
+                        <SelectItem value="ewaste">E-Waste</SelectItem>
+                        <SelectItem value="metal">Metals</SelectItem>
+                        <SelectItem value="paper">Paper & Cardboard</SelectItem>
+                        <SelectItem value="plastic">Plastics</SelectItem>
+                        <SelectItem value="appliance">Appliances</SelectItem>
+                        <SelectItem value="mixed">Mixed / Bulk</SelectItem>
+                      </>
+                    )}
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label>Estimated quantity</Label>
-                <Select>
+                <Select value={quantity} onValueChange={setQuantity} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select quantity" />
                   </SelectTrigger>
@@ -142,11 +220,17 @@ function RequestPickup() {
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="date">Preferred date</Label>
-                <Input id="date" type="date" required />
+                <Input
+                  id="date"
+                  type="date"
+                  required
+                  value={preferredDate}
+                  onChange={(e) => setPreferredDate(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Preferred slot</Label>
-                <Select>
+                <Select value={preferredSlot} onValueChange={setPreferredSlot} required>
                   <SelectTrigger>
                     <SelectValue placeholder="Select slot" />
                   </SelectTrigger>
@@ -161,11 +245,23 @@ function RequestPickup() {
 
             <div className="space-y-2">
               <Label htmlFor="notes">Additional notes</Label>
-              <Textarea id="notes" placeholder="Anything we should know?" rows={3} />
+              <Textarea
+                id="notes"
+                placeholder="Anything we should know?"
+                rows={3}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
             </div>
 
-            <Button type="submit" variant="hero" size="lg" className="w-full">
-              Confirm pickup request
+            <Button
+              type="submit"
+              variant="hero"
+              size="lg"
+              className="w-full"
+              disabled={requestMutation.isPending}
+            >
+              {requestMutation.isPending ? "Submitting..." : "Confirm pickup request"}
             </Button>
           </form>
         </Card>

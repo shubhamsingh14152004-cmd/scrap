@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router'
+import { useQuery } from "@tanstack/react-query";
+import { fetchStats, fetchRequests } from "../lib/api";
 import {
   Area,
   AreaChart,
@@ -69,29 +71,75 @@ const pieColors = [
   "var(--color-chart-3)",
 ];
 
-const stats = [
-  { icon: Wallet, label: "Total Earnings", value: "₹40,100", delta: "+18%" },
-  { icon: Package, label: "Total Weight", value: "2,010 kg", delta: "+12%" },
-  { icon: Truck, label: "Pickups", value: "48", delta: "+6%" },
-  { icon: Leaf, label: "CO₂ Saved", value: "3.4 t", delta: "+22%" },
-];
-
-type Status = "Completed" | "Scheduled" | "In Transit";
-const pickups: { id: string; date: string; material: string; weight: string; amount: string; status: Status }[] = [
-  { id: "SW-1042", date: "Jul 02, 2026", material: "E-Waste", weight: "42 kg", amount: "₹3,780", status: "Completed" },
-  { id: "SW-1041", date: "Jul 01, 2026", material: "Metals", weight: "88 kg", amount: "₹2,640", status: "Completed" },
-  { id: "SW-1040", date: "Jun 29, 2026", material: "Paper", weight: "120 kg", amount: "₹1,560", status: "In Transit" },
-  { id: "SW-1039", date: "Jul 04, 2026", material: "Appliances", weight: "2 pc", amount: "₹3,200", status: "Scheduled" },
-  { id: "SW-1038", date: "Jun 25, 2026", material: "Plastics", weight: "34 kg", amount: "₹748", status: "Completed" },
-];
-
-const statusStyles: Record<Status, string> = {
-  Completed: "bg-secondary text-primary",
-  Scheduled: "bg-accent text-accent-foreground",
-  "In Transit": "bg-muted text-muted-foreground",
+const statusStyles: Record<string, string> = {
+  completed: "bg-secondary text-primary",
+  approved: "bg-accent text-accent-foreground",
+  pending: "bg-muted text-muted-foreground",
+  cancelled: "bg-destructive/15 text-destructive",
 };
 
 function Dashboard() {
+  const { data: liveStats, isLoading: statsLoading } = useQuery({
+    queryKey: ["stats"],
+    queryFn: fetchStats,
+  });
+
+  const { data: liveRequests, isLoading: requestsLoading } = useQuery({
+    queryKey: ["requests"],
+    queryFn: fetchRequests,
+  });
+
+  // Calculate live values or fallback to default mock values
+  const earningsVal = liveStats ? `₹${liveStats.estimatedRevenue.toLocaleString()}` : "₹40,100";
+  const weightVal = liveStats ? `${liveStats.estimatedWeight.toLocaleString()} kg` : "2,010 kg";
+  const pickupsVal = liveStats ? liveStats.total.toString() : "48";
+  const co2Val = liveStats ? `${(liveStats.estimatedWeight * 0.0017).toFixed(1)} t` : "3.4 t";
+
+  const pickupsList = liveRequests && liveRequests.length > 0
+    ? liveRequests.map((r) => {
+        let weightEstimate = "—";
+        if (r.quantity === "small") weightEstimate = "~8 kg";
+        else if (r.quantity === "medium") weightEstimate = "~30 kg";
+        else if (r.quantity === "large") weightEstimate = "~125 kg";
+        else if (r.quantity === "bulk") weightEstimate = "~300 kg";
+
+        const displayStatus = r.status || "pending";
+
+        let amount = "—";
+        let numericWeight = 0;
+        if (r.quantity === "small") numericWeight = 8;
+        else if (r.quantity === "medium") numericWeight = 30;
+        else if (r.quantity === "large") numericWeight = 125;
+        else if (r.quantity === "bulk") numericWeight = 300;
+
+        if (numericWeight > 0) {
+          amount = `₹${(numericWeight * 35).toLocaleString()}`;
+        }
+
+        return {
+          id: r.id || "SW-UNKNOWN",
+          date: r.preferredDate ? new Date(r.preferredDate).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : "—",
+          material: r.scrapType ? r.scrapType.charAt(0).toUpperCase() + r.scrapType.slice(1) : "—",
+          weight: weightEstimate,
+          amount: amount,
+          status: displayStatus,
+        };
+      })
+    : [
+        { id: "SW-1042", date: "Jul 02, 2026", material: "E-Waste", weight: "42 kg", amount: "₹3,780", status: "completed" },
+        { id: "SW-1041", date: "Jul 01, 2026", material: "Metals", weight: "88 kg", amount: "₹2,640", status: "completed" },
+        { id: "SW-1040", date: "Jun 29, 2026", material: "Paper", weight: "120 kg", amount: "₹1,560", status: "pending" },
+        { id: "SW-1039", date: "Jul 04, 2026", material: "Appliances", weight: "2 pc", amount: "₹3,200", status: "approved" },
+        { id: "SW-1038", date: "Jun 25, 2026", material: "Plastics", weight: "34 kg", amount: "₹748", status: "completed" },
+      ];
+
+  const statCards = [
+    { icon: Wallet, label: "Total Earnings", value: earningsVal, delta: "+18%" },
+    { icon: Package, label: "Total Weight", value: weightVal, delta: "+12%" },
+    { icon: Truck, label: "Pickups", value: pickupsVal, delta: "+6%" },
+    { icon: Leaf, label: "CO₂ Saved", value: co2Val, delta: "+22%" },
+  ];
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
       <div className="flex flex-col gap-1">
@@ -101,7 +149,7 @@ function Dashboard() {
 
       {/* Stat cards */}
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s) => (
+        {statCards.map((s) => (
           <Card key={s.label} className="p-6 shadow-card">
             <div className="flex items-center justify-between">
               <span className="grid h-11 w-11 place-items-center rounded-lg bg-gradient-primary text-primary-foreground">
@@ -234,7 +282,7 @@ function Dashboard() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pickups.map((p) => (
+            {pickupsList.map((p) => (
               <TableRow key={p.id}>
                 <TableCell className="font-medium">{p.id}</TableCell>
                 <TableCell className="text-muted-foreground">{p.date}</TableCell>
@@ -242,7 +290,7 @@ function Dashboard() {
                 <TableCell>{p.weight}</TableCell>
                 <TableCell className="font-semibold">{p.amount}</TableCell>
                 <TableCell className="text-right">
-                  <Badge className={statusStyles[p.status]}>{p.status}</Badge>
+                  <Badge className={statusStyles[p.status] || statusStyles.pending}>{p.status}</Badge>
                 </TableCell>
               </TableRow>
             ))}

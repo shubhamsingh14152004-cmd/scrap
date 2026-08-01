@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Search, TrendingUp, ArrowRight } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchMaterials } from "../lib/api";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -63,20 +65,62 @@ const rows: Row[] = [
   { item: "Plastic Chair / Table", category: "Furniture", unit: "pc", price: 70, trend: "flat" },
 ];
 
-const categories = ["All", "Paper", "Metal", "Plastic", "E-Waste", "Appliance", "Furniture"];
+const categories = ["All", "Paper", "Metal", "Plastic", "E-Waste", "Appliance", "Furniture", "Other"];
+
+function getCategoryForMaterial(id: string, icon?: string): string {
+  const matId = id.toLowerCase();
+  const matIcon = (icon || "").toLowerCase();
+  
+  if (matId.includes("ewaste") || matId.includes("laptop") || matId.includes("phone") || matId.includes("cpu") || matIcon === "laptop") {
+    return "E-Waste";
+  }
+  if (matId.includes("metal") || matId.includes("iron") || matId.includes("steel") || matId.includes("aluminium") || matId.includes("copper") || matId.includes("brass") || matIcon === "wrench") {
+    return "Metal";
+  }
+  if (matId.includes("paper") || matId.includes("cardboard") || matId.includes("book") || matIcon === "filetext") {
+    return "Paper";
+  }
+  if (matId.includes("plastic") || matId.includes("bottle") || matIcon === "layers") {
+    return "Plastic";
+  }
+  if (matId.includes("appliance") || matId.includes("refrigerator") || matIcon === "tv") {
+    return "Appliance";
+  }
+  if (matId.includes("furniture") || matId.includes("chair") || matId.includes("table") || matId.includes("sofa")) {
+    return "Furniture";
+  }
+  return "Other";
+}
 
 function Pricing() {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState("All");
 
+  const { data: liveMaterials } = useQuery({
+    queryKey: ["materials"],
+    queryFn: fetchMaterials,
+  });
+
+  const dynamicRows = useMemo(() => {
+    if (!liveMaterials || liveMaterials.length === 0) return rows;
+
+    return liveMaterials.map((m) => ({
+      item: m.name,
+      category: getCategoryForMaterial(m.id, m.icon),
+      unit: m.unit,
+      price: m.price,
+      trend: "flat" as const,
+    }));
+  }, [liveMaterials]);
+
   const filtered = useMemo(
     () =>
-      rows.filter(
+      dynamicRows.filter(
         (r) =>
           (active === "All" || r.category === active) &&
           r.item.toLowerCase().includes(query.toLowerCase()),
       ),
-    [query, active],
+    [dynamicRows, query, active],
   );
 
   return (

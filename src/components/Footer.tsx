@@ -1,7 +1,21 @@
 import { Link } from "@tanstack/react-router";
 import { Recycle, Mail, Phone, MapPin } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 export function Footer() {
+  const { data: settings } = useQuery({
+    queryKey: ["settings"],
+    queryFn: async () => {
+      const res = await fetch("http://localhost:5000/api/settings");
+      if (!res.ok) throw new Error("Failed to fetch settings");
+      return res.json() as Promise<{ whatsappNumber: string; phoneNumber: string; address: string; email: string }>;
+    },
+  });
+
+  const displayPhone = settings?.phoneNumber || "+91 97696 70346";
+  const displayAddress = settings?.address || "Mumbai, India";
+  const displayEmail = settings?.email || "hello@scrapwise.in";
+
   return (
     <footer className="mt-24 border-t border-border/60 bg-secondary/40">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
@@ -41,9 +55,9 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-semibold">Contact</h4>
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> +91 97696 70346</li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> hello@scrapwise.in</li>
-            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> Mumbai, India</li>
+            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> {displayPhone}</li>
+            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> {displayEmail}</li>
+            <li className="flex items-center gap-2"><MapPin className="h-4 w-4 text-primary" /> {displayAddress}</li>
           </ul>
         </div>
       </div>
