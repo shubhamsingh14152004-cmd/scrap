@@ -156,7 +156,7 @@ app.put("/api/materials", (req, res) => {
 // GET settings
 app.get("/api/settings", (req, res) => {
   const db = readDb();
-  res.json(db.settings || { whatsappNumber: "+919876543210", phoneNumber: "+919876543210" });
+  res.json(db.settings || { whatsappNumber: "+919876543210", phoneNumber: "+919876543210", address: "Mumbai, India", email: "hello@scrapwise.in" });
 });
 
 // PUT update settings
@@ -164,7 +164,9 @@ app.put("/api/settings", (req, res) => {
   const db = readDb();
   db.settings = {
     whatsappNumber: req.body.whatsappNumber,
-    phoneNumber: req.body.phoneNumber
+    phoneNumber: req.body.phoneNumber,
+    address: req.body.address,
+    email: req.body.email
   };
   writeDb(db);
   res.json(db.settings);
