@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScrapWise — Admin Dashboard</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              DEFAULT: '#059669',
+              light: '#34d399',
+              dark: '#047857'
+            },
+            secondary: {
+              DEFAULT: '#10b981',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased">
+  <div class="min-h-screen flex">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-slate-100 flex flex-col border-r border-slate-800 shrink-0">
+      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
+        <span class="p-2 bg-emerald-500 rounded-lg text-white">
+          <i data-lucide="leaf" class="h-6 w-6"></i>
+        </span>
+        <div>
+          <h1 class="font-bold text-lg leading-tight">ScrapWise</h1>
+          <span class="text-xs text-slate-400 font-medium tracking-wider uppercase">Admin Panel</span>
+        </div>
+      </div>
+
+      <nav class="flex-1 px-4 py-6 space-y-1">
+        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 bg-emerald-600 text-white">
+          <i data-lucide="layout-dashboard" class="h-5 w-5"></i>
+          <span>Dashboard</span>
+        </button>
+        <button onclick="switchTab('requests')" id="nav-requests" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-300 hover:bg-slate-800 hover:text-white">
+          <i data-lucide="truck" class="h-5 w-5"></i>
+          <span>Pickup Requests</span>
+          <span id="pending-badge" class="ml-auto bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded-full font-bold hidden">0</span>
+        </button>
+        <button onclick="switchTab('pricing')" id="nav-pricing" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-300 hover:bg-slate-800 hover:text-white">
+          <i data-lucide="dollar-sign" class="h-5 w-5"></i>
+          <span>Scrap Pricing</span>
+        </button>
+        <button onclick="switchTab('settings')" id="nav-settings" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 text-slate-300 hover:bg-slate-800 hover:text-white">
+          <i data-lucide="settings" class="h-5 w-5"></i>
+          <span>System Settings</span>
+        </button>
+      </nav>
+
+      <div class="p-4 border-t border-slate-800 flex items-center gap-3 text-slate-400 text-xs">
+        <i data-lucide="shield-check" class="h-4 w-4 text-emerald-500"></i>
+        <span>System active & secure</span>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col min-w-0">
+      
+      <!-- Top Navbar -->
+      <header class="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
+        <h2 id="page-title" class="font-bold text-xl text-slate-800">Dashboard</h2>
+        <div class="flex items-center gap-4">
+          <button onclick="fetchData()" class="p-2 text-slate-500 hover:text-emerald-600 rounded-lg hover:bg-slate-100 transition-colors" title="Refresh Data">
+            <i data-lucide="refresh-cw" class="h-5 w-5"></i>
+          </button>
+          <div class="h-8 w-px bg-slate-200"></div>
+          <div class="flex items-center gap-3">
+            <div class="h-10 w-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
+              AD
+            </div>
+            <div class="text-left hidden sm:block">
+              <p class="text-sm font-semibold text-slate-700 leading-tight">Admin User</p>
+              <p class="text-xs text-slate-400 font-medium">Head Office</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Views -->
+      <div class="flex-1 p-8 overflow-y-auto">
+        
+        <!-- Tab: Dashboard -->
+        <div id="tab-dashboard" class="space-y-8">
+          <!-- Stat Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="glass-card p-6 rounded-2xl shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-400">Total Pickups</p>
+                <h3 id="stat-total" class="text-3xl font-extrabold text-slate-800 mt-2">0</h3>
+              </div>
+              <span class="p-3 bg-emerald-100 text-emerald-600 rounded-xl">
+                <i data-lucide="package" class="h-6 w-6"></i>
+              </span>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-400">Pending Requests</p>
+                <h3 id="stat-pending" class="text-3xl font-extrabold text-slate-800 mt-2">0</h3>
+              </div>
+              <span class="p-3 bg-amber-100 text-amber-600 rounded-xl">
+                <i data-lucide="clock" class="h-6 w-6"></i>
+              </span>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-400">Recycled Weight</p>
+                <h3 id="stat-weight" class="text-3xl font-extrabold text-slate-800 mt-2">0 kg</h3>
+              </div>
+              <span class="p-3 bg-blue-100 text-blue-600 rounded-xl">
+                <i data-lucide="scale" class="h-6 w-6"></i>
+              </span>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl shadow-sm flex items-center justify-between">
+              <div>
+                <p class="text-sm font-semibold text-slate-400">Payouts Distributed</p>
+                <h3 id="stat-revenue" class="text-3xl font-extrabold text-slate-800 mt-2">₹0</h3>
+              </div>
+              <span class="p-3 bg-rose-100 text-rose-600 rounded-xl">
+                <i data-lucide="indian-rupee" class="h-6 w-6"></i>
+              </span>
+            </div>
+          </div>
+
+          <!-- Charts -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="glass-card p-6 rounded-2xl shadow-sm">
+              <h4 class="font-bold text-slate-700 mb-4">Requests Trend</h4>
+              <div class="h-80 flex items-center justify-center">
+                <canvas id="trendChart"></canvas>
+              </div>
+            </div>
+            <div class="glass-card p-6 rounded-2xl shadow-sm">
+              <h4 class="font-bold text-slate-700 mb-4">Recycling Share by Material</h4>
+              <div class="h-80 flex items-center justify-center">
+                <canvas id="materialChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Pickup Requests -->
+        <div id="tab-requests" class="hidden space-y-6">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+            <!-- Filter buttons -->
+            <div class="flex flex-wrap gap-2">
+              <button onclick="filterRequests('all')" id="filter-all" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-900 text-white transition-all">All</button>
+              <button onclick="filterRequests('pending')" id="filter-pending" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Pending</button>
+              <button onclick="filterRequests('approved')" id="filter-approved" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Approved</button>
+              <button onclick="filterRequests('completed')" id="filter-completed" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Completed</button>
+              <button onclick="filterRequests('cancelled')" id="filter-cancelled" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">Cancelled</button>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-100">
+                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Customer</th>
+                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Details</th>
+                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Date & Slot</th>
+                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="requests-tbody" class="divide-y divide-slate-100">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+            <div id="no-requests" class="p-12 text-center text-slate-400 hidden">
+              <i data-lucide="inbox" class="h-12 w-12 mx-auto mb-4 stroke-1"></i>
+              <p>No pickup requests match the current filter.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Scrap Pricing -->
+        <div id="tab-pricing" class="hidden space-y-6">
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-slate-500">Manage rates paid to customers per unit weight/quantity.</p>
+            <div class="flex gap-2">
+              <button onclick="openMaterialModal(false)" class="px-5 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-xl transition-all flex items-center gap-2">
+                <i data-lucide="plus" class="h-4 w-4"></i>
+                Add Material
+              </button>
+              <button onclick="savePricing()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm shadow-emerald-600/20 flex items-center gap-2">
+                <i data-lucide="save" class="h-4 w-4"></i>
+                Save Rates
+              </button>
+            </div>
+          </div>
+
+          <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Tab: Settings -->
+        <div id="tab-settings" class="hidden space-y-6">
+          <div class="max-w-2xl bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-6">
+            <h3 class="font-bold text-slate-800 text-lg border-b border-slate-100 pb-3">Contact Settings</h3>
+            <p class="text-sm text-slate-500">Configure the contact numbers that show up as floating icons on the frontend website.</p>
+            <form id="settings-form" onsubmit="saveSettings(event)" class="space-y-4">
+              <div class="space-y-1">
+                <label class="text-xs font-semibold text-slate-500">WhatsApp Number (e.g. +919876543210)</label>
+                <input type="text" id="settings-whatsapp" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors" />
+              </div>
+              <div class="space-y-1">
+                <label class="text-xs font-semibold text-slate-500">Phone Dialer Number (e.g. +919876543210)</label>
+                <input type="text" id="settings-phone" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors" />
+              </div>
+              <div class="pt-4 border-t border-slate-100 flex justify-end">
+                <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm shadow-emerald-600/20">Save Settings</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Material Modal -->
+  <div id="material-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+    <!-- Overlay -->
+    <div onclick="closeMaterialModal()" class="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"></div>
+    <!-- Modal Card -->
+    <div class="relative bg-white w-full max-w-md p-6 rounded-2xl shadow-xl border border-slate-100 mx-4 space-y-4">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <h3 id="modal-title" class="font-bold text-slate-800 text-lg">Add New Material</h3>
+        <button onclick="closeMaterialModal()" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
+      </div>
+      <form id="material-form" onsubmit="handleMaterialSubmit(event)" class="space-y-4">
+        <input type="hidden" id="material-index" value="" />
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-500">Material ID (e.g. copper)</label>
+          <input type="text" id="modal-id" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors" />
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-500">Material Name (e.g. Copper Wire)</label>
+          <input type="text" id="modal-name" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors" />
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-500">Rate (₹)</label>
+            <input type="number" id="modal-price" required min="0" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors" />
+          </div>
+          <div class="space-y-1">
+            <label class="text-xs font-semibold text-slate-500">Unit (e.g. kg, piece)</label>
+            <input type="text" id="modal-unit" required placeholder="kg" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors" />
+          </div>
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-semibold text-slate-500">Icon Type</label>
+          <select id="modal-icon" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors">
+            <option value="Laptop">Laptop / E-waste</option>
+            <option value="Wrench">Wrench / Metal</option>
+            <option value="FileText">FileText / Paper</option>
+            <option value="Layers">Layers / Plastic</option>
+            <option value="Tv">Tv / Appliance</option>
+          </select>
+        </div>
+        <div class="flex gap-3 pt-4 border-t border-slate-100">
+          <button type="button" onclick="closeMaterialModal()" class="flex-1 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-semibold rounded-xl transition-all">Cancel</button>
+          <button type="submit" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-all shadow-sm">Save Material</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 transition-all duration-300 ease-out bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-lg flex items-center gap-3 border border-slate-800">
+    <i data-lucide="check-circle-2" class="h-5 w-5 text-emerald-400" id="toast-icon"></i>
+    <span class="text-sm font-medium" id="toast-message">Success!</span>
+  </div>
+
+  <script>
+    // State Variables
+    let currentTab = 'dashboard';
+    let currentFilter = 'all';
+    let requestsData = [];
+    let materialsData = [];
+    let statsData = {};
+    
+    // Chart References
+    let trendChart = null;
+    let materialChart = null;
+
+    // Switch active tabs
+    function switchTab(tabId) {
+      document.getElementById(`tab-${currentTab}`).classList.add('hidden');
+      document.getElementById(`nav-${currentTab}`).classList.remove('bg-emerald-600', 'text-white');
+      document.getElementById(`nav-${currentTab}`).classList.add('text-slate-300', 'hover:bg-slate-800', 'hover:text-white');
+
+      currentTab = tabId;
+      document.getElementById(`tab-${currentTab}`).classList.remove('hidden');
+      document.getElementById(`nav-${currentTab}`).classList.add('bg-emerald-600', 'text-white');
+      document.getElementById(`nav-${currentTab}`).classList.remove('text-slate-300', 'hover:bg-slate-800', 'hover:text-white');
+
+      // Update Page Title
+      const titles = { 'dashboard': 'Dashboard Overview', 'requests': 'Pickup Requests', 'pricing': 'Scrap Rates Manager', 'settings': 'System Settings' };
+      document.getElementById('page-title').innerText = titles[tabId];
+
+      if (tabId === 'dashboard') {
+        setTimeout(initCharts, 50);
+      }
+    }
+
+    // Filter list of requests
+    function filterRequests(filterType) {
+      // Update filter tabs styling
+      const filters = ['all', 'pending', 'approved', 'completed', 'cancelled'];
+      filters.forEach(f => {
+        const btn = document.getElementById(`filter-${f}`);
+        if (f === filterType) {
+          btn.className = 'px-4 py-2 text-xs font-semibold rounded-lg bg-slate-900 text-white transition-all';
+        } else {
+          btn.className = 'px-4 py-2 text-xs font-semibold rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all';
+        }
+      });
+
+      currentFilter = filterType;
+      renderRequestsTable();
+    }
+
+    // Show dynamic toast message
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      const toastIcon = document.getElementById('toast-icon');
+
+      toastMsg.innerText = message;
+      if (isError) {
+        toastIcon.setAttribute('data-lucide', 'alert-circle');
+        toastIcon.className = 'h-5 w-5 text-rose-500';
+      } else {
+        toastIcon.setAttribute('data-lucide', 'check-circle-2');
+        toastIcon.className = 'h-5 w-5 text-emerald-400';
+      }
+      
+      lucide.createIcons();
+
+      toast.classList.remove('translate-y-12', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-12', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    // Fetch dashboard stats, requests & materials from server
+    async function fetchData() {
+      try {
+        const [statsRes, requestsRes, materialsRes, settingsRes] = await Promise.all([
+          fetch('/api/stats').then(res => res.json()),
+          fetch('/api/requests').then(res => res.json()),
+          fetch('/api/materials').then(res => res.json()),
+          fetch('/api/settings').then(res => res.json())
+        ]);
+
+        statsData = statsRes;
+        requestsData = requestsRes;
+        materialsData = materialsRes;
+
+        document.getElementById('settings-whatsapp').value = settingsRes.whatsappNumber || '';
+        document.getElementById('settings-phone').value = settingsRes.phoneNumber || '';
+
+        // Render everything
+        updateStatsUI();
+        renderRequestsTable();
+        renderPricingUI();
+        
+        if (currentTab === 'dashboard') {
+          initCharts();
+        }
+
+        // Show pending badge in sidebar
+        const pendingBadge = document.getElementById('pending-badge');
+        if (statsData.pending > 0) {
+          pendingBadge.innerText = statsData.pending;
+          pendingBadge.classList.remove('hidden');
+        } else {
+          pendingBadge.classList.add('hidden');
+        }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        showToast("Error loading data from server", true);
+      }
+    }
+
+    // Update Stats Display
+    function updateStatsUI() {
+      document.getElementById('stat-total').innerText = statsData.total || 0;
+      document.getElementById('stat-pending').innerText = statsData.pending || 0;
+      document.getElementById('stat-weight').innerText = `${statsData.estimatedWeight || 0} kg`;
+      document.getElementById('stat-revenue').innerText = `₹${statsData.estimatedRevenue || 0}`;
+    }
+
+    // Render Requests Table
+    function renderRequestsTable() {
+      const tbody = document.getElementById('requests-tbody');
+      tbody.innerHTML = '';
+
+      const filtered = requestsData.filter(r => currentFilter === 'all' || r.status === currentFilter);
+
+      if (filtered.length === 0) {
+        document.getElementById('no-requests').classList.remove('hidden');
+        return;
+      }
+      document.getElementById('no-requests').classList.add('hidden');
+
+      filtered.forEach(req => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/50 transition-colors';
+
+        const materialMap = {
+          ewaste: 'E-Waste',
+          metal: 'Metals',
+          paper: 'Paper & Cardboard',
+          plastic: 'Plastics',
+          appliance: 'Appliances',
+          mixed: 'Mixed / Bulk'
+        };
+
+        const quantityMap = {
+          small: 'Under 10 kg',
+          medium: '10 – 50 kg',
+          large: '50 – 200 kg',
+          bulk: '200 kg +'
+        };
+
+        const statusColors = {
+          pending: 'bg-amber-100 text-amber-800 border-amber-200',
+          approved: 'bg-sky-100 text-sky-800 border-sky-200',
+          completed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+          cancelled: 'bg-slate-100 text-slate-600 border-slate-200'
+        };
+
+        const dateStr = new Date(req.preferredDate).toLocaleDateString('en-IN', {
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric'
+        });
+
+        const slotMap = {
+          morning: 'Morning (9am - 12pm)',
+          afternoon: 'Afternoon (12pm - 4pm)',
+          evening: 'Evening (4pm - 7pm)'
+        };
+
+        let actionButtons = '';
+        if (req.status === 'pending') {
+          actionButtons = `
+            <button onclick="updateRequestStatus('${req.id}', 'approved')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-sky-200 text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors mr-1">Approve</button>
+            <button onclick="updateRequestStatus('${req.id}', 'cancelled')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 bg-slate-50 hover:bg-slate-100 transition-colors">Cancel</button>
+          `;
+        } else if (req.status === 'approved') {
+          actionButtons = `
+            <button onclick="updateRequestStatus('${req.id}', 'completed')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors mr-1">Mark Completed</button>
+            <button onclick="updateRequestStatus('${req.id}', 'cancelled')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 bg-slate-50 hover:bg-slate-100 transition-colors">Cancel</button>
+          `;
+        } else {
+          actionButtons = `
+            <button onclick="deleteRequest('${req.id}')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors">Delete Log</button>
+          `;
+        }
+
+        tr.innerHTML = `
+          <td class="p-4">
+            <div class="font-bold text-slate-800">${escapeHtml(req.name)}</div>
+            <div class="text-xs text-slate-400 flex items-center gap-1 mt-0.5"><i data-lucide="phone" class="h-3 w-3"></i> ${escapeHtml(req.phone)}</div>
+          </td>
+          <td class="p-4 max-w-xs">
+            <div class="text-sm text-slate-600 font-semibold">${materialMap[req.scrapType] || req.scrapType} (${quantityMap[req.quantity] || req.quantity})</div>
+            <div class="text-xs text-slate-400 mt-1 truncate" title="${escapeHtml(req.address)}">${escapeHtml(req.address)}</div>
+            ${req.notes ? `<div class="text-[11px] text-slate-500 italic mt-0.5 truncate">Note: ${escapeHtml(req.notes)}</div>` : ''}
+          </td>
+          <td class="p-4">
+            <div class="text-sm font-semibold text-slate-700">${dateStr}</div>
+            <div class="text-xs text-slate-400 flex items-center gap-1 mt-0.5"><i data-lucide="clock" class="h-3 w-3"></i> ${slotMap[req.preferredSlot] || req.preferredSlot}</div>
+          </td>
+          <td class="p-4">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${statusColors[req.status] || ''} capitalize">
+              ${req.status}
+            </span>
+          </td>
+          <td class="p-4 text-right">
+            ${actionButtons}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Helper to escape HTML characters
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Update Request Status on backend
+    async function updateRequestStatus(id, newStatus) {
+      try {
+        const res = await fetch(`/api/requests/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+        if (res.ok) {
+          showToast(`Request status updated to ${newStatus}`);
+          fetchData();
+        } else {
+          showToast("Failed to update status", true);
+        }
+      } catch (err) {
+        showToast("Network error updating status", true);
+      }
+    }
+
+    // Delete Request completely
+    async function deleteRequest(id) {
+      if (!confirm("Are you sure you want to permanently delete this request log?")) return;
+      try {
+        const res = await fetch(`/api/requests/${id}`, {
+          method: 'DELETE'
+        });
+        if (res.ok) {
+          showToast("Request log deleted");
+          fetchData();
+        } else {
+          showToast("Failed to delete request", true);
+        }
+      } catch (err) {
+        showToast("Network error deleting request", true);
+      }
+    }
+
+    // Render Scrap Rates Management View
+    function renderPricingUI() {
+      const grid = document.getElementById('pricing-grid');
+      grid.innerHTML = '';
+
+      materialsData.forEach((mat, index) => {
+        const card = document.createElement('div');
+        card.className = 'glass-card p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-emerald-500/30 transition-all';
+        
+        const icons = {
+          Laptop: 'laptop',
+          Wrench: 'wrench',
+          FileText: 'file-text',
+          Layers: 'layers',
+          Tv: 'tv'
+        };
+
+        const iconName = icons[mat.icon] || 'package';
+
+        card.innerHTML = `
+          <div class="flex items-center gap-3 mb-4 justify-between w-full">
+            <div class="flex items-center gap-3">
+              <span class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
+                <i data-lucide="${iconName}" class="h-6 w-6"></i>
+              </span>
+              <div>
+                <h5 class="font-bold text-slate-800">${escapeHtml(mat.name)}</h5>
+                <span class="text-xs text-slate-400 font-semibold uppercase">ID: ${mat.id}</span>
+              </div>
+            </div>
+            <div class="flex gap-1">
+              <button onclick="openMaterialModal(true, ${index})" class="p-2 text-slate-400 hover:text-emerald-600 hover:bg-slate-100 rounded-lg transition-colors" title="Edit Material">
+                <i data-lucide="edit-3" class="h-4 w-4"></i>
+              </button>
+              <button onclick="deleteMaterial(${index})" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-slate-100 rounded-lg transition-colors" title="Delete Material">
+                <i data-lucide="trash-2" class="h-4 w-4"></i>
+              </button>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-400">Buying Rate (per ${mat.unit})</label>
+            <div class="relative">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
+              <input type="number" id="price-input-${index}" value="${mat.price}" class="w-full bg-slate-50 border border-slate-200 rounded-xl py-2.5 pl-8 pr-16 font-bold text-slate-700 focus:outline-none focus:border-emerald-500 transition-colors" />
+              <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 bg-slate-200/50 px-2 py-0.5 rounded">/ ${mat.unit}</span>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // Save pricing rates back to API
+    async function savePricing() {
+      const updatedMaterials = materialsData.map((mat, index) => {
+        const inputVal = document.getElementById(`price-input-${index}`).value;
+        return {
+          ...mat,
+          price: parseFloat(inputVal) || 0
+        };
+      });
+      await saveMaterialsList(updatedMaterials, "Scrap rates updated successfully!");
+    }
+
+    // Material Modal helpers
+    function openMaterialModal(isEdit, index = null) {
+      const modal = document.getElementById('material-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const form = document.getElementById('material-form');
+      const indexInput = document.getElementById('material-index');
+      const idInput = document.getElementById('modal-id');
+      const nameInput = document.getElementById('modal-name');
+      const priceInput = document.getElementById('modal-price');
+      const unitInput = document.getElementById('modal-unit');
+      const iconSelect = document.getElementById('modal-icon');
+
+      form.reset();
+
+      if (isEdit && index !== null) {
+        const mat = materialsData[index];
+        modalTitle.innerText = "Edit Material Details";
+        indexInput.value = index;
+        idInput.value = mat.id;
+        idInput.disabled = true;
+        nameInput.value = mat.name;
+        priceInput.value = mat.price;
+        unitInput.value = mat.unit;
+        iconSelect.value = mat.icon || 'Laptop';
+      } else {
+        modalTitle.innerText = "Add New Material";
+        indexInput.value = "";
+        idInput.value = "";
+        idInput.disabled = false;
+      }
+
+      modal.classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeMaterialModal() {
+      document.getElementById('material-modal').classList.add('hidden');
+    }
+
+    async function handleMaterialSubmit(event) {
+      event.preventDefault();
+      const indexVal = document.getElementById('material-index').value;
+      const idVal = document.getElementById('modal-id').value.trim();
+      const nameVal = document.getElementById('modal-name').value.trim();
+      const priceVal = parseFloat(document.getElementById('modal-price').value) || 0;
+      const unitVal = document.getElementById('modal-unit').value.trim() || 'kg';
+      const iconVal = document.getElementById('modal-icon').value;
+
+      let updatedMaterials = [...materialsData];
+
+      if (indexVal !== "") {
+        const idx = parseInt(indexVal);
+        updatedMaterials[idx] = {
+          ...updatedMaterials[idx],
+          name: nameVal,
+          price: priceVal,
+          unit: unitVal,
+          icon: iconVal
+        };
+      } else {
+        if (updatedMaterials.some(m => m.id === idVal)) {
+          showToast("Material ID already exists!", true);
+          return;
+        }
+        updatedMaterials.push({
+          id: idVal,
+          name: nameVal,
+          price: priceVal,
+          unit: unitVal,
+          icon: iconVal
+        });
+      }
+
+      await saveMaterialsList(updatedMaterials, indexVal !== "" ? "Material updated" : "Material added successfully");
+      closeMaterialModal();
+    }
+
+    async function deleteMaterial(index) {
+      const mat = materialsData[index];
+      if (!confirm(`Are you sure you want to permanently delete "${mat.name}"?`)) return;
+
+      const updatedMaterials = materialsData.filter((_, idx) => idx !== index);
+      await saveMaterialsList(updatedMaterials, `Material "${mat.name}" deleted`);
+    }
+
+    async function saveMaterialsList(updatedList, successMsg) {
+      try {
+        const res = await fetch('/api/materials', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ materials: updatedList })
+        });
+        if (res.ok) {
+          showToast(successMsg);
+          fetchData();
+        } else {
+          showToast("Failed to save changes to database", true);
+        }
+      } catch (err) {
+        showToast("Network error saving changes", true);
+      }
+    }
+
+    async function saveSettings(event) {
+      event.preventDefault();
+      const whatsappVal = document.getElementById('settings-whatsapp').value.trim();
+      const phoneVal = document.getElementById('settings-phone').value.trim();
+
+      try {
+        const res = await fetch('/api/settings', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ whatsappNumber: whatsappVal, phoneNumber: phoneVal })
+        });
+        if (res.ok) {
+          showToast("Settings updated successfully!");
+          fetchData();
+        } else {
+          showToast("Failed to save settings", true);
+        }
+      } catch (err) {
+        showToast("Network error saving settings", true);
+      }
+    }
+
+    // Chart.js initialization
+    function initCharts() {
+      // Destroy existing charts to prevent rendering overlapping bug
+      if (trendChart) trendChart.destroy();
+      if (materialChart) materialChart.destroy();
+
+      // Trend Chart (Mock last 5 days/weeks or similar summary)
+      const trendCtx = document.getElementById('trendChart').getContext('2d');
+      trendChart = new Chart(trendCtx, {
+        type: 'line',
+        data: {
+          labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Today'],
+          datasets: [{
+            label: 'Booked Pickups',
+            data: [1, 2, 4, 3, requestsData.length],
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            tension: 0.4,
+            fill: true,
+            borderWidth: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: {
+              grid: { color: '#f1f5f9' },
+              ticks: { precision: 0 }
+            },
+            x: { grid: { display: false } }
+          }
+        }
+      });
+
+      // Material Breakdown Chart
+      const matCtx = document.getElementById('materialChart').getContext('2d');
+      
+      // Calculate breakdown of requests by material
+      const counts = {};
+      requestsData.forEach(r => {
+        counts[r.scrapType] = (counts[r.scrapType] || 0) + 1;
+      });
+
+      const materialLabels = {
+        ewaste: 'E-Waste',
+        metal: 'Metals',
+        paper: 'Paper',
+        plastic: 'Plastics',
+        appliance: 'Appliances'
+      };
+
+      const labels = Object.keys(counts).map(key => materialLabels[key] || key);
+      const data = Object.values(counts);
+
+      materialChart = new Chart(matCtx, {
+        type: 'doughnut',
+        data: {
+          labels: labels.length ? labels : ['No Data'],
+          datasets: [{
+            data: data.length ? data : [1],
+            backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6', '#64748b'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: 'Inter' } } }
+          },
+          cutout: '60%'
+        }
+      });
+    }
+
+    // Auto load on init
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchData();
+      // Auto refresh every 30 seconds
+      setInterval(fetchData, 30000);
+    });
+  </script>
+</body>
+</html>

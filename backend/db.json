@@ -1,0 +1,195 @@
+{
+  "requests": [
+    {
+      "id": "req_1785579851281",
+      "name": "saahsg",
+      "phone": "0993939383939",
+      "address": "semri",
+      "scrapType": "paper",
+      "quantity": "large",
+      "preferredDate": "2026-07-29",
+      "preferredSlot": "afternoon",
+      "notes": "szjk bjs",
+      "status": "completed",
+      "createdAt": "2026-08-01T10:24:11.281Z"
+    },
+    {
+      "id": "req_1",
+      "name": "Arjun Sharma",
+      "phone": "+91 98765 43210",
+      "address": "402, Green Glen Layout, Bellandur, Bengaluru, Karnataka 560103",
+      "scrapType": "ewaste",
+      "quantity": "medium",
+      "preferredDate": "2026-08-01",
+      "preferredSlot": "morning",
+      "notes": "Old laptop, 2 defunct smartphones, charger cables.",
+      "status": "approved",
+      "createdAt": "2026-07-29T10:30:00Z"
+    },
+    {
+      "id": "req_2",
+      "name": "Priya Patel",
+      "phone": "+91 99112 23344",
+      "address": "B-705, Sky High Towers, Sector 62, Noida, Uttar Pradesh 201301",
+      "scrapType": "metal",
+      "quantity": "large",
+      "preferredDate": "2026-07-31",
+      "preferredSlot": "afternoon",
+      "notes": "Iron rods from construction, old steel utensils.",
+      "status": "approved",
+      "createdAt": "2026-07-29T11:15:00Z"
+    },
+    {
+      "id": "req_3",
+      "name": "Rohan Das",
+      "phone": "+91 88877 66554",
+      "address": "Flat 12A, Heritage Heights, Ballygunge, Kolkata, West Bengal 700019",
+      "scrapType": "paper",
+      "quantity": "small",
+      "preferredDate": "2026-07-28",
+      "preferredSlot": "evening",
+      "notes": "Stack of old newspapers and cardboard boxes.",
+      "status": "completed",
+      "createdAt": "2026-07-27T09:00:00Z"
+    }
+  ],
+  "materials": [
+    {
+      "id": "newspaper",
+      "name": "Newspaper",
+      "price": 14,
+      "unit": "kg",
+      "icon": "FileText"
+    },
+    {
+      "id": "cardboard",
+      "name": "Cardboard",
+      "price": 9,
+      "unit": "kg",
+      "icon": "FileText"
+    },
+    {
+      "id": "books",
+      "name": "Books / Magazines",
+      "price": 12,
+      "unit": "kg",
+      "icon": "FileText"
+    },
+    {
+      "id": "iron",
+      "name": "Iron / Steel",
+      "price": 30,
+      "unit": "kg",
+      "icon": "Wrench"
+    },
+    {
+      "id": "aluminium",
+      "name": "Aluminium",
+      "price": 115,
+      "unit": "kg",
+      "icon": "Wrench"
+    },
+    {
+      "id": "brass",
+      "name": "Brass",
+      "price": 380,
+      "unit": "kg",
+      "icon": "Wrench"
+    },
+    {
+      "id": "copper",
+      "name": "Copper",
+      "price": 620,
+      "unit": "kg",
+      "icon": "Wrench"
+    },
+    {
+      "id": "pet_bottles",
+      "name": "PET Bottles",
+      "price": 18,
+      "unit": "kg",
+      "icon": "Layers"
+    },
+    {
+      "id": "hard_plastic",
+      "name": "Hard Plastic",
+      "price": 22,
+      "unit": "kg",
+      "icon": "Layers"
+    },
+    {
+      "id": "laptop",
+      "name": "Laptop",
+      "price": 450,
+      "unit": "pc",
+      "icon": "Laptop"
+    },
+    {
+      "id": "cpu",
+      "name": "Desktop CPU",
+      "price": 350,
+      "unit": "pc",
+      "icon": "Laptop"
+    },
+    {
+      "id": "mobile",
+      "name": "Mobile Phone",
+      "price": 120,
+      "unit": "pc",
+      "icon": "Laptop"
+    },
+    {
+      "id": "refrigerator",
+      "name": "Refrigerator",
+      "price": 1600,
+      "unit": "pc",
+      "icon": "Tv"
+    },
+    {
+      "id": "washing_machine",
+      "name": "Washing Machine",
+      "price": 1200,
+      "unit": "pc",
+      "icon": "Tv"
+    },
+    {
+      "id": "ac",
+      "name": "Air Conditioner",
+      "price": 2200,
+      "unit": "pc",
+      "icon": "Tv"
+    },
+    {
+      "id": "sofa",
+      "name": "Sofa / Couch",
+      "price": 800,
+      "unit": "pc",
+      "icon": "Tv"
+    },
+    {
+      "id": "office_chair",
+      "name": "Office Chair",
+      "price": 150,
+      "unit": "pc",
+      "icon": "Tv"
+    },
+    {
+      "id": "wooden_table",
+      "name": "Wooden Table",
+      "price": 300,
+      "unit": "pc",
+      "icon": "Tv"
+    },
+    {
+      "id": "plastic_table",
+      "name": "Plastic Chair / Table",
+      "price": 70,
+      "unit": "pc",
+      "icon": "Layers"
+    }
+  ],
+  "settings": {
+    "whatsappNumber": "+918591770877",
+    "phoneNumber": "+918591770877"
+  }
+}
