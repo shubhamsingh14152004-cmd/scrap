@@ -59,6 +59,9 @@ function RequestPickup() {
   const [preferredSlot, setPreferredSlot] = useState("");
   const [notes, setNotes] = useState("");
 
+  const today = new Date();
+  const localDateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
   const requestMutation = useMutation({
     mutationFn: createRequest,
     onSuccess: () => {
@@ -84,6 +87,14 @@ function RequestPickup() {
     e.preventDefault();
     if (!scrapType || !quantity || !preferredSlot) {
       toast.error("Please fill in all select fields.");
+      return;
+    }
+    if (preferredDate < localDateString) {
+      toast.error("Please select a future date (today or later).");
+      return;
+    }
+    if (phone.length !== 10) {
+      toast.error("Phone number must be exactly 10 digits.");
       return;
     }
     requestMutation.mutate({
@@ -156,9 +167,14 @@ function RequestPickup() {
                   id="phone"
                   type="tel"
                   required
-                  placeholder="+91 98765 43210"
+                  placeholder="10-digit phone number"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, "");
+                    if (val.length <= 10) {
+                      setPhone(val);
+                    }
+                  }}
                 />
               </div>
             </div>
@@ -224,6 +240,7 @@ function RequestPickup() {
                   id="date"
                   type="date"
                   required
+                  min={localDateString}
                   value={preferredDate}
                   onChange={(e) => setPreferredDate(e.target.value)}
                 />
