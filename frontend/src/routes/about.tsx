@@ -6,13 +6,13 @@ import { Card } from "@/components/ui/card";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About ScrapWise — Sustainable Scrap Recycling" },
+      { title: "About My Scrap Buddy — Sustainable Scrap Recycling" },
       {
         name: "description",
         content:
-          "ScrapWise is a government authorized scrap and e-waste recycler on a mission to make recycling simple, fair and sustainable for everyone.",
+          "My Scrap Buddy is a trusted scrap collection service in Mumbai. We purchase household scrap, office scrap, industrial scrap, electronic waste, construction waste, iron, steel, copper, aluminium, brass and other recyclable materials.",
       },
-      { property: "og:title", content: "About ScrapWise" },
+      { property: "og:title", content: "About My Scrap Buddy" },
       {
         property: "og:description",
         content: "Making recycling simple, fair and sustainable for everyone.",
@@ -38,8 +38,7 @@ function About() {
             Recycling, reimagined
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/85">
-            ScrapWise Recycling Pvt Ltd is a government authorized scrap and e-waste
-            recycler helping thousands turn waste into value — responsibly.
+            My Scrap Buddy is a trusted scrap collection service in Mumbai. We purchase household scrap, office scrap, industrial scrap, electronic waste, construction waste, iron, steel, copper, aluminium, brass and other recyclable materials. We provide fair market prices, instant quotations, doorstep pickup and secure digital payments.
           </p>
         </div>
       </section>

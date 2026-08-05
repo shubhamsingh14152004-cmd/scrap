@@ -11,10 +11,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
+import { Header } from "../components/layout/Header";
+import { Footer } from "../components/layout/Footer";
 import { Toaster } from "../components/ui/sonner";
-import { FloatingContact } from "../components/FloatingContact";
+import { FloatingContact } from "../components/common/FloatingContact";
 
 function NotFoundComponent() {
   return (
@@ -81,18 +81,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ScrapWise — Scrap & E-Waste Recycling Made Simple" },
+      { title: "My Scrap Buddy — Scrap & E-Waste Recycling Made Simple" },
       {
         name: "description",
         content:
-          "ScrapWise is a modern scrap management platform. Book doorstep pickups, get transparent prices, and track your recycling — metals, e-waste, paper and more.",
+          "My Scrap Buddy is a modern scrap management platform. Book doorstep pickups, get transparent prices, and track your recycling — metals, e-waste, paper and more.",
       },
-      { name: "author", content: "ScrapWise" },
-      { property: "og:title", content: "ScrapWise — Scrap & E-Waste Recycling Made Simple" },
+      { name: "author", content: "My Scrap Buddy" },
+      { property: "og:title", content: "My Scrap Buddy — Scrap & E-Waste Recycling Made Simple" },
       {
         property: "og:description",
         content:
-          "Book doorstep scrap pickups, get transparent prices, and track your recycling with ScrapWise.",
+          "Book doorstep scrap pickups, get transparent prices, and track your recycling with My Scrap Buddy.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -19,13 +19,13 @@ import {
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
-      { title: "Scrap Price List — ScrapWise" },
+      { title: "Scrap Price List — My Scrap Buddy" },
       {
         name: "description",
         content:
-          "Live scrap and e-waste prices per kg. Transparent, competitive rates for metals, paper, plastics and appliances with ScrapWise.",
+          "Live scrap and e-waste prices per kg. Transparent, competitive rates for metals, paper, plastics and appliances with My Scrap Buddy.",
       },
-      { property: "og:title", content: "Scrap Price List — ScrapWise" },
+      { property: "og:title", content: "Scrap Price List — My Scrap Buddy" },
       {
         property: "og:description",
         content: "Transparent, competitive per-kg rates for all scrap materials.",

@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { MessageCircle, Phone } from "lucide-react";
+import { fetchSettings } from "../../lib/api";
 
 export function FloatingContact() {
   const { data: settings } = useQuery({
     queryKey: ["settings"],
-    queryFn: async () => {
-      const res = await fetch("http://localhost:5000/api/settings");
-      if (!res.ok) throw new Error("Failed to fetch settings");
-      return res.json() as Promise<{ whatsappNumber: string; phoneNumber: string }>;
-    },
+    queryFn: fetchSettings,
   });
 
   // Fallback numbers

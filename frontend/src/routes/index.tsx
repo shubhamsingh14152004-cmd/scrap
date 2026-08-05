@@ -96,11 +96,10 @@ function Index() {
               <Leaf className="h-3.5 w-3.5" /> Government Authorized E-Waste Recycler
             </span>
             <h1 className="mt-6 text-4xl font-extrabold leading-tight text-primary-foreground sm:text-5xl md:text-6xl">
-              Sell scrap the smart, sustainable way
+              Mumbai's Trusted Scrap Buyer
             </h1>
             <p className="mt-5 max-w-xl text-lg text-primary-foreground/85">
-              Book free doorstep pickups, get transparent prices, and track every
-              recycling order — all from one modern dashboard.
+              Get the best price for household, office, industrial and construction scrap with fast doorstep pickup across Mumbai.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg" variant="hero">
@@ -122,7 +121,7 @@ function Index() {
       </section>
 
       {/* Stats */}
-      <section className="mx-auto -mt-10 max-w-6xl px-4 sm:px-6">
+      <section className="relative z-10 mx-auto -mt-14 sm:-mt-16 max-w-6xl px-4 sm:px-6">
         <div className="grid grid-cols-2 gap-4 rounded-2xl border border-border/60 bg-card p-6 shadow-elegant md:grid-cols-4">
           {stats.map((s) => (
             <div key={s.label} className="text-center">
@@ -134,7 +133,7 @@ function Index() {
       </section>
 
       {/* How it works */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+      <section className="mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-extrabold sm:text-4xl">How it works</h2>
           <p className="mt-3 text-muted-foreground">
@@ -192,7 +191,7 @@ function Index() {
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <div>
             <h2 className="text-3xl font-extrabold sm:text-4xl">
-              Why choose ScrapWise?
+              Why choose My Scrap Buddy?
             </h2>
             <p className="mt-4 text-muted-foreground">
               We combine fair pricing, reliable logistics and full compliance to give
@@ -219,7 +218,7 @@ function Index() {
               ))}
             </div>
             <blockquote className="mt-5 text-xl font-medium leading-relaxed">
-              “ScrapWise made clearing our office e-waste effortless. Fair rates,
+              “My Scrap Buddy made clearing our office e-waste effortless. Fair rates,
               on-time pickup and instant payment. Highly recommended.”
             </blockquote>
             <div className="mt-6 text-sm text-primary-foreground/80">

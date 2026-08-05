@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 const DB_FILE = path.join(__dirname, "db.json");
 
 app.use(cors());
@@ -41,7 +41,7 @@ function writeDb(data) {
 app.get("/api/stats", (req, res) => {
   const db = readDb();
   const requests = db.requests || [];
-  
+
   const total = requests.length;
   const pending = requests.filter(r => r.status === "pending").length;
   const approved = requests.filter(r => r.status === "approved").length;
@@ -122,7 +122,7 @@ app.patch("/api/requests/:id", (req, res) => {
 app.delete("/api/requests/:id", (req, res) => {
   const db = readDb();
   const { id } = req.params;
-  
+
   const filtered = db.requests.filter(r => r.id !== id);
   if (filtered.length === db.requests.length) {
     return res.status(404).json({ error: "Request not found" });
@@ -143,7 +143,7 @@ app.get("/api/materials", (req, res) => {
 app.put("/api/materials", (req, res) => {
   const db = readDb();
   const updatedMaterials = req.body.materials;
-  
+
   if (!Array.isArray(updatedMaterials)) {
     return res.status(400).json({ error: "Invalid payload format. Must be an array." });
   }
@@ -156,7 +156,12 @@ app.put("/api/materials", (req, res) => {
 // GET settings
 app.get("/api/settings", (req, res) => {
   const db = readDb();
-  res.json(db.settings || { whatsappNumber: "+919876543210", phoneNumber: "+919876543210", address: "Mumbai, India", email: "hello@scrapwise.in" });
+  res.json(db.settings || {
+    whatsappNumber: "+91 85917 70877",
+    phoneNumber: "+91 85917 70877",
+    address: "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
+    email: "myscrapbuddy6272@gmail.com"
+  });
 });
 
 // PUT update settings
@@ -174,5 +179,5 @@ app.put("/api/settings", (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`ScrapWise Backend Admin server running on http://localhost:${PORT}`);
+  console.log(`My Scrap Buddy Backend Admin server running on http://localhost:${PORT}`);
 });

@@ -18,13 +18,13 @@ import {
 export const Route = createFileRoute("/request-pickup")({
   head: () => ({
     meta: [
-      { title: "Book a Scrap Pickup — ScrapWise" },
+      { title: "Book a Scrap Pickup — My Scrap Buddy" },
       {
         name: "description",
         content:
-          "Schedule a free doorstep scrap and e-waste pickup with ScrapWise. Quick booking, transparent weighing and instant payment.",
+          "Schedule a free doorstep scrap and e-waste pickup with My Scrap Buddy. Quick booking, transparent weighing and instant payment.",
       },
-      { property: "og:title", content: "Book a Scrap Pickup — ScrapWise" },
+      { property: "og:title", content: "Book a Scrap Pickup — My Scrap Buddy" },
       {
         property: "og:description",
         content: "Schedule a free doorstep scrap and e-waste pickup in minutes.",
@@ -117,7 +117,7 @@ function RequestPickup() {
         </span>
         <h1 className="mt-6 text-3xl font-extrabold">Request submitted!</h1>
         <p className="mt-3 text-muted-foreground">
-          Thanks for choosing ScrapWise. Our area incharge will contact you within a
+          Thanks for choosing My Scrap Buddy. Our area incharge will contact you within a
           few hours to confirm your pickup slot.
         </p>
         <Button className="mt-8" variant="hero" onClick={() => setSubmitted(false)}>

@@ -1,6 +1,32 @@
 {
   "requests": [
     {
+      "id": "req_1785956414030",
+      "name": "ramchandarpur",
+      "phone": "8591770877",
+      "address": "semri",
+      "scrapType": "cardboard",
+      "quantity": "medium",
+      "preferredDate": "2026-08-07",
+      "preferredSlot": "afternoon",
+      "notes": "",
+      "status": "pending",
+      "createdAt": "2026-08-05T19:00:14.030Z"
+    },
+    {
+      "id": "req_1785951187823",
+      "name": "rishi ",
+      "phone": "8433762136",
+      "address": "shukla chawl, andheri , mumbai",
+      "scrapType": "cardboard",
+      "quantity": "medium",
+      "preferredDate": "2026-08-05",
+      "preferredSlot": "afternoon",
+      "notes": "",
+      "status": "approved",
+      "createdAt": "2026-08-05T17:33:07.823Z"
+    },
+    {
       "id": "req_1785579851281",
       "name": "saahsg",
       "phone": "0993939383939",
@@ -189,9 +215,9 @@
     }
   ],
   "settings": {
-    "whatsappNumber": "+918591770877",
-    "phoneNumber": "+918591770877",
-    "address": "Mumbai, India, andheri (e) , shubhaSH NAGAR",
-    "email": "SAGARSINGH@1234"
+    "whatsappNumber": "+91 85917 70877",
+    "phoneNumber": "+91 85917 70877",
+    "address": "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
+    "email": "myscrapbuddy6272@gmail.com"
   }
 }

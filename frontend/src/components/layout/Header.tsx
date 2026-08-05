@@ -7,7 +7,6 @@ const navItems = [
   { to: "/", label: "Home" },
   { to: "/pricing", label: "Price List" },
   { to: "/request-pickup", label: "Request Pickup" },
-  { to: "/dashboard", label: "Dashboard" },
   { to: "/about", label: "About" },
 ];
 
@@ -22,7 +21,7 @@ export function Header() {
             <Recycle className="h-5 w-5" />
           </span>
           <span className="font-display text-lg font-extrabold tracking-tight">
-            ScrapWise
+            My Scrap Buddy
           </span>
         </Link>
 

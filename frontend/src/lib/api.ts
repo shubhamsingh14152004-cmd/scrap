@@ -1,4 +1,4 @@
-export const API_URL = "http://localhost:5000";
+export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5002";
 
 export interface RequestData {
   id?: string;
@@ -32,6 +32,13 @@ export interface MaterialData {
   icon: string;
 }
 
+export interface SettingsData {
+  whatsappNumber: string;
+  phoneNumber: string;
+  address: string;
+  email: string;
+}
+
 export async function fetchStats(): Promise<StatsData> {
   const res = await fetch(`${API_URL}/api/stats`);
   if (!res.ok) throw new Error("Failed to fetch stats");
@@ -57,5 +64,11 @@ export async function createRequest(data: Omit<RequestData, "id" | "status" | "c
 export async function fetchMaterials(): Promise<MaterialData[]> {
   const res = await fetch(`${API_URL}/api/materials`);
   if (!res.ok) throw new Error("Failed to fetch materials");
+  return res.json();
+}
+
+export async function fetchSettings(): Promise<SettingsData> {
+  const res = await fetch(`${API_URL}/api/settings`);
+  if (!res.ok) throw new Error("Failed to fetch settings");
   return res.json();
 }

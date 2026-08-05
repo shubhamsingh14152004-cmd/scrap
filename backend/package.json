@@ -1,7 +1,7 @@
 {
-  "name": "scrapwise-backend",
+  "name": "my-scrap-buddy-backend",
   "version": "1.0.0",
-  "description": "Backend API and Admin Panel for ScrapWise",
+  "description": "Backend API and Admin Panel for My Scrap Buddy",
   "main": "server.js",
   "type": "module",
   "scripts": {
