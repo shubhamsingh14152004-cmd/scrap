@@ -50,8 +50,22 @@ export function Footer() {
         <div>
           <h4 className="text-sm font-semibold">Contact</h4>
           <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2"><Phone className="h-4 w-4 text-primary" /> {displayPhone}</li>
-            <li className="flex items-center gap-2"><Mail className="h-4 w-4 text-primary" /> {displayEmail}</li>
+            <li className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-primary" />
+              <a
+                href={`tel:${displayPhone.startsWith("+") ? "+" + displayPhone.replace(/[^0-9]/g, "") : "+91" + displayPhone.replace(/[^0-9]/g, "")}`}
+                className="hover:underline"
+              >
+                {displayPhone}
+              </a>
+            </li>
+            <li className="flex items-center gap-2">
+              <Mail className="h-4 w-4 text-primary" />
+              <a href={`mailto:${displayEmail}`} className="hover:underline">
+                {displayEmail}
+              </a>
+            </li>
+
             <li className="flex items-start gap-2">
               <MapPin className="h-4 w-4 text-primary mt-1 shrink-0" />
               <span>{displayAddress}</span>

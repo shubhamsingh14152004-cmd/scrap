@@ -9,12 +9,15 @@ export function FloatingContact() {
   });
 
   // Fallback numbers
-  const whatsappNumber = settings?.whatsappNumber || "+919876543210";
-  const phoneNumber = settings?.phoneNumber || "+919876543210";
+  const whatsappNumber = settings?.whatsappNumber || "+91 85917 70877";
+  const phoneNumber = settings?.phoneNumber || "+91 85917 70877";
 
-  // Clean numbers for links
+  // Clean numbers for links (wa.me expects country code without + or spaces, tel: expects +91...)
   const cleanWhatsapp = whatsappNumber.replace(/[^0-9]/g, "");
-  const cleanPhone = phoneNumber.replace(/\s+/g, "");
+  const cleanPhone = phoneNumber.startsWith("+")
+    ? "+" + phoneNumber.replace(/[^0-9]/g, "")
+    : "+91" + phoneNumber.replace(/[^0-9]/g, "");
+
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
