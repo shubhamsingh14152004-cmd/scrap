@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — My Scrap Buddy</title>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              DEFAULT: '#059669',
+              light: '#34d399',
+              dark: '#047857'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #090d16;
+      color: #f8fafc;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex items-center justify-center p-4">
+  
+  <div class="w-full max-w-md space-y-6">
+    
+    <!-- Brand Logo Header -->
+    <div class="text-center space-y-2">
+      <div class="inline-flex items-center justify-center p-3.5 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400 mb-2">
+        <i data-lucide="leaf" class="h-8 w-8"></i>
+      </div>
+      <h1 class="text-2xl font-bold tracking-tight text-white">My Scrap Buddy</h1>
+      <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Admin Control Center</p>
+    </div>
+
+    <!-- Login Card -->
+    <div class="glass-card p-8 rounded-3xl shadow-2xl space-y-6">
+      <div class="space-y-1 pb-4 border-b border-slate-800">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          <i data-lucide="lock" class="h-5 w-5 text-emerald-500"></i>
+          <span>Admin Login</span>
+        </h2>
+        <p class="text-slate-400 text-xs">Enter your credentials to access the admin portal.</p>
+      </div>
+
+      <!-- Error Alert Box -->
+      <div id="error-alert" class="hidden items-start gap-3 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs leading-relaxed">
+        <i data-lucide="alert-circle" class="h-4 w-4 text-rose-400 shrink-0 mt-0.5"></i>
+        <span id="error-message">Invalid credentials</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="login-form" onsubmit="handleLogin(event)" class="space-y-5">
+        
+        <!-- Email Field -->
+        <div class="space-y-1.5">
+          <label for="email" class="block text-xs font-semibold text-slate-300">Admin Email</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
+              <i data-lucide="mail" class="h-4 w-4"></i>
+            </span>
+            <input
+              type="email"
+              id="email"
+              required
+              placeholder="admin@myscrapbuddy.com"
+              class="w-full bg-slate-950/70 border border-slate-800 rounded-xl py-2.5 pl-10 pr-4 text-sm font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
+            />
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="space-y-1.5">
+          <label for="password" class="block text-xs font-semibold text-slate-300">Password</label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
+              <i data-lucide="lock" class="h-4 w-4"></i>
+            </span>
+            <input
+              type="password"
+              id="password"
+              required
+              placeholder="••••••••••••"
+              class="w-full bg-slate-950/70 border border-slate-800 rounded-xl py-2.5 pl-10 pr-10 text-sm font-medium text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-colors"
+            />
+            <button
+              type="button"
+              onclick="togglePasswordVisibility()"
+              class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+              title="Show/Hide Password"
+            >
+              <i data-lucide="eye" id="toggle-eye" class="h-4 w-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          id="submit-btn"
+          class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 text-sm mt-2"
+        >
+          <span id="btn-text">Log In to Dashboard</span>
+          <i data-lucide="arrow-right" id="btn-icon" class="h-4 w-4"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Security Footer -->
+    <div class="flex items-center justify-center gap-2 text-xs text-slate-500 pt-2">
+      <i data-lucide="shield-check" class="h-4 w-4 text-emerald-500"></i>
+      <span>Protected by JWT Backend Authentication</span>
+    </div>
+
+  </div>
+
+  <script>
+    // Create icons on load
+    lucide.createIcons();
+
+    // Check if already logged in
+    const existingToken = localStorage.getItem('admin_token');
+    if (existingToken) {
+      // Validate token or redirect directly to dashboard
+      window.location.href = '/admin';
+    }
+
+    function togglePasswordVisibility() {
+      const pwdInput = document.getElementById('password');
+      const eyeIcon = document.getElementById('toggle-eye');
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        eyeIcon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        pwdInput.type = 'password';
+        eyeIcon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    function showError(message) {
+      const alertBox = document.getElementById('error-alert');
+      const errorMsg = document.getElementById('error-message');
+      errorMsg.innerText = message;
+      alertBox.classList.remove('hidden');
+      alertBox.classList.add('flex');
+    }
+
+    function hideError() {
+      const alertBox = document.getElementById('error-alert');
+      alertBox.classList.add('hidden');
+      alertBox.classList.remove('flex');
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      hideError();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const submitBtn = document.getElementById('submit-btn');
+      const btnText = document.getElementById('btn-text');
+
+      if (!email || !password) {
+        showError("Please enter both email and password.");
+        return;
+      }
+
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+      btnText.innerText = "Authenticating...";
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.token) {
+          localStorage.setItem('admin_token', data.token);
+          window.location.href = '/admin';
+        } else {
+          showError(data.error || "Invalid email or password.");
+        }
+      } catch (err) {
+        console.error("Login request error:", err);
+        showError("Network error. Could not connect to backend server.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+        btnText.innerText = "Log In to Dashboard";
+      }
+    }
+  </script>
+</body>
+</html>

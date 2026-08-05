@@ -2,18 +2,101 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
+import os from "os";
 import { fileURLToPath } from "url";
+import jwt from "jsonwebtoken";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5002;
-const DB_FILE = path.join(__dirname, "db.json");
+
+// Writable database file path for Serverless Environments
+const BUNDLED_DB_FILE = path.join(__dirname, "db.json");
+const DB_FILE = path.join(os.tmpdir(), "db.json");
+
+// Initialize db.json in temp folder if it doesn't exist
+try {
+  if (!fs.existsSync(DB_FILE)) {
+    if (fs.existsSync(BUNDLED_DB_FILE)) {
+      fs.copyFileSync(BUNDLED_DB_FILE, DB_FILE);
+      console.log("Initialized database from bundled db.json at:", DB_FILE);
+    } else {
+      fs.writeFileSync(DB_FILE, JSON.stringify({ requests: [], materials: [], settings: {} }, null, 2), "utf8");
+      console.log("Initialized empty database at:", DB_FILE);
+    }
+  } else {
+    console.log("Using existing database at:", DB_FILE);
+  }
+} catch (err) {
+  console.error("Error initializing database file:", err);
+}
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+
+// Admin Authentication Middleware
+const authenticateAdminToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Access denied. No token provided." });
+  }
+
+  const jwtSecret = process.env.JWT_SECRET || "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
+
+  jwt.verify(token, jwtSecret, (err, user) => {
+    if (err) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// Admin Login Endpoint
+app.post("/api/admin/login", (req, res) => {
+  const { email, password } = req.body || {};
+  const adminEmail = process.env.ADMIN_EMAIL || "myscrapbuddy6272@gmail.com";
+  const adminPassword = process.env.ADMIN_PASSWORD || "Rehan3103";
+  const jwtSecret = process.env.JWT_SECRET || "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
+  const jwtExpiresIn = process.env.JWT_EXPIRES_IN || "24h";
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+
+  if (email.trim().toLowerCase() !== adminEmail.trim().toLowerCase() || password !== adminPassword) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
+
+  const token = jwt.sign(
+    { email: adminEmail, role: "admin" },
+    jwtSecret,
+    { expiresIn: jwtExpiresIn }
+  );
+
+  return res.json({
+    success: true,
+    message: "Login successful",
+    token,
+    user: { email: adminEmail, role: "admin" }
+  });
+});
+
+// Serve Admin Login HTML page on /admin/login route
+app.get("/admin/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+});
+
+// Serve Admin Dashboard HTML on /admin route
+app.get(["/admin", "/admin/*"], (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 
 // Helper function to read from DB
 function readDb() {
@@ -37,8 +120,9 @@ function writeDb(data) {
   }
 }
 
+
 // Analytics Stats endpoint
-app.get("/api/stats", (req, res) => {
+app.get("/api/stats", authenticateAdminToken, (req, res) => {
   const db = readDb();
   const requests = db.requests || [];
 
@@ -48,8 +132,6 @@ app.get("/api/stats", (req, res) => {
   const completed = requests.filter(r => r.status === "completed").length;
   const cancelled = requests.filter(r => r.status === "cancelled").length;
 
-  // Calculate estimated total weight and revenue based on quantity estimate
-  // small = 8kg, medium = 30kg, large = 125kg, bulk = 300kg
   let estimatedWeight = 0;
   requests.forEach(r => {
     if (r.status === "completed") {
@@ -60,8 +142,7 @@ app.get("/api/stats", (req, res) => {
     }
   });
 
-  // Calculate mock revenue: $5 per kg or direct calculation
-  const estimatedRevenue = estimatedWeight * 35; // Rupee estimate or general currency units
+  const estimatedRevenue = estimatedWeight * 35;
 
   res.json({
     total,
@@ -74,13 +155,13 @@ app.get("/api/stats", (req, res) => {
   });
 });
 
-// GET all requests
-app.get("/api/requests", (req, res) => {
+// GET all requests (Admin protected)
+app.get("/api/requests", authenticateAdminToken, (req, res) => {
   const db = readDb();
   res.json(db.requests || []);
 });
 
-// POST new request
+// POST new request (Public - for customer pickup booking)
 app.post("/api/requests", (req, res) => {
   const db = readDb();
   const newRequest = {
@@ -97,13 +178,13 @@ app.post("/api/requests", (req, res) => {
     createdAt: new Date().toISOString()
   };
 
-  db.requests.unshift(newRequest); // Add to beginning of list
+  db.requests.unshift(newRequest);
   writeDb(db);
   res.status(201).json(newRequest);
 });
 
-// PATCH update request status
-app.patch("/api/requests/:id", (req, res) => {
+// PATCH update request status (Admin protected)
+app.patch("/api/requests/:id", authenticateAdminToken, (req, res) => {
   const db = readDb();
   const { id } = req.params;
   const { status } = req.body;
@@ -118,8 +199,8 @@ app.patch("/api/requests/:id", (req, res) => {
   res.json(db.requests[requestIndex]);
 });
 
-// DELETE request
-app.delete("/api/requests/:id", (req, res) => {
+// DELETE request (Admin protected)
+app.delete("/api/requests/:id", authenticateAdminToken, (req, res) => {
   const db = readDb();
   const { id } = req.params;
 
@@ -133,14 +214,14 @@ app.delete("/api/requests/:id", (req, res) => {
   res.json({ success: true, message: "Request deleted successfully" });
 });
 
-// GET all materials
+// GET all materials (Public - so pricing page can view)
 app.get("/api/materials", (req, res) => {
   const db = readDb();
   res.json(db.materials || []);
 });
 
-// PUT update materials
-app.put("/api/materials", (req, res) => {
+// PUT update materials (Admin protected)
+app.put("/api/materials", authenticateAdminToken, (req, res) => {
   const db = readDb();
   const updatedMaterials = req.body.materials;
 
@@ -153,7 +234,7 @@ app.put("/api/materials", (req, res) => {
   res.json(db.materials);
 });
 
-// GET settings
+// GET settings (Public - so floating contacts/header can view)
 app.get("/api/settings", (req, res) => {
   const db = readDb();
   res.json(db.settings || {
@@ -164,8 +245,8 @@ app.get("/api/settings", (req, res) => {
   });
 });
 
-// PUT update settings
-app.put("/api/settings", (req, res) => {
+// PUT update settings (Admin protected)
+app.put("/api/settings", authenticateAdminToken, (req, res) => {
   const db = readDb();
   db.settings = {
     whatsappNumber: req.body.whatsappNumber,
@@ -176,6 +257,7 @@ app.put("/api/settings", (req, res) => {
   writeDb(db);
   res.json(db.settings);
 });
+
 
 // Start server
 app.listen(PORT, () => {

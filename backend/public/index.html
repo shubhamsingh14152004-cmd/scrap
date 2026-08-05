@@ -125,8 +125,14 @@
               <p class="text-xs text-slate-400 font-medium">Head Office</p>
             </div>
           </div>
+          <div class="h-8 w-px bg-slate-200"></div>
+          <button onclick="handleLogout()" class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg transition-colors border border-rose-200" title="Log out of Admin Panel">
+            <i data-lucide="log-out" class="h-4 w-4"></i>
+            <span class="hidden sm:inline">Logout</span>
+          </button>
         </div>
       </header>
+
 
       <!-- Content Views -->
       <div class="flex-1 p-8 overflow-y-auto">
@@ -348,6 +354,44 @@
     let materialsData = [];
     let statsData = {};
     
+    // Auth Helpers
+    function getAuthToken() {
+      // Check query param first (if framed or passed via URL)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlToken = urlParams.get('token');
+      if (urlToken) {
+        localStorage.setItem('admin_token', urlToken);
+        // Clean URL parameter
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+        return urlToken;
+      }
+      return localStorage.getItem('admin_token');
+    }
+
+    function getAuthHeaders() {
+      const token = getAuthToken();
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      return headers;
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('admin_token');
+      window.location.href = '/admin/login';
+    }
+
+    function checkAuthOrRedirect() {
+      const token = getAuthToken();
+      if (!token) {
+        handleLogout();
+        return false;
+      }
+      return true;
+    }
+
     // Chart References
     let trendChart = null;
     let materialChart = null;
@@ -417,22 +461,31 @@
 
     // Fetch dashboard stats, requests & materials from server
     async function fetchData() {
+      if (!checkAuthOrRedirect()) return;
+      const headers = getAuthHeaders();
+
       try {
         const [statsRes, requestsRes, materialsRes, settingsRes] = await Promise.all([
-          fetch('/api/stats').then(res => res.json()),
-          fetch('/api/requests').then(res => res.json()),
-          fetch('/api/materials').then(res => res.json()),
-          fetch('/api/settings').then(res => res.json())
+          fetch('/api/stats', { headers }),
+          fetch('/api/requests', { headers }),
+          fetch('/api/materials', { headers }),
+          fetch('/api/settings', { headers })
         ]);
 
-        statsData = statsRes;
-        requestsData = requestsRes;
-        materialsData = materialsRes;
+        if (statsRes.status === 401 || requestsRes.status === 401) {
+          handleLogout();
+          return;
+        }
 
-        document.getElementById('settings-whatsapp').value = settingsRes.whatsappNumber || '';
-        document.getElementById('settings-phone').value = settingsRes.phoneNumber || '';
-        document.getElementById('settings-address').value = settingsRes.address || '';
-        document.getElementById('settings-email').value = settingsRes.email || '';
+        statsData = await statsRes.json();
+        requestsData = await requestsRes.json();
+        materialsData = await materialsRes.json();
+        const settingsResData = await settingsRes.json();
+
+        document.getElementById('settings-whatsapp').value = settingsResData.whatsappNumber || '';
+        document.getElementById('settings-phone').value = settingsResData.phoneNumber || '';
+        document.getElementById('settings-address').value = settingsResData.address || '';
+        document.getElementById('settings-email').value = settingsResData.email || '';
 
         // Render everything
         updateStatsUI();
@@ -456,6 +509,7 @@
         showToast("Error loading data from server", true);
       }
     }
+
 
     // Update Stats Display
     function updateStatsUI() {
@@ -579,9 +633,13 @@
       try {
         const res = await fetch(`/api/requests/${id}`, {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify({ status: newStatus })
         });
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
         if (res.ok) {
           showToast(`Request status updated to ${newStatus}`);
           fetchData();
@@ -598,8 +656,13 @@
       if (!confirm("Are you sure you want to permanently delete this request log?")) return;
       try {
         const res = await fetch(`/api/requests/${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: getAuthHeaders()
         });
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
         if (res.ok) {
           showToast("Request log deleted");
           fetchData();
@@ -610,6 +673,7 @@
         showToast("Network error deleting request", true);
       }
     }
+
 
     // Render Scrap Rates Management View
     function renderPricingUI() {
@@ -766,9 +830,13 @@
       try {
         const res = await fetch('/api/materials', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify({ materials: updatedList })
         });
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
         if (res.ok) {
           showToast(successMsg);
           fetchData();
@@ -790,9 +858,13 @@
       try {
         const res = await fetch('/api/settings', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify({ whatsappNumber: whatsappVal, phoneNumber: phoneVal, address: addressVal, email: emailVal })
         });
+        if (res.status === 401) {
+          handleLogout();
+          return;
+        }
         if (res.ok) {
           showToast("Settings updated successfully!");
           fetchData();
@@ -803,6 +875,7 @@
         showToast("Network error saving settings", true);
       }
     }
+
 
     // Chart.js initialization
     function initCharts() {
