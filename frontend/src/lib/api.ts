@@ -1,8 +1,27 @@
 const getBaseApiUrl = (): string => {
   const envUrl = import.meta.env.VITE_API_URL;
   if (envUrl && typeof envUrl === "string" && envUrl.trim() !== "") {
-    return envUrl.trim().replace(/\/+$/, "");
+    let url = envUrl.trim().replace(/\/+$/, "");
+    if (
+      typeof window !== "undefined" &&
+      window.location.protocol === "https:" &&
+      url.startsWith("http://") &&
+      !url.includes("localhost") &&
+      !url.includes("127.0.0.1")
+    ) {
+      url = url.replace(/^http:\/\//, "https://");
+    }
+    return url;
   }
+
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return "http://localhost:5002";
+    }
+    return window.location.origin.replace(/\/+$/, "");
+  }
+
   return "http://localhost:5002";
 };
 
@@ -68,6 +87,12 @@ export function isAuthenticated(): boolean {
   return !!getAuthToken();
 }
 
+export async function checkHealth(): Promise<{ status: string; message: string; timestamp: string }> {
+  const res = await fetch(`${API_URL}/api/health`);
+  if (!res.ok) throw new Error("Health check failed");
+  return res.json();
+}
+
 export async function adminLogin(
   email: string,
   password: string
@@ -117,12 +142,12 @@ export async function fetchRequests(): Promise<RequestData[]> {
 export async function createRequest(
   data: Omit<RequestData, "id" | "status" | "createdAt">
 ): Promise<RequestData> {
-  const res = await fetch(`${API_URL}/api/requests`, {
+  const res = await fetch(`${API_URL}/api/request-pickup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error("Failed to create request");
+  if (!res.ok) throw new Error("Failed to create pickup request");
   return res.json();
 }
 

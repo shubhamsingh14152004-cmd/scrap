@@ -69,6 +69,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// GET /api/health Endpoint
+app.get(["/api/health", "/health"], (req, res) => {
+  return res.json({
+    status: "ok",
+    message: "My Scrap Buddy API is healthy and running",
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV || "production",
+  });
+});
+
 // Admin Authentication Middleware
 const authenticateAdminToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -92,7 +102,7 @@ const authenticateAdminToken = (req, res, next) => {
 };
 
 // Admin Login Endpoint
-app.post("/api/admin/login", (req, res) => {
+app.post(["/api/admin/login", "/api/login"], (req, res) => {
   const { email, password } = req.body || {};
   const adminEmail = process.env.ADMIN_EMAIL || "myscrapbuddy6272@gmail.com";
   const adminPassword = process.env.ADMIN_PASSWORD || "Rehan3103";
@@ -157,7 +167,7 @@ function writeDb(data) {
 }
 
 // Analytics Stats endpoint (Admin protected)
-app.get("/api/stats", authenticateAdminToken, (req, res) => {
+const handleGetStats = (req, res) => {
   const db = readDb();
   const requests = db.requests || [];
 
@@ -188,16 +198,22 @@ app.get("/api/stats", authenticateAdminToken, (req, res) => {
     estimatedWeight,
     estimatedRevenue,
   });
-});
+};
 
-// GET all requests (Admin protected) - Supporting /api/requests, /api/pickup, /pickup
+app.get(["/api/stats", "/api/admin/stats"], authenticateAdminToken, handleGetStats);
+
+// GET all requests (Admin protected)
 const handleGetRequests = (req, res) => {
   const db = readDb();
   res.json(db.requests || []);
 };
-app.get(["/api/requests", "/api/pickup", "/pickup"], authenticateAdminToken, handleGetRequests);
+app.get(
+  ["/api/requests", "/api/admin/requests", "/api/request-pickup", "/api/pickup", "/pickup"],
+  authenticateAdminToken,
+  handleGetRequests
+);
 
-// POST new request (Public - customer pickup booking) - Supporting /api/requests, /api/pickup, /pickup
+// POST new request (Public - customer pickup booking)
 const handleCreatePickup = (req, res) => {
   const db = readDb();
   const body = req.body || {};
@@ -234,47 +250,58 @@ const handleCreatePickup = (req, res) => {
   return res.status(201).json(newRequest);
 };
 
-app.post(["/api/requests", "/api/pickup", "/pickup"], handleCreatePickup);
+app.post(
+  ["/api/requests", "/api/request-pickup", "/api/pickup", "/pickup"],
+  handleCreatePickup
+);
 
 // PATCH update request status (Admin protected)
-app.patch(["/api/requests/:id", "/api/pickup/:id", "/pickup/:id"], authenticateAdminToken, (req, res) => {
-  const db = readDb();
-  const { id } = req.params;
-  const { status } = req.body || {};
+app.patch(
+  ["/api/requests/:id", "/api/admin/requests/:id", "/api/request-pickup/:id", "/api/pickup/:id", "/pickup/:id"],
+  authenticateAdminToken,
+  (req, res) => {
+    const db = readDb();
+    const { id } = req.params;
+    const { status } = req.body || {};
 
-  const requestIndex = db.requests.findIndex((r) => r.id === id);
-  if (requestIndex === -1) {
-    return res.status(404).json({ error: "Request not found" });
+    const requestIndex = db.requests.findIndex((r) => r.id === id);
+    if (requestIndex === -1) {
+      return res.status(404).json({ error: "Request not found" });
+    }
+
+    db.requests[requestIndex].status = status;
+    writeDb(db);
+    res.json(db.requests[requestIndex]);
   }
-
-  db.requests[requestIndex].status = status;
-  writeDb(db);
-  res.json(db.requests[requestIndex]);
-});
+);
 
 // DELETE request (Admin protected)
-app.delete(["/api/requests/:id", "/api/pickup/:id", "/pickup/:id"], authenticateAdminToken, (req, res) => {
-  const db = readDb();
-  const { id } = req.params;
+app.delete(
+  ["/api/requests/:id", "/api/admin/requests/:id", "/api/request-pickup/:id", "/api/pickup/:id", "/pickup/:id"],
+  authenticateAdminToken,
+  (req, res) => {
+    const db = readDb();
+    const { id } = req.params;
 
-  const filtered = db.requests.filter((r) => r.id !== id);
-  if (filtered.length === db.requests.length) {
-    return res.status(404).json({ error: "Request not found" });
+    const filtered = db.requests.filter((r) => r.id !== id);
+    if (filtered.length === db.requests.length) {
+      return res.status(404).json({ error: "Request not found" });
+    }
+
+    db.requests = filtered;
+    writeDb(db);
+    res.json({ success: true, message: "Request deleted successfully" });
   }
-
-  db.requests = filtered;
-  writeDb(db);
-  res.json({ success: true, message: "Request deleted successfully" });
-});
+);
 
 // GET all materials (Public - pricing page)
-app.get("/api/materials", (req, res) => {
+app.get(["/api/materials", "/api/admin/materials"], (req, res) => {
   const db = readDb();
   res.json(db.materials || []);
 });
 
 // PUT update materials (Admin protected)
-app.put("/api/materials", authenticateAdminToken, (req, res) => {
+app.put(["/api/materials", "/api/admin/materials"], authenticateAdminToken, (req, res) => {
   const db = readDb();
   const updatedMaterials = req.body.materials;
 
@@ -288,7 +315,7 @@ app.put("/api/materials", authenticateAdminToken, (req, res) => {
 });
 
 // GET settings (Public - header / footer contact info)
-app.get("/api/settings", (req, res) => {
+app.get(["/api/settings", "/api/admin/settings"], (req, res) => {
   const db = readDb();
   res.json(
     db.settings || {
@@ -302,7 +329,7 @@ app.get("/api/settings", (req, res) => {
 });
 
 // PUT update settings (Admin protected)
-app.put("/api/settings", authenticateAdminToken, (req, res) => {
+app.put(["/api/settings", "/api/admin/settings"], authenticateAdminToken, (req, res) => {
   const db = readDb();
   db.settings = {
     whatsappNumber: req.body.whatsappNumber,
