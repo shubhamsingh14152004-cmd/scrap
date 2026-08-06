@@ -69,6 +69,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
+// ==========================================
+// 1. PUBLIC ROUTES (No Authentication Required)
+// ==========================================
+
 // GET /api/health Endpoint
 app.get(["/api/health", "/health"], (req, res) => {
   return res.json({
@@ -79,29 +83,7 @@ app.get(["/api/health", "/health"], (req, res) => {
   });
 });
 
-// Admin Authentication Middleware
-const authenticateAdminToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  if (!token) {
-    return res.status(401).json({ error: "Access denied. No token provided." });
-  }
-
-  const jwtSecret =
-    process.env.JWT_SECRET ||
-    "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
-
-  jwt.verify(token, jwtSecret, (err, user) => {
-    if (err) {
-      return res.status(401).json({ error: "Invalid or expired token" });
-    }
-    req.user = user;
-    next();
-  });
-};
-
-// Admin Login Endpoint
+// Admin Login Endpoint (Public POST)
 app.post(["/api/admin/login", "/api/login"], (req, res) => {
   const { email, password } = req.body || {};
   const adminEmail = process.env.ADMIN_EMAIL || "myscrapbuddy6272@gmail.com";
@@ -133,17 +115,80 @@ app.post(["/api/admin/login", "/api/login"], (req, res) => {
   });
 });
 
-// Serve Admin Login HTML page on /admin/login route
+// Public Customer Pickup Booking (POST - No Authentication Required)
+const handleCreatePickup = (req, res) => {
+  const db = readDb();
+  const body = req.body || {};
+
+  const name = body.name || body.fullName || "Customer";
+  const phone = body.phone || body.phoneNumber || "";
+  const address = body.address || "";
+  const scrapType = body.scrapType || body.category || "mixed";
+  const quantity = body.quantity || "medium";
+  const preferredDate = body.preferredDate || new Date().toISOString().split("T")[0];
+  const preferredSlot = body.preferredSlot || "morning";
+  const notes = body.notes || body.message || "";
+
+  if (!phone) {
+    return res.status(400).json({ error: "Phone number is required" });
+  }
+
+  const newRequest = {
+    id: "req_" + Date.now(),
+    name,
+    phone,
+    address,
+    scrapType,
+    quantity,
+    preferredDate,
+    preferredSlot,
+    notes,
+    status: "pending",
+    createdAt: new Date().toISOString(),
+  };
+
+  db.requests.unshift(newRequest);
+  writeDb(db);
+  return res.status(201).json(newRequest);
+};
+
+app.post(
+  ["/api/requests", "/api/request-pickup", "/api/pickup", "/pickup", "/api/request", "/api/book", "/api/contact"],
+  handleCreatePickup
+);
+
+// GET Public Materials list
+app.get(["/api/materials"], (req, res) => {
+  const db = readDb();
+  res.json(db.materials || []);
+});
+
+// GET Public Settings
+app.get(["/api/settings"], (req, res) => {
+  const db = readDb();
+  res.json(
+    db.settings || {
+      whatsappNumber: "+91 85917 70877",
+      phoneNumber: "+91 85917 70877",
+      address:
+        "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
+      email: "myscrapbuddy6272@gmail.com",
+    }
+  );
+});
+
+// Serve Admin Login & Dashboard HTML pages
 app.get("/admin/login", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
-// Serve Admin Dashboard HTML on /admin route
 app.get(["/admin", "/admin/*"], (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Helper function to read from DB
+// ==========================================
+// 2. HELPER DATABASE FUNCTIONS
+// ==========================================
 function readDb() {
   try {
     initDb();
@@ -155,7 +200,6 @@ function readDb() {
   }
 }
 
-// Helper function to write to DB
 function writeDb(data) {
   try {
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), "utf8");
@@ -166,8 +210,32 @@ function writeDb(data) {
   }
 }
 
-// Analytics Stats endpoint (Admin protected)
-const handleGetStats = (req, res) => {
+// ==========================================
+// 3. ADMIN PROTECTED ROUTES (JWT Required)
+// ==========================================
+const authenticateAdminToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Access denied. No token provided." });
+  }
+
+  const jwtSecret =
+    process.env.JWT_SECRET ||
+    "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
+
+  jwt.verify(token, jwtSecret, (err, user) => {
+    if (err) {
+      return res.status(401).json({ error: "Invalid or expired token" });
+    }
+    req.user = user;
+    next();
+  });
+};
+
+// Analytics Stats (Admin protected)
+app.get(["/api/stats", "/api/admin/stats"], authenticateAdminToken, (req, res) => {
   const db = readDb();
   const requests = db.requests || [];
 
@@ -198,62 +266,13 @@ const handleGetStats = (req, res) => {
     estimatedWeight,
     estimatedRevenue,
   });
-};
-
-app.get(["/api/stats", "/api/admin/stats"], authenticateAdminToken, handleGetStats);
+});
 
 // GET all requests (Admin protected)
-const handleGetRequests = (req, res) => {
+app.get(["/api/requests", "/api/admin/requests"], authenticateAdminToken, (req, res) => {
   const db = readDb();
   res.json(db.requests || []);
-};
-app.get(
-  ["/api/requests", "/api/admin/requests", "/api/request-pickup", "/api/pickup", "/pickup"],
-  authenticateAdminToken,
-  handleGetRequests
-);
-
-// POST new request (Public - customer pickup booking)
-const handleCreatePickup = (req, res) => {
-  const db = readDb();
-  const body = req.body || {};
-
-  const name = body.name || body.fullName || "Customer";
-  const phone = body.phone || body.phoneNumber || "";
-  const address = body.address || "";
-  const scrapType = body.scrapType || body.category || "mixed";
-  const quantity = body.quantity || "medium";
-  const preferredDate = body.preferredDate || new Date().toISOString().split("T")[0];
-  const preferredSlot = body.preferredSlot || "morning";
-  const notes = body.notes || "";
-
-  if (!phone) {
-    return res.status(400).json({ error: "Phone number is required" });
-  }
-
-  const newRequest = {
-    id: "req_" + Date.now(),
-    name,
-    phone,
-    address,
-    scrapType,
-    quantity,
-    preferredDate,
-    preferredSlot,
-    notes,
-    status: "pending",
-    createdAt: new Date().toISOString(),
-  };
-
-  db.requests.unshift(newRequest);
-  writeDb(db);
-  return res.status(201).json(newRequest);
-};
-
-app.post(
-  ["/api/requests", "/api/request-pickup", "/api/pickup", "/pickup"],
-  handleCreatePickup
-);
+});
 
 // PATCH update request status (Admin protected)
 app.patch(
@@ -294,12 +313,6 @@ app.delete(
   }
 );
 
-// GET all materials (Public - pricing page)
-app.get(["/api/materials", "/api/admin/materials"], (req, res) => {
-  const db = readDb();
-  res.json(db.materials || []);
-});
-
 // PUT update materials (Admin protected)
 app.put(["/api/materials", "/api/admin/materials"], authenticateAdminToken, (req, res) => {
   const db = readDb();
@@ -312,20 +325,6 @@ app.put(["/api/materials", "/api/admin/materials"], authenticateAdminToken, (req
   db.materials = updatedMaterials;
   writeDb(db);
   res.json(db.materials);
-});
-
-// GET settings (Public - header / footer contact info)
-app.get(["/api/settings", "/api/admin/settings"], (req, res) => {
-  const db = readDb();
-  res.json(
-    db.settings || {
-      whatsappNumber: "+91 85917 70877",
-      phoneNumber: "+91 85917 70877",
-      address:
-        "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
-      email: "myscrapbuddy6272@gmail.com",
-    }
-  );
 });
 
 // PUT update settings (Admin protected)
