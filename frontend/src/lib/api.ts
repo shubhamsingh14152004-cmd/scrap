@@ -1,28 +1,15 @@
+const DEFAULT_PRODUCTION_API = "https://scrap-ntjs.vercel.app";
+
 const getBaseApiUrl = (): string => {
   const envUrl = import.meta.env.VITE_API_URL;
   if (envUrl && typeof envUrl === "string" && envUrl.trim() !== "") {
     let url = envUrl.trim().replace(/\/+$/, "");
-    if (
-      typeof window !== "undefined" &&
-      window.location.protocol === "https:" &&
-      url.startsWith("http://") &&
-      !url.includes("localhost") &&
-      !url.includes("127.0.0.1")
-    ) {
+    if (url.startsWith("http://") && !url.includes("localhost") && !url.includes("127.0.0.1")) {
       url = url.replace(/^http:\/\//, "https://");
     }
     return url;
   }
-
-  if (typeof window !== "undefined") {
-    const hostname = window.location.hostname;
-    if (hostname === "localhost" || hostname === "127.0.0.1") {
-      return "http://localhost:5002";
-    }
-    return window.location.origin.replace(/\/+$/, "");
-  }
-
-  return "http://localhost:5002";
+  return DEFAULT_PRODUCTION_API;
 };
 
 export const API_URL = getBaseApiUrl();
@@ -87,27 +74,77 @@ export function isAuthenticated(): boolean {
   return !!getAuthToken();
 }
 
+/**
+ * Centralized API fetch wrapper ensuring consistent headers, error reporting,
+ * and development logging across all requests.
+ */
+async function apiFetch<T = any>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const url = `${API_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+    ...(options.headers as Record<string, string> || {}),
+  };
+
+  const isDev = import.meta.env.DEV || (typeof window !== "undefined" && window.location.hostname === "localhost");
+  if (isDev) {
+    console.log(`[API Request] ${options.method || "GET"} -> ${url}`);
+    if (options.body) {
+      console.log(`[Request Body]`, options.body);
+    }
+  }
+
+  let res: Response;
+  try {
+    res = await fetch(url, { ...options, headers });
+  } catch (netErr: any) {
+    console.error(`[Network Error] Failed to connect to ${url}`, netErr);
+    throw new Error(`Network connection error to ${API_URL}. Please verify backend status.`);
+  }
+
+  let data: any = null;
+  const contentType = res.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
+    data = await res.json().catch(() => null);
+  } else {
+    const text = await res.text().catch(() => "");
+    data = { error: text || `Server returned non-JSON response with status ${res.status}` };
+  }
+
+  if (isDev) {
+    console.log(`[API Response] Status ${res.status} from ${url}:`, data);
+  }
+
+  if (!res.ok) {
+    const errorMsg = data?.error || data?.message || `Request failed with status code ${res.status}`;
+    if (isDev) {
+      console.error(`[Backend Error] Status ${res.status} from ${url}:`, errorMsg);
+    }
+    throw new Error(errorMsg);
+  }
+
+  return data as T;
+}
+
 export async function checkHealth(): Promise<{ status: string; message: string; timestamp: string }> {
-  const res = await fetch(`${API_URL}/api/health`);
-  if (!res.ok) throw new Error("Health check failed");
-  return res.json();
+  return apiFetch<{ status: string; message: string; timestamp: string }>("/api/health");
 }
 
 export async function adminLogin(
   email: string,
   password: string
 ): Promise<{ token: string; user: { email: string; role: string } }> {
-  const res = await fetch(`${API_URL}/api/admin/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-
-  const data = await res.json();
-
-  if (!res.ok) {
-    throw new Error(data.error || "Login failed");
-  }
+  const data = await apiFetch<{ token: string; user: { email: string; role: string } }>(
+    "/api/admin/login",
+    {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    }
+  );
 
   setAuthToken(data.token);
   return data;
@@ -115,47 +152,44 @@ export async function adminLogin(
 
 export async function fetchStats(): Promise<StatsData> {
   const token = getAuthToken();
-  const res = await fetch(`${API_URL}/api/stats`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  });
-  if (res.status === 401) {
-    removeAuthToken();
-    throw new Error("Unauthorized");
+  try {
+    return await apiFetch<StatsData>("/api/stats", {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+  } catch (err: any) {
+    if (err.message?.includes("401") || err.message?.includes("Unauthorized") || err.message?.includes("Access denied")) {
+      removeAuthToken();
+    }
+    throw err;
   }
-  if (!res.ok) throw new Error("Failed to fetch stats");
-  return res.json();
 }
 
 export async function fetchRequests(): Promise<RequestData[]> {
   const token = getAuthToken();
-  const res = await fetch(`${API_URL}/api/requests`, {
-    headers: token ? { Authorization: `Bearer ${token}` } : {},
-  });
-  if (res.status === 401) {
-    removeAuthToken();
-    throw new Error("Unauthorized");
+  try {
+    return await apiFetch<RequestData[]>("/api/requests", {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+  } catch (err: any) {
+    if (err.message?.includes("401") || err.message?.includes("Unauthorized") || err.message?.includes("Access denied")) {
+      removeAuthToken();
+    }
+    throw err;
   }
-  if (!res.ok) throw new Error("Failed to fetch requests");
-  return res.json();
 }
 
 export async function createRequest(
   data: Omit<RequestData, "id" | "status" | "createdAt">
 ): Promise<RequestData> {
-  const res = await fetch(`${API_URL}/api/request-pickup`, {
+  return apiFetch<RequestData>("/api/request-pickup", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error("Failed to create pickup request");
-  return res.json();
 }
 
 export async function fetchMaterials(): Promise<MaterialData[]> {
   try {
-    const res = await fetch(`${API_URL}/api/materials`);
-    if (!res.ok) throw new Error("Failed to fetch materials");
-    return await res.json();
+    return await apiFetch<MaterialData[]>("/api/materials");
   } catch (err) {
     console.warn("Backend materials fetch failed, using frontend defaults:", err);
     return [];
@@ -164,9 +198,7 @@ export async function fetchMaterials(): Promise<MaterialData[]> {
 
 export async function fetchSettings(): Promise<SettingsData> {
   try {
-    const res = await fetch(`${API_URL}/api/settings`);
-    if (!res.ok) throw new Error("Failed to fetch settings");
-    return await res.json();
+    return await apiFetch<SettingsData>("/api/settings");
   } catch (err) {
     console.warn("Backend settings fetch failed, using frontend defaults:", err);
     return {

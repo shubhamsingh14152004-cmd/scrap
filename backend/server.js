@@ -38,7 +38,17 @@ function initDb() {
 }
 initDb();
 
-// Comprehensive CORS middleware for Mobile Web (iOS Safari, Android Chrome) & Cross-Domain Vercel Deployments
+const ALLOWED_ORIGINS = [
+  "https://scrap-8qoj.vercel.app",
+  "https://scrap-ntjs.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://localhost:5002",
+  "http://127.0.0.1:5173",
+  "http://127.0.0.1:5002",
+];
+
+// Comprehensive CORS middleware for Mobile Web & Cross-Domain Vercel Deployments
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (origin) {
@@ -58,7 +68,13 @@ app.use((req, res, next) => {
 
 app.use(
   cors({
-    origin: true,
+    origin: (origin, callback) => {
+      if (!origin || ALLOWED_ORIGINS.includes(origin) || process.env.NODE_ENV !== "production") {
+        callback(null, true);
+      } else {
+        callback(null, true);
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
@@ -70,10 +86,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // ==========================================
-// 1. PUBLIC ROUTES (No Authentication Required)
+// 1. PUBLIC ROUTES (No Token Required)
 // ==========================================
 
-// GET /api/health Endpoint
+// GET /api/health Endpoint - Always returns JSON
 app.get(["/api/health", "/health"], (req, res) => {
   return res.json({
     status: "ok",
@@ -85,71 +101,81 @@ app.get(["/api/health", "/health"], (req, res) => {
 
 // Admin Login Endpoint (Public POST)
 app.post(["/api/admin/login", "/api/login"], (req, res) => {
-  const { email, password } = req.body || {};
-  const adminEmail = process.env.ADMIN_EMAIL || "myscrapbuddy6272@gmail.com";
-  const adminPassword = process.env.ADMIN_PASSWORD || "Rehan3103";
-  const jwtSecret =
-    process.env.JWT_SECRET ||
-    "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
-  const jwtExpiresIn = process.env.JWT_EXPIRES_IN || "24h";
+  try {
+    const { email, password } = req.body || {};
+    const adminEmail = process.env.ADMIN_EMAIL || "myscrapbuddy6272@gmail.com";
+    const adminPassword = process.env.ADMIN_PASSWORD || "Rehan3103";
+    const jwtSecret =
+      process.env.JWT_SECRET ||
+      "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
+    const jwtExpiresIn = process.env.JWT_EXPIRES_IN || "24h";
 
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required" });
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
+    }
+
+    if (email.trim().toLowerCase() !== adminEmail.trim().toLowerCase() || password !== adminPassword) {
+      return res.status(401).json({ error: "Invalid email or password" });
+    }
+
+    const token = jwt.sign(
+      { email: adminEmail, role: "admin" },
+      jwtSecret,
+      { expiresIn: jwtExpiresIn }
+    );
+
+    return res.json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: { email: adminEmail, role: "admin" },
+    });
+  } catch (err) {
+    console.error("Login endpoint error:", err);
+    return res.status(500).json({ error: "Internal server error during authentication" });
   }
-
-  if (email.trim().toLowerCase() !== adminEmail.trim().toLowerCase() || password !== adminPassword) {
-    return res.status(401).json({ error: "Invalid email or password" });
-  }
-
-  const token = jwt.sign(
-    { email: adminEmail, role: "admin" },
-    jwtSecret,
-    { expiresIn: jwtExpiresIn }
-  );
-
-  return res.json({
-    success: true,
-    message: "Login successful",
-    token,
-    user: { email: adminEmail, role: "admin" },
-  });
 });
 
-// Public Customer Pickup Booking (POST - No Authentication Required)
+// Public Customer Pickup Booking (POST - Always returns JSON)
 const handleCreatePickup = (req, res) => {
-  const db = readDb();
-  const body = req.body || {};
+  try {
+    const db = readDb();
+    const body = req.body || {};
 
-  const name = body.name || body.fullName || "Customer";
-  const phone = body.phone || body.phoneNumber || "";
-  const address = body.address || "";
-  const scrapType = body.scrapType || body.category || "mixed";
-  const quantity = body.quantity || "medium";
-  const preferredDate = body.preferredDate || new Date().toISOString().split("T")[0];
-  const preferredSlot = body.preferredSlot || "morning";
-  const notes = body.notes || body.message || "";
+    const name = body.name || body.fullName || "Customer";
+    const phone = body.phone || body.phoneNumber || "";
+    const address = body.address || "";
+    const scrapType = body.scrapType || body.category || "mixed";
+    const quantity = body.quantity || "medium";
+    const preferredDate = body.preferredDate || new Date().toISOString().split("T")[0];
+    const preferredSlot = body.preferredSlot || "morning";
+    const notes = body.notes || body.message || "";
 
-  if (!phone) {
-    return res.status(400).json({ error: "Phone number is required" });
+    if (!phone) {
+      return res.status(400).json({ error: "Phone number is required" });
+    }
+
+    const newRequest = {
+      id: "req_" + Date.now(),
+      name,
+      phone,
+      address,
+      scrapType,
+      quantity,
+      preferredDate,
+      preferredSlot,
+      notes,
+      status: "pending",
+      createdAt: new Date().toISOString(),
+    };
+
+    db.requests.unshift(newRequest);
+    writeDb(db);
+    return res.status(201).json(newRequest);
+  } catch (err) {
+    console.error("Error handling pickup request:", err);
+    return res.status(500).json({ error: "Internal server error processing pickup request" });
   }
-
-  const newRequest = {
-    id: "req_" + Date.now(),
-    name,
-    phone,
-    address,
-    scrapType,
-    quantity,
-    preferredDate,
-    preferredSlot,
-    notes,
-    status: "pending",
-    createdAt: new Date().toISOString(),
-  };
-
-  db.requests.unshift(newRequest);
-  writeDb(db);
-  return res.status(201).json(newRequest);
 };
 
 app.post(
@@ -159,22 +185,30 @@ app.post(
 
 // GET Public Materials list
 app.get(["/api/materials"], (req, res) => {
-  const db = readDb();
-  res.json(db.materials || []);
+  try {
+    const db = readDb();
+    return res.json(db.materials || []);
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to fetch materials" });
+  }
 });
 
 // GET Public Settings
 app.get(["/api/settings"], (req, res) => {
-  const db = readDb();
-  res.json(
-    db.settings || {
-      whatsappNumber: "+91 85917 70877",
-      phoneNumber: "+91 85917 70877",
-      address:
-        "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
-      email: "myscrapbuddy6272@gmail.com",
-    }
-  );
+  try {
+    const db = readDb();
+    return res.json(
+      db.settings || {
+        whatsappNumber: "+91 85917 70877",
+        phoneNumber: "+91 85917 70877",
+        address:
+          "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
+        email: "myscrapbuddy6272@gmail.com",
+      }
+    );
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to fetch settings" });
+  }
 });
 
 // Serve Admin Login & Dashboard HTML pages
