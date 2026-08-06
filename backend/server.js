@@ -17,23 +17,38 @@ const BUNDLED_DB_FILE = path.join(__dirname, "db.json");
 const DB_FILE = path.join(os.tmpdir(), "db.json");
 
 // Initialize db.json in temp folder if it doesn't exist
-try {
-  if (!fs.existsSync(DB_FILE)) {
-    if (fs.existsSync(BUNDLED_DB_FILE)) {
-      fs.copyFileSync(BUNDLED_DB_FILE, DB_FILE);
-      console.log("Initialized database from bundled db.json at:", DB_FILE);
-    } else {
-      fs.writeFileSync(DB_FILE, JSON.stringify({ requests: [], materials: [], settings: {} }, null, 2), "utf8");
-      console.log("Initialized empty database at:", DB_FILE);
+function initDb() {
+  try {
+    if (!fs.existsSync(DB_FILE)) {
+      if (fs.existsSync(BUNDLED_DB_FILE)) {
+        fs.copyFileSync(BUNDLED_DB_FILE, DB_FILE);
+        console.log("Initialized database from bundled db.json at:", DB_FILE);
+      } else {
+        fs.writeFileSync(
+          DB_FILE,
+          JSON.stringify({ requests: [], materials: [], settings: {} }, null, 2),
+          "utf8"
+        );
+        console.log("Initialized empty database at:", DB_FILE);
+      }
     }
-  } else {
-    console.log("Using existing database at:", DB_FILE);
+  } catch (err) {
+    console.error("Error initializing database file:", err);
   }
-} catch (err) {
-  console.error("Error initializing database file:", err);
 }
+initDb();
 
-app.use(cors());
+// Enhanced CORS configuration for cross-domain local & Vercel production communication
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  })
+);
+
+app.options("*", cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -46,7 +61,9 @@ const authenticateAdminToken = (req, res, next) => {
     return res.status(401).json({ error: "Access denied. No token provided." });
   }
 
-  const jwtSecret = process.env.JWT_SECRET || "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
+  const jwtSecret =
+    process.env.JWT_SECRET ||
+    "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
 
   jwt.verify(token, jwtSecret, (err, user) => {
     if (err) {
@@ -62,7 +79,9 @@ app.post("/api/admin/login", (req, res) => {
   const { email, password } = req.body || {};
   const adminEmail = process.env.ADMIN_EMAIL || "myscrapbuddy6272@gmail.com";
   const adminPassword = process.env.ADMIN_PASSWORD || "Rehan3103";
-  const jwtSecret = process.env.JWT_SECRET || "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
+  const jwtSecret =
+    process.env.JWT_SECRET ||
+    "6b9f3d2e8c1a7f5d4b8e2c9a6f1d7b3e5c8a9f2d4e6b1c7a3f8d5e9c2b6a1f7d4c8e5a2b9f6d1c3e7a8b4f2d9e5c1a6";
   const jwtExpiresIn = process.env.JWT_EXPIRES_IN || "24h";
 
   if (!email || !password) {
@@ -83,7 +102,7 @@ app.post("/api/admin/login", (req, res) => {
     success: true,
     message: "Login successful",
     token,
-    user: { email: adminEmail, role: "admin" }
+    user: { email: adminEmail, role: "admin" },
   });
 });
 
@@ -97,15 +116,15 @@ app.get(["/admin", "/admin/*"], (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-
 // Helper function to read from DB
 function readDb() {
   try {
+    initDb();
     const data = fs.readFileSync(DB_FILE, "utf8");
     return JSON.parse(data);
   } catch (err) {
     console.error("Error reading database:", err);
-    return { requests: [], materials: [] };
+    return { requests: [], materials: [], settings: {} };
   }
 }
 
@@ -120,20 +139,19 @@ function writeDb(data) {
   }
 }
 
-
-// Analytics Stats endpoint
+// Analytics Stats endpoint (Admin protected)
 app.get("/api/stats", authenticateAdminToken, (req, res) => {
   const db = readDb();
   const requests = db.requests || [];
 
   const total = requests.length;
-  const pending = requests.filter(r => r.status === "pending").length;
-  const approved = requests.filter(r => r.status === "approved").length;
-  const completed = requests.filter(r => r.status === "completed").length;
-  const cancelled = requests.filter(r => r.status === "cancelled").length;
+  const pending = requests.filter((r) => r.status === "pending").length;
+  const approved = requests.filter((r) => r.status === "approved").length;
+  const completed = requests.filter((r) => r.status === "completed").length;
+  const cancelled = requests.filter((r) => r.status === "cancelled").length;
 
   let estimatedWeight = 0;
-  requests.forEach(r => {
+  requests.forEach((r) => {
     if (r.status === "completed") {
       if (r.quantity === "small") estimatedWeight += 8;
       else if (r.quantity === "medium") estimatedWeight += 30;
@@ -151,7 +169,7 @@ app.get("/api/stats", authenticateAdminToken, (req, res) => {
     completed,
     cancelled,
     estimatedWeight,
-    estimatedRevenue
+    estimatedRevenue,
   });
 });
 
@@ -161,7 +179,7 @@ app.get("/api/requests", authenticateAdminToken, (req, res) => {
   res.json(db.requests || []);
 });
 
-// POST new request (Public - for customer pickup booking)
+// POST new request (Public - customer pickup booking)
 app.post("/api/requests", (req, res) => {
   const db = readDb();
   const newRequest = {
@@ -175,7 +193,7 @@ app.post("/api/requests", (req, res) => {
     preferredSlot: req.body.preferredSlot,
     notes: req.body.notes || "",
     status: "pending",
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   };
 
   db.requests.unshift(newRequest);
@@ -189,7 +207,7 @@ app.patch("/api/requests/:id", authenticateAdminToken, (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  const requestIndex = db.requests.findIndex(r => r.id === id);
+  const requestIndex = db.requests.findIndex((r) => r.id === id);
   if (requestIndex === -1) {
     return res.status(404).json({ error: "Request not found" });
   }
@@ -204,7 +222,7 @@ app.delete("/api/requests/:id", authenticateAdminToken, (req, res) => {
   const db = readDb();
   const { id } = req.params;
 
-  const filtered = db.requests.filter(r => r.id !== id);
+  const filtered = db.requests.filter((r) => r.id !== id);
   if (filtered.length === db.requests.length) {
     return res.status(404).json({ error: "Request not found" });
   }
@@ -214,7 +232,7 @@ app.delete("/api/requests/:id", authenticateAdminToken, (req, res) => {
   res.json({ success: true, message: "Request deleted successfully" });
 });
 
-// GET all materials (Public - so pricing page can view)
+// GET all materials (Public - pricing page)
 app.get("/api/materials", (req, res) => {
   const db = readDb();
   res.json(db.materials || []);
@@ -234,15 +252,18 @@ app.put("/api/materials", authenticateAdminToken, (req, res) => {
   res.json(db.materials);
 });
 
-// GET settings (Public - so floating contacts/header can view)
+// GET settings (Public - header / footer contact info)
 app.get("/api/settings", (req, res) => {
   const db = readDb();
-  res.json(db.settings || {
-    whatsappNumber: "+91 85917 70877",
-    phoneNumber: "+91 85917 70877",
-    address: "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
-    email: "myscrapbuddy6272@gmail.com"
-  });
+  res.json(
+    db.settings || {
+      whatsappNumber: "+91 85917 70877",
+      phoneNumber: "+91 85917 70877",
+      address:
+        "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
+      email: "myscrapbuddy6272@gmail.com",
+    }
+  );
 });
 
 // PUT update settings (Admin protected)
@@ -252,14 +273,17 @@ app.put("/api/settings", authenticateAdminToken, (req, res) => {
     whatsappNumber: req.body.whatsappNumber,
     phoneNumber: req.body.phoneNumber,
     address: req.body.address,
-    email: req.body.email
+    email: req.body.email,
   };
   writeDb(db);
   res.json(db.settings);
 });
 
+// Start local server if not running inside Vercel serverless environment
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`My Scrap Buddy Backend Admin server running on http://localhost:${PORT}`);
+  });
+}
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`My Scrap Buddy Backend Admin server running on http://localhost:${PORT}`);
-});
+export default app;

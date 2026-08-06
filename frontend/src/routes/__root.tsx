@@ -10,13 +10,13 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
-
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { Toaster } from "../components/ui/sonner";
 import { FloatingContact } from "../components/common/FloatingContact";
+import { JsonLdSchema } from "../components/seo/JsonLdSchema";
 
 function NotFoundComponent() {
   return (
@@ -83,18 +83,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "My Scrap Buddy — Scrap & E-Waste Recycling Made Simple" },
+      { title: "My Scrap Buddy — Doorstep Scrap & E-Waste Pickup Mumbai" },
       {
         name: "description",
         content:
-          "My Scrap Buddy is a modern scrap management platform. Book doorstep pickups, get transparent prices, and track your recycling — metals, e-waste, paper and more.",
+          "My Scrap Buddy is Mumbai's premier doorstep scrap buyer. Sell household scrap, office scrap, construction waste, iron rods, steel & e-waste at daily live market rates with instant UPI payouts.",
       },
       { name: "author", content: "My Scrap Buddy" },
-      { property: "og:title", content: "My Scrap Buddy — Scrap & E-Waste Recycling Made Simple" },
+      { property: "og:title", content: "My Scrap Buddy — Doorstep Scrap & E-Waste Pickup Mumbai" },
       {
         property: "og:description",
         content:
-          "Book doorstep scrap pickups, get transparent prices, and track your recycling with My Scrap Buddy.",
+          "Government authorized scrap buyer in Mumbai. Free doorstep pickup, transparent digital weighing & instant UPI payouts.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -106,7 +106,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap",
       },
     ],
   }),
@@ -121,6 +121,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <JsonLdSchema />
       </head>
       <body>
         {children}
@@ -161,4 +162,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-

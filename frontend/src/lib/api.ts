@@ -1,4 +1,12 @@
-export const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5002";
+const getBaseApiUrl = (): string => {
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && typeof envUrl === "string" && envUrl.trim() !== "") {
+    return envUrl.trim().replace(/\/+$/, "");
+  }
+  return "http://localhost:5002";
+};
+
+export const API_URL = getBaseApiUrl();
 
 export interface RequestData {
   id?: string;
@@ -60,7 +68,10 @@ export function isAuthenticated(): boolean {
   return !!getAuthToken();
 }
 
-export async function adminLogin(email: string, password: string): Promise<{ token: string; user: { email: string; role: string } }> {
+export async function adminLogin(
+  email: string,
+  password: string
+): Promise<{ token: string; user: { email: string; role: string } }> {
   const res = await fetch(`${API_URL}/api/admin/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -103,7 +114,9 @@ export async function fetchRequests(): Promise<RequestData[]> {
   return res.json();
 }
 
-export async function createRequest(data: Omit<RequestData, "id" | "status" | "createdAt">): Promise<RequestData> {
+export async function createRequest(
+  data: Omit<RequestData, "id" | "status" | "createdAt">
+): Promise<RequestData> {
   const res = await fetch(`${API_URL}/api/requests`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -114,14 +127,29 @@ export async function createRequest(data: Omit<RequestData, "id" | "status" | "c
 }
 
 export async function fetchMaterials(): Promise<MaterialData[]> {
-  const res = await fetch(`${API_URL}/api/materials`);
-  if (!res.ok) throw new Error("Failed to fetch materials");
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/api/materials`);
+    if (!res.ok) throw new Error("Failed to fetch materials");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend materials fetch failed, using frontend defaults:", err);
+    return [];
+  }
 }
 
 export async function fetchSettings(): Promise<SettingsData> {
-  const res = await fetch(`${API_URL}/api/settings`);
-  if (!res.ok) throw new Error("Failed to fetch settings");
-  return res.json();
+  try {
+    const res = await fetch(`${API_URL}/api/settings`);
+    if (!res.ok) throw new Error("Failed to fetch settings");
+    return await res.json();
+  } catch (err) {
+    console.warn("Backend settings fetch failed, using frontend defaults:", err);
+    return {
+      whatsappNumber: "+91 85917 70877",
+      phoneNumber: "+91 85917 70877",
+      address:
+        "Shop B-1, K.A. Scrap Traders, Gupta Compound Road No. 11, MIDC, Andheri East, Near Masjid, Mumbai – 400093, Maharashtra, India",
+      email: "myscrapbuddy6272@gmail.com",
+    };
+  }
 }
-

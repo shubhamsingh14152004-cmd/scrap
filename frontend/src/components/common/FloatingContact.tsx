@@ -8,42 +8,43 @@ export function FloatingContact() {
     queryFn: fetchSettings,
   });
 
-  // Fallback numbers
   const whatsappNumber = settings?.whatsappNumber || "+91 85917 70877";
   const phoneNumber = settings?.phoneNumber || "+91 85917 70877";
 
-  // Clean numbers for links (wa.me expects country code without + or spaces, tel: expects +91...)
   const cleanWhatsapp = whatsappNumber.replace(/[^0-9]/g, "");
   const cleanPhone = phoneNumber.startsWith("+")
     ? "+" + phoneNumber.replace(/[^0-9]/g, "")
     : "+91" + phoneNumber.replace(/[^0-9]/g, "");
 
-
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-      {/* Phone Icon */}
+    <div className="fixed bottom-6 right-5 z-50 flex flex-col gap-3">
+      {/* Phone Icon & Label */}
       <a
         href={`tel:${cleanPhone}`}
-        className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-primary text-primary-foreground shadow-lg transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-xl"
-        aria-label="Call Us"
+        className="group flex items-center justify-end gap-2 rounded-full bg-gradient-primary p-3 text-primary-foreground shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-emerald-500/30"
+        aria-label={`Call Us at ${phoneNumber}`}
       >
-        <Phone className="h-6 w-6 animate-pulse" />
-        <span className="absolute right-16 scale-0 rounded-lg bg-card px-3 py-1.5 text-xs font-semibold text-foreground shadow-md transition-all duration-200 group-hover:scale-100 border border-border whitespace-nowrap">
-          Call Us: {phoneNumber}
+        <span className="hidden md:inline-block pl-3 text-xs font-extrabold tracking-wide text-white whitespace-nowrap">
+          Call Us
+        </span>
+        <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20 text-white">
+          <Phone className="h-4 w-4 animate-pulse" />
         </span>
       </a>
 
-      {/* WhatsApp Icon */}
+      {/* WhatsApp Icon & Label */}
       <a
         href={`https://wa.me/${cleanWhatsapp}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-xl"
+        className="group flex items-center justify-end gap-2 rounded-full bg-[#25D366] p-3 text-white shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:shadow-green-500/30"
         aria-label="Chat on WhatsApp"
       >
-        <MessageCircle className="h-7 w-7" />
-        <span className="absolute right-16 scale-0 rounded-lg bg-card px-3 py-1.5 text-xs font-semibold text-foreground shadow-md transition-all duration-200 group-hover:scale-100 border border-border whitespace-nowrap">
+        <span className="hidden md:inline-block pl-3 text-xs font-extrabold tracking-wide text-white whitespace-nowrap">
           WhatsApp Us
+        </span>
+        <span className="grid h-8 w-8 place-items-center rounded-full bg-white/20 text-white">
+          <MessageCircle className="h-5 w-5" />
         </span>
       </a>
     </div>
