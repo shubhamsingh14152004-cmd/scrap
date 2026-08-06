@@ -38,7 +38,24 @@ function initDb() {
 }
 initDb();
 
-// Enhanced CORS configuration for cross-domain local & Vercel production communication
+// Comprehensive CORS middleware for Mobile Web (iOS Safari, Android Chrome) & Cross-Domain Vercel Deployments
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  }
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept, Origin");
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  next();
+});
+
 app.use(
   cors({
     origin: true,
@@ -48,8 +65,8 @@ app.use(
   })
 );
 
-app.options("*", cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Admin Authentication Middleware
@@ -173,39 +190,57 @@ app.get("/api/stats", authenticateAdminToken, (req, res) => {
   });
 });
 
-// GET all requests (Admin protected)
-app.get("/api/requests", authenticateAdminToken, (req, res) => {
+// GET all requests (Admin protected) - Supporting /api/requests, /api/pickup, /pickup
+const handleGetRequests = (req, res) => {
   const db = readDb();
   res.json(db.requests || []);
-});
+};
+app.get(["/api/requests", "/api/pickup", "/pickup"], authenticateAdminToken, handleGetRequests);
 
-// POST new request (Public - customer pickup booking)
-app.post("/api/requests", (req, res) => {
+// POST new request (Public - customer pickup booking) - Supporting /api/requests, /api/pickup, /pickup
+const handleCreatePickup = (req, res) => {
   const db = readDb();
+  const body = req.body || {};
+
+  const name = body.name || body.fullName || "Customer";
+  const phone = body.phone || body.phoneNumber || "";
+  const address = body.address || "";
+  const scrapType = body.scrapType || body.category || "mixed";
+  const quantity = body.quantity || "medium";
+  const preferredDate = body.preferredDate || new Date().toISOString().split("T")[0];
+  const preferredSlot = body.preferredSlot || "morning";
+  const notes = body.notes || "";
+
+  if (!phone) {
+    return res.status(400).json({ error: "Phone number is required" });
+  }
+
   const newRequest = {
     id: "req_" + Date.now(),
-    name: req.body.name,
-    phone: req.body.phone,
-    address: req.body.address,
-    scrapType: req.body.scrapType,
-    quantity: req.body.quantity,
-    preferredDate: req.body.preferredDate,
-    preferredSlot: req.body.preferredSlot,
-    notes: req.body.notes || "",
+    name,
+    phone,
+    address,
+    scrapType,
+    quantity,
+    preferredDate,
+    preferredSlot,
+    notes,
     status: "pending",
     createdAt: new Date().toISOString(),
   };
 
   db.requests.unshift(newRequest);
   writeDb(db);
-  res.status(201).json(newRequest);
-});
+  return res.status(201).json(newRequest);
+};
+
+app.post(["/api/requests", "/api/pickup", "/pickup"], handleCreatePickup);
 
 // PATCH update request status (Admin protected)
-app.patch("/api/requests/:id", authenticateAdminToken, (req, res) => {
+app.patch(["/api/requests/:id", "/api/pickup/:id", "/pickup/:id"], authenticateAdminToken, (req, res) => {
   const db = readDb();
   const { id } = req.params;
-  const { status } = req.body;
+  const { status } = req.body || {};
 
   const requestIndex = db.requests.findIndex((r) => r.id === id);
   if (requestIndex === -1) {
@@ -218,7 +253,7 @@ app.patch("/api/requests/:id", authenticateAdminToken, (req, res) => {
 });
 
 // DELETE request (Admin protected)
-app.delete("/api/requests/:id", authenticateAdminToken, (req, res) => {
+app.delete(["/api/requests/:id", "/api/pickup/:id", "/pickup/:id"], authenticateAdminToken, (req, res) => {
   const db = readDb();
   const { id } = req.params;
 

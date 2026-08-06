@@ -76,26 +76,35 @@ function RequestPickup() {
       setPreferredSlot("");
       setNotes("");
     },
-    onError: (error) => {
-      console.error(error);
-      toast.error("Failed to submit pickup request. Please try again or call us directly.");
+    onError: (error: any) => {
+      console.error("Pickup submit error:", error);
+      toast.error(error?.message || "Failed to submit pickup request. Please try again or call us directly.");
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!scrapType || !quantity || !preferredSlot) {
-      toast.error("Please fill in all select fields.");
-      return;
-    }
-    if (preferredDate < localDateString) {
-      toast.error("Please select a future date (today or later).");
+    if (!name || !phone || !address) {
+      toast.error("Please fill in your name, phone number, and address.");
       return;
     }
     if (phone.length !== 10) {
       toast.error("Phone number must be exactly 10 digits.");
       return;
     }
+    if (!scrapType || !quantity || !preferredSlot) {
+      toast.error("Please fill in all material and slot select fields.");
+      return;
+    }
+    if (!preferredDate) {
+      toast.error("Please select a preferred pickup date.");
+      return;
+    }
+    if (preferredDate < localDateString) {
+      toast.error("Please select a future date (today or later).");
+      return;
+    }
+
     requestMutation.mutate({
       name,
       phone,
