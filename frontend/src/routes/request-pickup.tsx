@@ -40,8 +40,8 @@ export const Route = createFileRoute("/request-pickup")({
         property: "og:description",
         content: "Schedule a free doorstep scrap pickup across Mumbai in under 2 minutes.",
       },
-      { property: "og:url", content: "https://myscrapbuddy.com/request-pickup" },
-      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:url", content: "https://scrapbuddy.org/request-pickup" },
+      { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       // Twitter / X
@@ -51,10 +51,10 @@ export const Route = createFileRoute("/request-pickup")({
         name: "twitter:description",
         content: "Schedule a free doorstep scrap pickup across Mumbai in under 2 minutes.",
       },
-      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [
-      { rel: "canonical", href: "https://myscrapbuddy.com/request-pickup" },
+      { rel: "canonical", href: "https://scrapbuddy.org/request-pickup" },
     ],
   }),
   component: RequestPickup,

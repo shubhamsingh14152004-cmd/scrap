@@ -5,11 +5,11 @@ export function JsonLdSchema() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "My Scrap Buddy",
-    "url": "https://myscrapbuddy.com",
+    "url": "https://scrapbuddy.org",
     "description": "Mumbai's premier doorstep scrap collection and e-waste recycling platform offering transparent prices and instant payouts.",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://myscrapbuddy.com/pricing?q={search_term_string}",
+      "target": "https://scrapbuddy.org/pricing?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -19,8 +19,8 @@ export function JsonLdSchema() {
     "@type": "Organization",
     "name": "My Scrap Buddy",
     "legalName": "K.A. Scrap Traders / My Scrap Buddy",
-    "url": "https://myscrapbuddy.com",
-    "logo": "https://myscrapbuddy.com/favicon.ico",
+    "url": "https://scrapbuddy.org",
+    "logo": "https://scrapbuddy.org/favicon.ico",
     "foundingDate": "2018",
     "contactPoint": {
       "@type": "ContactPoint",
@@ -38,9 +38,9 @@ export function JsonLdSchema() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "My Scrap Buddy — Doorstep Scrap & E-Waste Pickup Mumbai",
-    "image": "https://myscrapbuddy.com/favicon.ico",
-    "@id": "https://myscrapbuddy.com/#localbusiness",
-    "url": "https://myscrapbuddy.com",
+    "image": "https://scrapbuddy.org/favicon.ico",
+    "@id": "https://scrapbuddy.org/#localbusiness",
+    "url": "https://scrapbuddy.org",
     "telephone": "+918591770877",
     "priceRange": "₹₹",
     "address": {
@@ -166,10 +166,10 @@ export function JsonLdSchema() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://myscrapbuddy.com/" },
-      { "@type": "ListItem", "position": 2, "name": "Price List", "item": "https://myscrapbuddy.com/pricing" },
-      { "@type": "ListItem", "position": 3, "name": "Book Pickup", "item": "https://myscrapbuddy.com/request-pickup" },
-      { "@type": "ListItem", "position": 4, "name": "About Us", "item": "https://myscrapbuddy.com/about" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://scrapbuddy.org/" },
+      { "@type": "ListItem", "position": 2, "name": "Price List", "item": "https://scrapbuddy.org/pricing" },
+      { "@type": "ListItem", "position": 3, "name": "Book Pickup", "item": "https://scrapbuddy.org/request-pickup" },
+      { "@type": "ListItem", "position": 4, "name": "About Us", "item": "https://scrapbuddy.org/about" }
     ]
   };
 

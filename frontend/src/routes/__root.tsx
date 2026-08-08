@@ -108,8 +108,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Book doorstep scrap pickup in Mumbai for paper, plastic, metal, e-waste, office scrap, construction scrap and bulk recycling. Government authorized recycler with instant payment and transparent pricing.",
       },
-      { property: "og:url", content: "https://myscrapbuddy.com" },
-      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:url", content: "https://scrapbuddy.org" },
+      { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: "My Scrap Buddy — Mumbai's Trusted Doorstep Scrap & E-Waste Pickup" },
@@ -123,12 +123,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Book doorstep scrap pickup in Mumbai for paper, plastic, metal, e-waste, office scrap, construction scrap and bulk recycling. Government authorized recycler with instant payment and transparent pricing.",
       },
-      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:image:alt", content: "My Scrap Buddy — Mumbai's Trusted Doorstep Scrap & E-Waste Pickup" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "canonical", href: "https://myscrapbuddy.com" },
+      { rel: "canonical", href: "https://scrapbuddy.org" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
       { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },

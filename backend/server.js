@@ -20,6 +20,8 @@ const app = express();
 const PORT = process.env.PORT || 5002;
 
 const ALLOWED_ORIGINS = [
+  "https://scrapbuddy.org",
+  "https://www.scrapbuddy.org",
   "https://scrap-8qoj.vercel.app",
   "https://scrap-ntjs.vercel.app",
   "http://localhost:5173",

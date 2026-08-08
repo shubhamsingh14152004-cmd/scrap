@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-Sitemap: https://myscrapbuddy.com/sitemap.xml
+Sitemap: https://scrapbuddy.org/sitemap.xml

@@ -55,8 +55,8 @@ export const Route = createFileRoute("/")({
         content:
           "Government authorized scrap buyer in Mumbai. Fast doorstep pickup, transparent digital weighing & instant payouts.",
       },
-      { property: "og:url", content: "https://myscrapbuddy.com" },
-      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:url", content: "https://scrapbuddy.org" },
+      { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:alt", content: "My Scrap Buddy — Mumbai's Trusted Doorstep Scrap & E-Waste Pickup" },
@@ -68,10 +68,10 @@ export const Route = createFileRoute("/")({
         content:
           "Government authorized scrap buyer in Mumbai. Fast doorstep pickup, transparent digital weighing & instant payouts.",
       },
-      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [
-      { rel: "canonical", href: "https://myscrapbuddy.com" },
+      { rel: "canonical", href: "https://scrapbuddy.org" },
     ],
   }),
   component: Index,

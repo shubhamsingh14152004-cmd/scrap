@@ -39,8 +39,8 @@ export const Route = createFileRoute("/pricing")({
         property: "og:description",
         content: "Transparent daily market rates per kg for household, office & construction scrap in Mumbai.",
       },
-      { property: "og:url", content: "https://myscrapbuddy.com/pricing" },
-      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:url", content: "https://scrapbuddy.org/pricing" },
+      { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       // Twitter / X
@@ -50,10 +50,10 @@ export const Route = createFileRoute("/pricing")({
         name: "twitter:description",
         content: "Transparent daily market rates per kg for household, office & construction scrap in Mumbai.",
       },
-      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [
-      { rel: "canonical", href: "https://myscrapbuddy.com/pricing" },
+      { rel: "canonical", href: "https://scrapbuddy.org/pricing" },
     ],
   }),
   component: Pricing,

@@ -100,7 +100,7 @@ function AdminLogin() {
                   <Input
                     id="admin-email"
                     type="email"
-                    placeholder="admin@myscrapbuddy.com"
+                    placeholder="admin@scrapbuddy.org"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required

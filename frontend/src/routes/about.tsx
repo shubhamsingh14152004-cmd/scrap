@@ -21,8 +21,8 @@ export const Route = createFileRoute("/about")({
         property: "og:description",
         content: "Making recycling simple, fair and sustainable for everyone in Mumbai.",
       },
-      { property: "og:url", content: "https://myscrapbuddy.com/about" },
-      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:url", content: "https://scrapbuddy.org/about" },
+      { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       // Twitter / X
@@ -32,10 +32,10 @@ export const Route = createFileRoute("/about")({
         name: "twitter:description",
         content: "Making recycling simple, fair and sustainable for everyone in Mumbai.",
       },
-      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [
-      { rel: "canonical", href: "https://myscrapbuddy.com/about" },
+      { rel: "canonical", href: "https://scrapbuddy.org/about" },
     ],
   }),
   component: About,
