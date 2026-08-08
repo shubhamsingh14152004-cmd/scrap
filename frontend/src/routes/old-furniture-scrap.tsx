@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/old-furniture-scrap")({
   head: () => ({
     meta: [
-      { title: "Old Furniture Scrap Disposal & Removal Mumbai | ScrapBuddy" },
+      { title: "Old Furniture Scrap Disposal & Removal Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -20,8 +20,8 @@ export const Route = createFileRoute("/old-furniture-scrap")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Old Furniture Scrap Disposal & Removal Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Old Furniture Scrap Disposal & Removal Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content: "Easy removal and disposal of old wooden, metal, and plastic furniture across Mumbai.",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/old-furniture-scrap")({
       { property: "og:url", content: "https://scrapbuddy.org/old-furniture-scrap" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Old Furniture Scrap Disposal & Removal Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "Old Furniture Scrap Disposal & Removal Mumbai | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/old-furniture-scrap" }],
@@ -49,7 +49,7 @@ function FurnitureScrapPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Old Furniture Scrap Disposal Service",
-    "provider": { "@type": "LocalBusiness", "name": "ScrapBuddy", "url": "https://scrapbuddy.org" },
+    "provider": { "@type": "LocalBusiness", "name": "My Scrap Buddy", "url": "https://scrapbuddy.org" },
     "areaServed": { "@type": "City", "name": "Mumbai" },
     "description": "Removal, dismantling, and disposal of unwanted wooden, metal, and plastic furniture in Mumbai."
   };
@@ -66,7 +66,7 @@ function FurnitureScrapPage() {
           Old Furniture Scrap Disposal in Mumbai
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-          Clear out bulky unwanted furniture effortlessly. ScrapBuddy handles dismantling, heavy lifting, vehicle loading, and recycling for homes and commercial offices in Mumbai.
+          Clear out bulky unwanted furniture effortlessly. My Scrap Buddy handles dismantling, heavy lifting, vehicle loading, and recycling for homes and commercial offices in Mumbai.
         </p>
         <div className="pt-2 flex flex-wrap gap-4">
           <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">

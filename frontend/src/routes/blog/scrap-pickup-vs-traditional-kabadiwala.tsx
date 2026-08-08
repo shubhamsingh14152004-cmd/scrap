@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 export const Route = createFileRoute("/blog/scrap-pickup-vs-traditional-kabadiwala")({
   head: () => ({
     meta: [
-      { title: "Doorstep Scrap Pickup vs Traditional Kabadiwala | ScrapBuddy" },
+      { title: "Doorstep Scrap Pickup vs Traditional Kabadiwala | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -18,12 +18,12 @@ export const Route = createFileRoute("/blog/scrap-pickup-vs-traditional-kabadiwa
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "article" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Doorstep Scrap Pickup vs Traditional Kabadiwala | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Doorstep Scrap Pickup vs Traditional Kabadiwala | My Scrap Buddy" },
       { property: "og:url", content: "https://scrapbuddy.org/blog/scrap-pickup-vs-traditional-kabadiwala" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Doorstep Scrap Pickup vs Traditional Kabadiwala | ScrapBuddy" },
+      { name: "twitter:title", content: "Doorstep Scrap Pickup vs Traditional Kabadiwala | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/blog/scrap-pickup-vs-traditional-kabadiwala" }],
@@ -36,7 +36,7 @@ function ComparisonBlogPage() {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Doorstep Scrap Pickup vs Traditional Kabadiwala",
-    "author": { "@type": "Organization", "name": "ScrapBuddy" },
+    "author": { "@type": "Organization", "name": "My Scrap Buddy" },
     "url": "https://scrapbuddy.org/blog/scrap-pickup-vs-traditional-kabadiwala"
   };
 
@@ -58,17 +58,17 @@ function ComparisonBlogPage() {
 
       <div className="prose prose-slate dark:prose-invert max-w-none text-sm text-muted-foreground space-y-4 leading-relaxed">
         <p>
-          For decades, selling scrap in Mumbai meant waiting for a local neighborhood kabadiwala or hauling heavy stacks of paper to an unorganized shop. Today, modern platforms like <strong>ScrapBuddy</strong> provide a digital alternative.
+          For decades, selling scrap in Mumbai meant waiting for a local neighborhood kabadiwala or hauling heavy stacks of paper to an unorganized shop. Today, modern platforms like <strong>My Scrap Buddy</strong> provide a digital alternative.
         </p>
 
         <h2 className="text-xl font-bold text-foreground pt-4">1. Weighing Accuracy</h2>
         <p>
-          Traditional vendors often rely on manual spring balances or counter-weights that can be inaccurate by 10-20%. ScrapBuddy uses ISO-certified digital hanging scales displaying exact weights down to the gram.
+          Traditional vendors often rely on manual spring balances or counter-weights that can be inaccurate by 10-20%. My Scrap Buddy uses ISO-certified digital hanging scales displaying exact weights down to the gram.
         </p>
 
         <h2 className="text-xl font-bold text-foreground pt-4">2. Price Transparency</h2>
         <p>
-          Instead of arbitrary local pricing, ScrapBuddy publishes transparent daily rates for all materials on our <Link to="/pricing" className="text-emerald-600 font-semibold hover:underline">Price List</Link>.
+          Instead of arbitrary local pricing, My Scrap Buddy publishes transparent daily rates for all materials on our <Link to="/pricing" className="text-emerald-600 font-semibold hover:underline">Price List</Link>.
         </p>
 
         <h2 className="text-xl font-bold text-foreground pt-4">3. Payment &amp; Convenience</h2>

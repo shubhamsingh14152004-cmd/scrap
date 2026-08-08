@@ -3,11 +3,12 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/locations/powai")({
   head: () => ({
     meta: [
-      { title: "Doorstep Scrap Pickup in Powai & Chandivali | ScrapBuddy" },
+      { title: "Doorstep Scrap Pickup in Powai & Chandivali | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -19,12 +20,12 @@ export const Route = createFileRoute("/locations/powai")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Doorstep Scrap Pickup in Powai & Chandivali | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Doorstep Scrap Pickup in Powai & Chandivali | My Scrap Buddy" },
       { property: "og:url", content: "https://scrapbuddy.org/locations/powai" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Doorstep Scrap Pickup in Powai & Chandivali | ScrapBuddy" },
+      { name: "twitter:title", content: "Doorstep Scrap Pickup in Powai & Chandivali | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/locations/powai" }],
@@ -34,9 +35,50 @@ export const Route = createFileRoute("/locations/powai")({
 
 const powaiAreas = ["Hiranandani Gardens", "Raheja Vihar & Chandivali", "IIT Bombay Vicinity", "Kanjurmarg West Border"];
 
+const faqs = [
+  {
+    q: "Do you provide scrap collection for high-rise societies in Hiranandani Gardens Powai?",
+    a: "Yes, My Scrap Buddy services residential high-rises in Hiranandani Gardens and Raheja Vihar with clean, quiet doorstep collection.",
+  },
+  {
+    q: "Can tech startups in Chandivali book e-waste recycling?",
+    a: "Yes, we collect obsolete servers, laptops, CPUs, and networking hardware from offices in Chandivali and Powai.",
+  },
+  {
+    q: "What is the minimum weight requirement for free pickup in Powai?",
+    a: "Doorstep pickup is completely free across Powai for standard household scrap bundles above 20 kg.",
+  },
+];
+
 function PowaiLocationPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://scrapbuddy.org/" },
+      { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://scrapbuddy.org/locations/mumbai" },
+      { "@type": "ListItem", "position": 3, "name": "Powai", "item": "https://scrapbuddy.org/locations/powai" }
+    ]
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a,
+      },
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 space-y-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+
       <div className="max-w-3xl space-y-4">
         <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
           Powai Service Coverage
@@ -67,6 +109,19 @@ function PowaiLocationPage() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Locality FAQs */}
+      <div className="space-y-6">
+        <h2 className="text-2xl sm:text-3xl font-extrabold">Powai Scrap Pickup FAQs</h2>
+        <Accordion type="single" collapsible className="space-y-3">
+          {faqs.map((faq, idx) => (
+            <AccordionItem key={idx} value={`faq-${idx}`} className="border rounded-2xl px-6 py-1">
+              <AccordionTrigger className="font-bold text-sm">{faq.q}</AccordionTrigger>
+              <AccordionContent className="text-xs text-muted-foreground">{faq.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </div>
   );

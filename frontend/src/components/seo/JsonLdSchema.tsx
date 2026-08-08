@@ -115,64 +115,6 @@ export function JsonLdSchema() {
     }
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is My Scrap Buddy?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "My Scrap Buddy is a premier government-authorized doorstep scrap collection and e-waste recycling platform in Mumbai. We collect household scrap, office scrap, construction waste, iron rods, steel, metals, electronics, appliances, and bulk scrap with digital weighing and instant UPI/cash payouts."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Which areas in Mumbai does My Scrap Buddy serve?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "We offer quick 24-hour doorstep pickup across all major Mumbai localities including Andheri East, Andheri West, MIDC, Powai, Saki Naka, Kurla, Bandra, Juhu, Malad, Goregaon, Borivali, Kandivali, Vile Parle, Santacruz, and central Mumbai."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does the doorstep pickup process work?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Booking is simple: 1) Fill out our quick pickup form online or WhatsApp us. 2) Our verified pickup executive arrives at your scheduled slot with ISO-certified digital weighing scales. 3) Receive instant payment via UPI, Bank Transfer, or Cash right on the spot."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What materials does My Scrap Buddy accept?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "We accept paper, cardboard, plastics, metals (iron, steel, TMT bars, copper, aluminium, brass), construction waste (tiles, PVC, doors, windows, wood, pipes), electronic e-waste (laptops, CPUs, mobiles, servers), appliances (ACs, fridges, washing machines), and bulk office furniture."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How is scrap pricing calculated?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Prices are updated daily based on live Mumbai scrap market rates per kilogram or piece. For bulk commercial, industrial, office, warehouse, or construction scrap, we offer specialized custom rates based on volume, material quality, and loading requirements."
-        }
-      }
-    ]
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://scrapbuddy.org/" },
-      { "@type": "ListItem", "position": 2, "name": "Price List", "item": "https://scrapbuddy.org/pricing" },
-      { "@type": "ListItem", "position": 3, "name": "Book Pickup", "item": "https://scrapbuddy.org/request-pickup" },
-      { "@type": "ListItem", "position": 4, "name": "About Us", "item": "https://scrapbuddy.org/about" }
-    ]
-  };
-
   return (
     <>
       <script
@@ -190,14 +132,6 @@ export function JsonLdSchema() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
     </>
   );

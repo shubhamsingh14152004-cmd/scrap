@@ -9,36 +9,36 @@ import { fetchSettings } from "../lib/api";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact ScrapBuddy | Doorstep Scrap Pickup Mumbai Support" },
+      { title: "Contact My Scrap Buddy | Doorstep Scrap Pickup Mumbai Support" },
       {
         name: "description",
         content:
-          "Get in touch with ScrapBuddy for doorstep scrap pickup in Mumbai. Call +91 85917 70877 or WhatsApp us. Fast customer service for household, office & commercial scrap.",
+          "Get in touch with My Scrap Buddy for doorstep scrap pickup in Mumbai. Call +91 85917 70877 or WhatsApp us. Fast customer service for household, office & commercial scrap.",
       },
       {
         name: "keywords",
         content:
-          "contact ScrapBuddy, scrap pickup phone number Mumbai, kabadiwala contact Mumbai, scrap dealer number Andheri MIDC, doorstep scrap support",
+          "contact My Scrap Buddy, scrap pickup phone number Mumbai, kabadiwala contact Mumbai, scrap dealer number Andheri MIDC, doorstep scrap support",
       },
       { name: "robots", content: "index, follow" },
       // Open Graph
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Contact ScrapBuddy | Doorstep Scrap Pickup Mumbai Support" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Contact My Scrap Buddy | Doorstep Scrap Pickup Mumbai Support" },
       {
         property: "og:description",
         content:
-          "Contact ScrapBuddy for doorstep scrap pickup across Mumbai. Live customer support, instant WhatsApp estimation & instant UPI payout.",
+          "Contact My Scrap Buddy for doorstep scrap pickup across Mumbai. Live customer support, instant WhatsApp estimation & instant UPI payout.",
       },
       { property: "og:url", content: "https://scrapbuddy.org/contact" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Contact ScrapBuddy | Doorstep Scrap Pickup Mumbai Support" },
+      { name: "twitter:title", content: "Contact My Scrap Buddy | Doorstep Scrap Pickup Mumbai Support" },
       {
         name: "twitter:description",
         content:
-          "Get in touch with ScrapBuddy for doorstep scrap pickup in Mumbai. Call +91 85917 70877 or WhatsApp us.",
+          "Get in touch with My Scrap Buddy for doorstep scrap pickup in Mumbai. Call +91 85917 70877 or WhatsApp us.",
       },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
@@ -67,11 +67,11 @@ function Contact() {
   const contactSchema = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    "name": "Contact ScrapBuddy",
+    "name": "Contact My Scrap Buddy",
     "url": "https://scrapbuddy.org/contact",
     "mainEntity": {
       "@type": "LocalBusiness",
-      "name": "ScrapBuddy",
+      "name": "My Scrap Buddy",
       "telephone": displayPhone,
       "email": displayEmail,
       "address": {
@@ -104,7 +104,7 @@ function Contact() {
           Get In Touch
         </Badge>
         <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
-          Contact ScrapBuddy
+          Contact My Scrap Buddy
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
           Need a quick scrap pickup in Mumbai or a bulk commercial recycling quote? Reach out to our customer service team via phone, WhatsApp, or email 7 days a week.
@@ -141,7 +141,7 @@ function Contact() {
           </div>
           <div className="pt-2">
             <a
-              href={`https://wa.me/${cleanWhatsapp}?text=Hi%20ScrapBuddy,%20I%20want%20to%20sell%20scrap`}
+              href={`https://wa.me/${cleanWhatsapp}?text=Hi%20My Scrap Buddy,%20I%20want%20to%20sell%20scrap`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 font-bold text-emerald-600 dark:text-emerald-400 text-sm hover:underline"
@@ -177,7 +177,7 @@ function Contact() {
             <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400">
               <MapPin className="h-4 w-4" /> Operating Head Office
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold">ScrapBuddy Mumbai Facility</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold">My Scrap Buddy Mumbai Facility</h2>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {displayAddress}
             </p>

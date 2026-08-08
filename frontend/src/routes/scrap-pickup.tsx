@@ -8,11 +8,11 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 export const Route = createFileRoute("/scrap-pickup")({
   head: () => ({
     meta: [
-      { title: "Doorstep Scrap Pickup Service in Mumbai | ScrapBuddy" },
+      { title: "Doorstep Scrap Pickup Service in Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
-          "Book free doorstep scrap pickup in Mumbai with ScrapBuddy. Instant UPI payment, ISO digital scales, and market rates for household, office, e-waste & metal scrap.",
+          "Book free doorstep scrap pickup in Mumbai with My Scrap Buddy. Instant UPI payment, ISO digital scales, and market rates for household, office, e-waste & metal scrap.",
       },
       {
         name: "keywords",
@@ -22,8 +22,8 @@ export const Route = createFileRoute("/scrap-pickup")({
       { name: "robots", content: "index, follow" },
       // Open Graph
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Doorstep Scrap Pickup Service in Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Doorstep Scrap Pickup Service in Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content:
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/scrap-pickup")({
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Doorstep Scrap Pickup Service in Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "Doorstep Scrap Pickup Service in Mumbai | My Scrap Buddy" },
       {
         name: "twitter:description",
         content: "Book doorstep scrap collection across Mumbai in under 2 minutes.",
@@ -61,19 +61,19 @@ const acceptedItems = [
 const faqs = [
   {
     q: "How does doorstep scrap pickup work in Mumbai?",
-    a: "Booking is simple: 1) Fill out our online pickup form or WhatsApp us. 2) Our verified executive arrives at your doorstep on your selected slot with ISO-certified digital scales. 3) Receive instant payment via UPI or Cash right on the spot.",
+    a: "Doorstep scrap pickup in Mumbai works in 3 easy steps: 1) Fill out our online form or message us on WhatsApp, 2) Our verified executive arrives at your scheduled slot with ISO-certified digital scales, and 3) You receive instant payment via UPI or cash before loading.",
   },
   {
     q: "Is there any delivery or pickup fee?",
-    a: "No! Doorstep pickup is completely free across Mumbai for standard scrap quantities.",
+    a: "Doorstep scrap pickup is completely free across Mumbai for standard scrap quantities. There are zero logistics charges or hidden deductions applied to your valuation.",
   },
   {
     q: "How are scrap materials weighed?",
-    a: "Our executives use calibrated ISO-certified digital hanging scales to weigh your material in front of you for 100% transparency.",
+    a: "Scrap materials are weighed directly at your doorstep using calibrated ISO-certified digital hanging scales. You can inspect the digital scale readout in real-time for 100% transparency.",
   },
   {
     q: "Which areas in Mumbai do you cover for scrap pickup?",
-    a: "We service all major Mumbai localities including Andheri East, Andheri West, MIDC, Powai, Bandra, Kurla, Malad, Goregaon, Borivali, Kandivali, Vile Parle, and Santacruz.",
+    a: "My Scrap Buddy services all major Mumbai localities including Andheri East, Andheri West, MIDC, Powai, Bandra, Kurla, Malad, Goregaon, Borivali, Kandivali, Vile Parle, and Santacruz.",
   },
 ];
 
@@ -84,7 +84,7 @@ function ScrapPickupPage() {
     "name": "Doorstep Scrap Pickup Service in Mumbai",
     "provider": {
       "@type": "LocalBusiness",
-      "name": "ScrapBuddy",
+      "name": "My Scrap Buddy",
       "url": "https://scrapbuddy.org"
     },
     "areaServed": {
@@ -94,11 +94,59 @@ function ScrapPickupPage() {
     "description": "Fast, free doorstep scrap pickup across Mumbai with digital weighing and instant UPI payout."
   };
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a,
+      },
+    })),
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How Doorstep Scrap Pickup Works with My Scrap Buddy",
+    "description": "3-step doorstep scrap collection process in Mumbai: book online, digital weighing, instant payout.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Schedule Online",
+        "text": "Pick your scrap items and choose your preferred date and time slot in under 2 minutes."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Doorstep Weighing",
+        "text": "Our verified pickup executive arrives at your location with accurate digital weighing scales."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Instant Payout",
+        "text": "Get paid immediately via Google Pay, PhonePe, UPI, or cash before we load your scrap."
+      }
+    ]
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 space-y-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
 
       {/* Hero */}
@@ -110,7 +158,7 @@ function ScrapPickupPage() {
           Doorstep Scrap Pickup Service in Mumbai
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-          Say goodbye to haggling with local scrap dealers. ScrapBuddy offers reliable, free doorstep scrap collection for homes, offices, housing societies, and commercial facilities across Mumbai.
+          Say goodbye to haggling with local scrap dealers. My Scrap Buddy offers reliable, free doorstep scrap collection for homes, offices, housing societies, and commercial facilities across Mumbai.
         </p>
         <div className="pt-2 flex flex-wrap gap-4">
           <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">

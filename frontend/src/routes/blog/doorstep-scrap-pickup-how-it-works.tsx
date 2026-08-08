@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 export const Route = createFileRoute("/blog/doorstep-scrap-pickup-how-it-works")({
   head: () => ({
     meta: [
-      { title: "Doorstep Scrap Pickup: How It Works | ScrapBuddy Mumbai" },
+      { title: "Doorstep Scrap Pickup: How It Works | My Scrap Buddy Mumbai" },
       {
         name: "description",
         content:
@@ -18,12 +18,12 @@ export const Route = createFileRoute("/blog/doorstep-scrap-pickup-how-it-works")
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "article" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Doorstep Scrap Pickup: How It Works | ScrapBuddy Mumbai" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Doorstep Scrap Pickup: How It Works | My Scrap Buddy Mumbai" },
       { property: "og:url", content: "https://scrapbuddy.org/blog/doorstep-scrap-pickup-how-it-works" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Doorstep Scrap Pickup: How It Works | ScrapBuddy Mumbai" },
+      { name: "twitter:title", content: "Doorstep Scrap Pickup: How It Works | My Scrap Buddy Mumbai" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/blog/doorstep-scrap-pickup-how-it-works" }],
@@ -36,7 +36,7 @@ function HowItWorksBlogPage() {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Doorstep Scrap Pickup: How It Works",
-    "author": { "@type": "Organization", "name": "ScrapBuddy" },
+    "author": { "@type": "Organization", "name": "My Scrap Buddy" },
     "url": "https://scrapbuddy.org/blog/doorstep-scrap-pickup-how-it-works"
   };
 
@@ -58,7 +58,7 @@ function HowItWorksBlogPage() {
 
       <div className="prose prose-slate dark:prose-invert max-w-none text-sm text-muted-foreground space-y-4 leading-relaxed">
         <p>
-          At <strong>ScrapBuddy</strong>, our goal is to eliminate the friction from scrap recycling in Mumbai. Here is how our seamless 3-step process functions from initial booking to instant payout.
+          At <strong>My Scrap Buddy</strong>, our goal is to eliminate the friction from scrap recycling in Mumbai. Here is how our seamless 3-step process functions from initial booking to instant payout.
         </p>
 
         <h2 className="text-xl font-bold text-foreground pt-4">1. Instant Booking via App, Web, or WhatsApp</h2>

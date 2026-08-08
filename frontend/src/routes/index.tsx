@@ -321,27 +321,27 @@ const mumbaiAreas = [
 const faqs = [
   {
     q: "What is My Scrap Buddy?",
-    a: "My Scrap Buddy is Mumbai's leading digital scrap buying and doorstep recycling service. We buy household scrap, office scrap, construction waste, iron rods, steel, e-waste, metals, appliances, and furniture at transparent live market rates.",
+    a: "My Scrap Buddy is a government-authorized doorstep scrap collection and e-waste recycling service operating across Mumbai. We buy household scrap, office scrap, construction waste, iron rods, steel, e-waste, metals, appliances, and furniture at transparent live market rates with instant UPI and cash payouts.",
   },
   {
     q: "How do I schedule a scrap pickup in Mumbai?",
-    a: "Click on 'Book a Pickup' on our website, fill out your address and material details, select your preferred date/time slot, and our executive will arrive at your doorstep within 24 hours.",
+    a: "You can schedule a doorstep scrap pickup in Mumbai in under 2 minutes by filling out our online pickup form or sending us a message on WhatsApp. Simply enter your address, choose your scrap categories, select a preferred date and 3-hour time slot, and our executive will arrive with digital scales within 24 hours.",
   },
   {
     q: "What scrap materials do you accept?",
-    a: "We accept Paper, Cardboard, Plastics, Construction Scrap, Iron Rods & Steel, E-Waste (Laptops, Mobiles, CPUs), Appliances (ACs, Fridges, Washing Machines), Furniture, and High-Value Metals (Copper, Brass, Aluminium, Batteries).",
+    a: "My Scrap Buddy accepts paper, cardboard, plastics, construction waste, iron rods, steel, e-waste (laptops, mobiles, CPUs), appliances (ACs, fridges, washing machines), furniture, and metals (copper, brass, aluminium). All items are weighed on-site using ISO-certified digital hanging scales.",
   },
   {
     q: "How does payment work?",
-    a: "Payment is instant! As soon as our pickup executive weighs your scrap with ISO-certified digital scales, payment is sent directly via UPI, Google Pay, PhonePe, Bank Transfer, or Cash on the spot.",
+    a: "Payment is instant and completed right at your doorstep before your scrap is loaded into our vehicle. Once our executive weighs your material on ISO digital scales, payment is sent immediately via UPI, Google Pay, PhonePe, Bank Transfer, or Cash.",
   },
   {
     q: "Is there any delivery or pickup charge?",
-    a: "No! Doorstep pickup is completely free across Mumbai for standard scrap quantities. For small home scrap orders under minimum weight threshold, a minor ₹500 min order value note applies.",
+    a: "Doorstep scrap pickup is completely free across all Mumbai localities for standard scrap quantities. There are zero hidden logistics or transport deductions applied to your final payout.",
   },
   {
     q: "Do you service commercial buildings and construction sites in Mumbai?",
-    a: "Yes! We specialize in bulk commercial, office dismantling, and construction site scrap clearance in MIDC, Andheri, Powai, Kurla, Bandra, and across Mumbai with full GST billing and recycling certificates.",
+    a: "Yes, My Scrap Buddy provides bulk commercial scrap collection, office IT dismantling, and construction site clearance across Mumbai. We service MIDC Andheri, BKC, Powai, Kurla, Bandra, and all industrial zones with full GST invoicing and recycling documentation.",
   },
 ];
 
@@ -354,8 +354,43 @@ function Index() {
     setIsModalOpen(true);
   };
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a,
+      },
+    })),
+  };
+
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Book Doorstep Scrap Pickup in Mumbai with My Scrap Buddy",
+    "description": "Easy 3-step process to book doorstep scrap collection, verify digital weight, and receive instant payment.",
+    "step": steps.map((step, idx) => ({
+      "@type": "HowToStep",
+      "position": idx + 1,
+      "name": step.title.replace(/^\d+\.\s*/, ""),
+      "text": step.desc,
+    })),
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+
       {/* Category Detail Modal */}
       <CategoryDetailModal
         isOpen={isModalOpen}

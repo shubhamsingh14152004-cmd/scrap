@@ -1,13 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, ArrowRight, CheckCircle2, ShieldCheck } from "lucide-react";
+import { MapPin, ArrowRight, CheckCircle2, ShieldCheck, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/locations/andheri")({
   head: () => ({
     meta: [
-      { title: "Doorstep Scrap Pickup in Andheri (East, West & MIDC) | ScrapBuddy" },
+      { title: "Doorstep Scrap Pickup in Andheri (East, West & MIDC) | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -20,13 +21,13 @@ export const Route = createFileRoute("/locations/andheri")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Doorstep Scrap Pickup in Andheri (East, West & MIDC) | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Doorstep Scrap Pickup in Andheri (East, West & MIDC) | My Scrap Buddy" },
       { property: "og:description", content: "Doorstep scrap collection and e-waste disposal in Andheri East, West & MIDC." },
       { property: "og:url", content: "https://scrapbuddy.org/locations/andheri" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Doorstep Scrap Pickup in Andheri (East, West & MIDC) | ScrapBuddy" },
+      { name: "twitter:title", content: "Doorstep Scrap Pickup in Andheri (East, West & MIDC) | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/locations/andheri" }],
@@ -43,11 +44,26 @@ const subAreas = [
   "Mahakali Caves Road",
 ];
 
+const faqs = [
+  {
+    q: "Do you pick up commercial scrap from MIDC Andheri East offices?",
+    a: "Yes, My Scrap Buddy provides bulk commercial scrap collection and IT asset disposal across MIDC Andheri East, Chakala, and Marol.",
+  },
+  {
+    q: "How quickly can a scrap pickup executive arrive in Lokhandwala or Versova?",
+    a: "Our pickup buddies arrive within a scheduled 3-hour window anywhere in Lokhandwala Complex, Versova, and Seven Bungalows.",
+  },
+  {
+    q: "Are digital weighing scales used for residential pickups in Andheri West?",
+    a: "Yes, all scrap in Andheri West is weighed on calibrated ISO digital scales at your doorstep for 100% transparency.",
+  },
+];
+
 function AndheriLocationPage() {
   const localSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": "ScrapBuddy Andheri Doorstep Scrap Pickup",
+    "name": "My Scrap Buddy Andheri Doorstep Scrap Pickup",
     "image": "https://scrapbuddy.org/favicon.ico",
     "url": "https://scrapbuddy.org/locations/andheri",
     "telephone": "+918591770877",
@@ -61,9 +77,34 @@ function AndheriLocationPage() {
     }
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://scrapbuddy.org/" },
+      { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://scrapbuddy.org/locations/mumbai" },
+      { "@type": "ListItem", "position": 3, "name": "Andheri", "item": "https://scrapbuddy.org/locations/andheri" }
+    ]
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a,
+      },
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 space-y-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(localSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
       <div className="max-w-3xl space-y-4">
         <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
@@ -73,7 +114,7 @@ function AndheriLocationPage() {
           Doorstep Scrap Pickup in Andheri East, West &amp; MIDC
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-          Headquartered right in MIDC Andheri East, ScrapBuddy provides rapid 24-hour doorstep scrap pickup across residential societies in Lokhandwala and commercial IT parks in Chakala &amp; Marol.
+          Headquartered right in MIDC Andheri East, My Scrap Buddy provides rapid 24-hour doorstep scrap pickup across residential societies in Lokhandwala and commercial IT parks in Chakala &amp; Marol.
         </p>
         <div className="pt-2 flex flex-wrap gap-4">
           <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
@@ -95,6 +136,19 @@ function AndheriLocationPage() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Locality FAQs */}
+      <div className="space-y-6">
+        <h2 className="text-2xl sm:text-3xl font-extrabold">Andheri Scrap Pickup FAQs</h2>
+        <Accordion type="single" collapsible className="space-y-3">
+          {faqs.map((faq, idx) => (
+            <AccordionItem key={idx} value={`faq-${idx}`} className="border rounded-2xl px-6 py-1">
+              <AccordionTrigger className="font-bold text-sm">{faq.q}</AccordionTrigger>
+              <AccordionContent className="text-xs text-muted-foreground">{faq.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/scrap-collection")({
   head: () => ({
     meta: [
-      { title: "Bulk Commercial & Housing Society Scrap Collection Mumbai | ScrapBuddy" },
+      { title: "Bulk Commercial & Housing Society Scrap Collection Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -20,8 +20,8 @@ export const Route = createFileRoute("/scrap-collection")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Bulk Commercial & Housing Society Scrap Collection Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Bulk Commercial & Housing Society Scrap Collection Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content: "Turnkey bulk scrap removal, office dismantling, and society recycling drives in Mumbai.",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/scrap-collection")({
       { property: "og:url", content: "https://scrapbuddy.org/scrap-collection" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Bulk Commercial & Housing Society Scrap Collection Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "Bulk Commercial & Housing Society Scrap Collection Mumbai | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/scrap-collection" }],
@@ -50,7 +50,7 @@ function ScrapCollectionPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Bulk Commercial & Housing Society Scrap Collection Service",
-    "provider": { "@type": "LocalBusiness", "name": "ScrapBuddy", "url": "https://scrapbuddy.org" },
+    "provider": { "@type": "LocalBusiness", "name": "My Scrap Buddy", "url": "https://scrapbuddy.org" },
     "areaServed": { "@type": "City", "name": "Mumbai" },
     "description": "Bulk scrap management, office dismantling, and housing society recycling drives in Mumbai."
   };

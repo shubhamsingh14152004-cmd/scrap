@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 export const Route = createFileRoute("/blog/how-to-sell-scrap-online-in-mumbai")({
   head: () => ({
     meta: [
-      { title: "How to Sell Scrap Online in Mumbai: Complete Guide | ScrapBuddy" },
+      { title: "How to Sell Scrap Online in Mumbai: Complete Guide | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -19,12 +19,12 @@ export const Route = createFileRoute("/blog/how-to-sell-scrap-online-in-mumbai")
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "article" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "How to Sell Scrap Online in Mumbai: Complete Guide | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "How to Sell Scrap Online in Mumbai: Complete Guide | My Scrap Buddy" },
       { property: "og:url", content: "https://scrapbuddy.org/blog/how-to-sell-scrap-online-in-mumbai" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "How to Sell Scrap Online in Mumbai: Complete Guide | ScrapBuddy" },
+      { name: "twitter:title", content: "How to Sell Scrap Online in Mumbai: Complete Guide | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/blog/how-to-sell-scrap-online-in-mumbai" }],
@@ -37,8 +37,8 @@ function SellScrapGuidePage() {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "How to Sell Scrap Online in Mumbai: Complete Step-by-Step Guide",
-    "author": { "@type": "Organization", "name": "ScrapBuddy" },
-    "publisher": { "@type": "Organization", "name": "ScrapBuddy", "logo": { "@type": "ImageObject", "url": "https://scrapbuddy.org/favicon.ico" } },
+    "author": { "@type": "Organization", "name": "My Scrap Buddy" },
+    "publisher": { "@type": "Organization", "name": "My Scrap Buddy", "logo": { "@type": "ImageObject", "url": "https://scrapbuddy.org/favicon.ico" } },
     "url": "https://scrapbuddy.org/blog/how-to-sell-scrap-online-in-mumbai"
   };
 
@@ -60,7 +60,7 @@ function SellScrapGuidePage() {
 
       <div className="prose prose-slate dark:prose-invert max-w-none text-sm text-muted-foreground space-y-4 leading-relaxed">
         <p>
-          Selling scrap in Mumbai used to mean waiting for a street vendor, carrying heavy bundles of paper or metal downstairs, and negotiating over inaccurate physical weights. Today, online doorstep scrap pickup platforms like <strong>ScrapBuddy</strong> have simplified the process.
+          Selling scrap in Mumbai used to mean waiting for a street vendor, carrying heavy bundles of paper or metal downstairs, and negotiating over inaccurate physical weights. Today, online doorstep scrap pickup platforms like <strong>My Scrap Buddy</strong> have simplified the process.
         </p>
 
         <h2 className="text-xl font-bold text-foreground pt-4">Step 1: Sort Your Scrap Materials</h2>
@@ -70,7 +70,7 @@ function SellScrapGuidePage() {
 
         <h2 className="text-xl font-bold text-foreground pt-4">Step 2: Check Daily Live Rates</h2>
         <p>
-          Before booking, review the daily updated price list on <Link to="/pricing" className="text-emerald-600 font-semibold hover:underline">ScrapBuddy Pricing</Link>. Rates are updated in real-time matching Mumbai Mandi market benchmarks.
+          Before booking, review the daily updated price list on <Link to="/pricing" className="text-emerald-600 font-semibold hover:underline">My Scrap Buddy Pricing</Link>. Rates are updated in real-time matching Mumbai Mandi market benchmarks.
         </p>
 
         <h2 className="text-xl font-bold text-foreground pt-4">Step 3: Schedule a Doorstep Pickup</h2>

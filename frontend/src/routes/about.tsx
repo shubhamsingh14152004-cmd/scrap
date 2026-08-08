@@ -56,8 +56,8 @@ function About() {
           <h1 className="text-4xl font-extrabold sm:text-5xl">
             Recycling, reimagined
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/85">
-            My Scrap Buddy is a trusted scrap collection service in Mumbai. We purchase household scrap, office scrap, industrial scrap, electronic waste, construction waste, iron, steel, copper, aluminium, brass and other recyclable materials. We provide fair market prices, instant quotations, doorstep pickup and secure digital payments.
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-foreground/85 leading-relaxed">
+            My Scrap Buddy is a government-authorized doorstep scrap and e-waste pickup service operating across 14 Mumbai localities including Andheri, Bandra, Powai, and MIDC. We collect household scrap, office IT assets, construction waste, iron, steel, copper, and appliances with ISO-certified digital scale weighing and instant spot payouts.
           </p>
         </div>
       </section>
@@ -66,15 +66,11 @@ function About() {
         <div className="grid gap-10 md:grid-cols-2">
           <div>
             <h2 className="text-3xl font-extrabold">Our mission</h2>
-            <p className="mt-4 text-muted-foreground">
-              We believe recycling should be effortless and rewarding. That's why we
-              built a modern platform that connects people with reliable scrap buyers,
-              offering the best market prices, free doorstep pickup and instant
-              payment — all with full environmental compliance.
+            <p className="mt-4 text-muted-foreground leading-relaxed">
+              Founded in MIDC Andheri East, My Scrap Buddy connects Mumbai households, housing societies, and commercial enterprises with licensed eco-friendly recycling facilities through free doorstep pickup and daily live market pricing.
             </p>
-            <p className="mt-4 text-muted-foreground">
-              From a single newspaper stack to bulk corporate e-waste, our goal is a
-              cleaner, circular economy where nothing valuable goes to waste.
+            <p className="mt-4 text-muted-foreground leading-relaxed">
+              From a single newspaper stack to bulk corporate e-waste, our goal is a cleaner, circular economy across Mumbai where nothing valuable goes to waste.
             </p>
           </div>
           <Card className="grid grid-cols-2 gap-6 bg-secondary/40 p-8">

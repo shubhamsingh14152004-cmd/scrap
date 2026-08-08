@@ -173,14 +173,19 @@ function Pricing() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
       <div className="max-w-3xl space-y-3">
-        <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
-          Daily Mumbai Market Rates
-        </Badge>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
+            Daily Mumbai Market Rates
+          </Badge>
+          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+            Rates updated: August 8, 2026
+          </span>
+        </div>
         <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
           Scrap Price List
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-          Transparent rates per kilogram & piece. Daily live updates for household, commercial, industrial, e-waste, construction scrap, and steel in Mumbai.
+          Transparent rates per kilogram &amp; piece. Daily live updates for household, commercial, industrial, e-waste, construction scrap, and steel in Mumbai.
         </p>
       </div>
 

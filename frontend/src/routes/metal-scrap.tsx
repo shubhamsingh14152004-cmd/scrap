@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/metal-scrap")({
   head: () => ({
     meta: [
-      { title: "Metal Scrap & Steel Buying in Mumbai | ScrapBuddy" },
+      { title: "Metal Scrap & Steel Buying in Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -20,8 +20,8 @@ export const Route = createFileRoute("/metal-scrap")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Metal Scrap & Steel Buying in Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Metal Scrap & Steel Buying in Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content: "Top rates per kg for iron, TMT steel, copper, brass, and aluminium scrap in Mumbai.",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/metal-scrap")({
       { property: "og:url", content: "https://scrapbuddy.org/metal-scrap" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Metal Scrap & Steel Buying in Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "Metal Scrap & Steel Buying in Mumbai | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/metal-scrap" }],
@@ -51,7 +51,7 @@ function MetalScrapPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Metal Scrap & Industrial Steel Buying Service",
-    "provider": { "@type": "LocalBusiness", "name": "ScrapBuddy", "url": "https://scrapbuddy.org" },
+    "provider": { "@type": "LocalBusiness", "name": "My Scrap Buddy", "url": "https://scrapbuddy.org" },
     "areaServed": { "@type": "City", "name": "Mumbai" },
     "description": "High-value non-ferrous and ferrous metal recycling for residential and industrial sites in Mumbai."
   };

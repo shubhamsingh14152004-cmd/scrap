@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/blog/")({
   head: () => ({
     meta: [
-      { title: "Scrap & Recycling Blog — Guides & Tips | ScrapBuddy Mumbai" },
+      { title: "Scrap & Recycling Blog — Guides & Tips | My Scrap Buddy Mumbai" },
       {
         name: "description",
         content:
@@ -19,13 +19,13 @@ export const Route = createFileRoute("/blog/")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Scrap & Recycling Blog — Guides & Tips | ScrapBuddy Mumbai" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Scrap & Recycling Blog — Guides & Tips | My Scrap Buddy Mumbai" },
       { property: "og:description", content: "Recycling guides, scrap price tips, and e-waste disposal advice in Mumbai." },
       { property: "og:url", content: "https://scrapbuddy.org/blog" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Scrap & Recycling Blog — Guides & Tips | ScrapBuddy Mumbai" },
+      { name: "twitter:title", content: "Scrap & Recycling Blog — Guides & Tips | My Scrap Buddy Mumbai" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/blog" }],
@@ -81,7 +81,7 @@ function BlogIndexPage() {
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 space-y-12">
       <div className="max-w-3xl space-y-4">
         <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
-          ScrapBuddy Insights
+          My Scrap Buddy Insights
         </Badge>
         <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
           Scrap &amp; Recycling Blog

@@ -8,7 +8,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 export const Route = createFileRoute("/e-waste-recycling")({
   head: () => ({
     meta: [
-      { title: "E-Waste Recycling & Electronics Disposal Mumbai | ScrapBuddy" },
+      { title: "E-Waste Recycling & Electronics Disposal Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -22,8 +22,8 @@ export const Route = createFileRoute("/e-waste-recycling")({
       { name: "robots", content: "index, follow" },
       // Open Graph
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "E-Waste Recycling & Electronics Disposal Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "E-Waste Recycling & Electronics Disposal Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content:
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/e-waste-recycling")({
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "E-Waste Recycling & Electronics Disposal Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "E-Waste Recycling & Electronics Disposal Mumbai | My Scrap Buddy" },
       {
         name: "twitter:description",
         content: "Responsible electronic waste disposal in Mumbai with instant payout.",
@@ -67,7 +67,7 @@ const faqs = [
   },
   {
     q: "Are you licensed for e-waste handling?",
-    a: "ScrapBuddy operates in compliance with Pollution Control Board regulations, ensuring zero landfill electronic waste processing.",
+    a: "My Scrap Buddy operates in compliance with Pollution Control Board regulations, ensuring zero landfill electronic waste processing.",
   },
 ];
 
@@ -78,7 +78,7 @@ function EWastePage() {
     "name": "E-Waste Recycling Service in Mumbai",
     "provider": {
       "@type": "LocalBusiness",
-      "name": "ScrapBuddy",
+      "name": "My Scrap Buddy",
       "url": "https://scrapbuddy.org"
     },
     "areaServed": {
@@ -104,7 +104,7 @@ function EWastePage() {
           E-Waste Recycling &amp; Electronics Disposal in Mumbai
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-          Dispose of obsolete electronics, laptops, mobiles, CPUs, and IT hardware responsibly. ScrapBuddy offers doorstep e-waste collection with instant UPI payout and zero landfill guarantee.
+          Dispose of obsolete electronics, laptops, mobiles, CPUs, and IT hardware responsibly. My Scrap Buddy offers doorstep e-waste collection with instant UPI payout and zero landfill guarantee.
         </p>
         <div className="pt-2 flex flex-wrap gap-4">
           <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">

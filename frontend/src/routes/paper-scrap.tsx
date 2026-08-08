@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/paper-scrap")({
   head: () => ({
     meta: [
-      { title: "Paper Scrap & Book Recycling in Mumbai | ScrapBuddy" },
+      { title: "Paper Scrap & Book Recycling in Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -21,8 +21,8 @@ export const Route = createFileRoute("/paper-scrap")({
       { name: "robots", content: "index, follow" },
       // Open Graph
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Paper Scrap & Book Recycling in Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Paper Scrap & Book Recycling in Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content:
@@ -32,7 +32,7 @@ export const Route = createFileRoute("/paper-scrap")({
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       // Twitter
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Paper Scrap & Book Recycling in Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "Paper Scrap & Book Recycling in Mumbai | My Scrap Buddy" },
       {
         name: "twitter:description",
         content: "Doorstep paper and cardboard scrap collection in Mumbai.",
@@ -59,7 +59,7 @@ function PaperScrapPage() {
     "name": "Paper Scrap & Book Recycling Service",
     "provider": {
       "@type": "LocalBusiness",
-      "name": "ScrapBuddy",
+      "name": "My Scrap Buddy",
       "url": "https://scrapbuddy.org"
     },
     "areaServed": { "@type": "City", "name": "Mumbai" },
@@ -81,7 +81,7 @@ function PaperScrapPage() {
           Paper Scrap &amp; Book Recycling in Mumbai
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-          Clear out accumulated newspapers, shipping boxes, old textbooks, and corporate paper waste. ScrapBuddy provides transparent daily per-kg rates with doorstep collection across Mumbai.
+          Clear out accumulated newspapers, shipping boxes, old textbooks, and corporate paper waste. My Scrap Buddy provides transparent daily per-kg rates with doorstep collection across Mumbai.
         </p>
         <div className="pt-2 flex flex-wrap gap-4">
           <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
 const BASE_URL = "https://scrapbuddy.org";
+const LAST_MOD = "2026-08-08";
 
 interface SitemapEntry {
   path: string;
@@ -14,41 +15,39 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const today = new Date().toISOString().split("T")[0];
-
         const entries: SitemapEntry[] = [
           // Core Pages
-          { path: "/", changefreq: "daily", priority: "1.0", lastmod: today },
-          { path: "/pricing", changefreq: "daily", priority: "0.9", lastmod: today },
-          { path: "/request-pickup", changefreq: "weekly", priority: "0.9", lastmod: today },
-          { path: "/about", changefreq: "monthly", priority: "0.7", lastmod: today },
-          { path: "/contact", changefreq: "monthly", priority: "0.8", lastmod: today },
+          { path: "/", changefreq: "daily", priority: "1.0", lastmod: LAST_MOD },
+          { path: "/pricing", changefreq: "daily", priority: "0.9", lastmod: LAST_MOD },
+          { path: "/request-pickup", changefreq: "weekly", priority: "0.9", lastmod: LAST_MOD },
+          { path: "/about", changefreq: "monthly", priority: "0.7", lastmod: LAST_MOD },
+          { path: "/contact", changefreq: "monthly", priority: "0.8", lastmod: LAST_MOD },
 
           // Service Pages
-          { path: "/scrap-pickup", changefreq: "weekly", priority: "0.9", lastmod: today },
-          { path: "/e-waste-recycling", changefreq: "weekly", priority: "0.9", lastmod: today },
-          { path: "/paper-scrap", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/plastic-scrap", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/metal-scrap", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/old-appliance-scrap", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/old-furniture-scrap", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/scrap-collection", changefreq: "weekly", priority: "0.8", lastmod: today },
+          { path: "/scrap-pickup", changefreq: "weekly", priority: "0.9", lastmod: LAST_MOD },
+          { path: "/e-waste-recycling", changefreq: "weekly", priority: "0.9", lastmod: LAST_MOD },
+          { path: "/paper-scrap", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/plastic-scrap", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/metal-scrap", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/old-appliance-scrap", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/old-furniture-scrap", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/scrap-collection", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
 
           // Mumbai Location Pages
-          { path: "/locations/mumbai", changefreq: "weekly", priority: "0.9", lastmod: today },
-          { path: "/locations/andheri", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/locations/bandra", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/locations/borivali", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/locations/powai", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/locations/malad", changefreq: "weekly", priority: "0.8", lastmod: today },
+          { path: "/locations/mumbai", changefreq: "weekly", priority: "0.9", lastmod: LAST_MOD },
+          { path: "/locations/andheri", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/locations/bandra", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/locations/borivali", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/locations/powai", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/locations/malad", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
 
           // Blog Hub & Informational Guides
-          { path: "/blog", changefreq: "weekly", priority: "0.8", lastmod: today },
-          { path: "/blog/how-to-sell-scrap-online-in-mumbai", changefreq: "monthly", priority: "0.7", lastmod: today },
-          { path: "/blog/doorstep-scrap-pickup-how-it-works", changefreq: "monthly", priority: "0.7", lastmod: today },
-          { path: "/blog/how-to-recycle-e-waste-responsibly-mumbai", changefreq: "monthly", priority: "0.7", lastmod: today },
-          { path: "/blog/scrap-pickup-vs-traditional-kabadiwala", changefreq: "monthly", priority: "0.7", lastmod: today },
-          { path: "/blog/how-scrap-prices-are-determined", changefreq: "monthly", priority: "0.7", lastmod: today },
+          { path: "/blog", changefreq: "weekly", priority: "0.8", lastmod: LAST_MOD },
+          { path: "/blog/how-to-sell-scrap-online-in-mumbai", changefreq: "monthly", priority: "0.7", lastmod: LAST_MOD },
+          { path: "/blog/doorstep-scrap-pickup-how-it-works", changefreq: "monthly", priority: "0.7", lastmod: LAST_MOD },
+          { path: "/blog/how-to-recycle-e-waste-responsibly-mumbai", changefreq: "monthly", priority: "0.7", lastmod: LAST_MOD },
+          { path: "/blog/scrap-pickup-vs-traditional-kabadiwala", changefreq: "monthly", priority: "0.7", lastmod: LAST_MOD },
+          { path: "/blog/how-scrap-prices-are-determined", changefreq: "monthly", priority: "0.7", lastmod: LAST_MOD },
         ];
 
         const urls = entries.map((e) =>

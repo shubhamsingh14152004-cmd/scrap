@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/old-appliance-scrap")({
   head: () => ({
     meta: [
-      { title: "Old Appliance Scrap Disposal & AC Recycling Mumbai | ScrapBuddy" },
+      { title: "Old Appliance Scrap Disposal & AC Recycling Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -20,8 +20,8 @@ export const Route = createFileRoute("/old-appliance-scrap")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Old Appliance Scrap Disposal & AC Recycling Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Old Appliance Scrap Disposal & AC Recycling Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content: "Doorstep collection and instant cash payout for old household appliances across Mumbai.",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/old-appliance-scrap")({
       { property: "og:url", content: "https://scrapbuddy.org/old-appliance-scrap" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Old Appliance Scrap Disposal & AC Recycling Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "Old Appliance Scrap Disposal & AC Recycling Mumbai | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/old-appliance-scrap" }],
@@ -49,7 +49,7 @@ function ApplianceScrapPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Old Appliance Scrap Disposal Service",
-    "provider": { "@type": "LocalBusiness", "name": "ScrapBuddy", "url": "https://scrapbuddy.org" },
+    "provider": { "@type": "LocalBusiness", "name": "My Scrap Buddy", "url": "https://scrapbuddy.org" },
     "areaServed": { "@type": "City", "name": "Mumbai" },
     "description": "Doorstep pickup for old defective air conditioners, refrigerators, and washing machines in Mumbai."
   };

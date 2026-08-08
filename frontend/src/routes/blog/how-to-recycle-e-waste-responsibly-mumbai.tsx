@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 export const Route = createFileRoute("/blog/how-to-recycle-e-waste-responsibly-mumbai")({
   head: () => ({
     meta: [
-      { title: "How to Recycle E-Waste Responsibly in Mumbai | ScrapBuddy" },
+      { title: "How to Recycle E-Waste Responsibly in Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -18,12 +18,12 @@ export const Route = createFileRoute("/blog/how-to-recycle-e-waste-responsibly-m
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "article" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "How to Recycle E-Waste Responsibly in Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "How to Recycle E-Waste Responsibly in Mumbai | My Scrap Buddy" },
       { property: "og:url", content: "https://scrapbuddy.org/blog/how-to-recycle-e-waste-responsibly-mumbai" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "How to Recycle E-Waste Responsibly in Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "How to Recycle E-Waste Responsibly in Mumbai | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/blog/how-to-recycle-e-waste-responsibly-mumbai" }],
@@ -36,7 +36,7 @@ function EWasteGuideBlogPage() {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "How to Recycle E-Waste Responsibly in Mumbai",
-    "author": { "@type": "Organization", "name": "ScrapBuddy" },
+    "author": { "@type": "Organization", "name": "My Scrap Buddy" },
     "url": "https://scrapbuddy.org/blog/how-to-recycle-e-waste-responsibly-mumbai"
   };
 
@@ -63,12 +63,12 @@ function EWasteGuideBlogPage() {
 
         <h2 className="text-xl font-bold text-foreground pt-4">Why E-Waste Requires Authorized Recycling</h2>
         <p>
-          Improper burning or acid washing of circuit boards releases toxic fumes. Authorized recyclers like <Link to="/e-waste-recycling" className="text-emerald-600 font-semibold hover:underline">ScrapBuddy E-Waste Service</Link> dismantle hardware in controlled environments matching Pollution Control Board guidelines.
+          Improper burning or acid washing of circuit boards releases toxic fumes. Authorized recyclers like <Link to="/e-waste-recycling" className="text-emerald-600 font-semibold hover:underline">My Scrap Buddy E-Waste Service</Link> dismantle hardware in controlled environments matching Pollution Control Board guidelines.
         </p>
 
         <h2 className="text-xl font-bold text-foreground pt-4">Data Security &amp; Formatting Before Disposal</h2>
         <p>
-          Always perform a factory reset and remove hard drives or flash storage from laptops, tablets, and smartphones before handing them over. For corporate office IT asset recycling, ScrapBuddy provides certified data wiping and Form-10 certificates.
+          Always perform a factory reset and remove hard drives or flash storage from laptops, tablets, and smartphones before handing them over. For corporate office IT asset recycling, My Scrap Buddy provides certified data wiping and Form-10 certificates.
         </p>
       </div>
 

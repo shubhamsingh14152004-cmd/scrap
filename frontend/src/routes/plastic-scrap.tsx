@@ -7,11 +7,11 @@ import { Badge } from "@/components/ui/badge";
 export const Route = createFileRoute("/plastic-scrap")({
   head: () => ({
     meta: [
-      { title: "Plastic Scrap Recycling Service in Mumbai | ScrapBuddy" },
+      { title: "Plastic Scrap Recycling Service in Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
-          "Recycle PET bottles, hard plastic, PVC, buckets & plastic containers in Mumbai. ScrapBuddy offers doorstep collection and instant digital payouts.",
+          "Recycle PET bottles, hard plastic, PVC, buckets & plastic containers in Mumbai. My Scrap Buddy offers doorstep collection and instant digital payouts.",
       },
       {
         name: "keywords",
@@ -20,8 +20,8 @@ export const Route = createFileRoute("/plastic-scrap")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Plastic Scrap Recycling Service in Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Plastic Scrap Recycling Service in Mumbai | My Scrap Buddy" },
       {
         property: "og:description",
         content: "Doorstep plastic scrap collection and eco-friendly recycling across Mumbai.",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/plastic-scrap")({
       { property: "og:url", content: "https://scrapbuddy.org/plastic-scrap" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Plastic Scrap Recycling Service in Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "Plastic Scrap Recycling Service in Mumbai | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/plastic-scrap" }],
@@ -49,7 +49,7 @@ function PlasticScrapPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Plastic Scrap Recycling Service",
-    "provider": { "@type": "LocalBusiness", "name": "ScrapBuddy", "url": "https://scrapbuddy.org" },
+    "provider": { "@type": "LocalBusiness", "name": "My Scrap Buddy", "url": "https://scrapbuddy.org" },
     "areaServed": { "@type": "City", "name": "Mumbai" },
     "description": "Doorstep pickup and recycling of plastic bottles, hard plastics, and PVC waste in Mumbai."
   };
@@ -66,7 +66,7 @@ function PlasticScrapPage() {
           Plastic Scrap Recycling Service in Mumbai
         </h1>
         <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-          Help reduce plastic waste in Mumbai. ScrapBuddy collects PET bottles, hard plastic household items, and PVC industrial scrap at daily market rates.
+          Help reduce plastic waste in Mumbai. My Scrap Buddy collects PET bottles, hard plastic household items, and PVC industrial scrap at daily market rates.
         </p>
         <div className="pt-2 flex flex-wrap gap-4">
           <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">

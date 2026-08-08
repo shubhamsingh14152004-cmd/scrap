@@ -3,11 +3,12 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
 export const Route = createFileRoute("/locations/borivali")({
   head: () => ({
     meta: [
-      { title: "Doorstep Scrap Pickup in Borivali (East & West) | ScrapBuddy" },
+      { title: "Doorstep Scrap Pickup in Borivali (East & West) | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -19,12 +20,12 @@ export const Route = createFileRoute("/locations/borivali")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "Doorstep Scrap Pickup in Borivali (East & West) | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "Doorstep Scrap Pickup in Borivali (East & West) | My Scrap Buddy" },
       { property: "og:url", content: "https://scrapbuddy.org/locations/borivali" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Doorstep Scrap Pickup in Borivali (East & West) | ScrapBuddy" },
+      { name: "twitter:title", content: "Doorstep Scrap Pickup in Borivali (East & West) | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/locations/borivali" }],
@@ -34,9 +35,50 @@ export const Route = createFileRoute("/locations/borivali")({
 
 const borivaliAreas = ["Borivali West (IC Colony & Shimpoli)", "Borivali East (Magathane & Carter Road)", "Gorai & Dahisar Border"];
 
+const faqs = [
+  {
+    q: "Do you service IC Colony and Shimpoli in Borivali West?",
+    a: "Yes, My Scrap Buddy offers 7-day doorstep scrap collection across IC Colony, Shimpoli, and all sectors of Borivali West.",
+  },
+  {
+    q: "What items can I sell from my home in Borivali East?",
+    a: "You can sell newspapers, cardboard boxes, old appliances (ACs, fridges), metal scrap, e-waste, and old furniture in Borivali East.",
+  },
+  {
+    q: "How is payment sent after weighing scrap in Borivali?",
+    a: "Payment is transferred instantly via UPI, Google Pay, PhonePe, or cash right on your doorstep before loading.",
+  },
+];
+
 function BorivaliLocationPage() {
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://scrapbuddy.org/" },
+      { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://scrapbuddy.org/locations/mumbai" },
+      { "@type": "ListItem", "position": 3, "name": "Borivali", "item": "https://scrapbuddy.org/locations/borivali" }
+    ]
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a,
+      },
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 space-y-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+
       <div className="max-w-3xl space-y-4">
         <Badge variant="secondary" className="bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
           Borivali Service Coverage
@@ -67,6 +109,19 @@ function BorivaliLocationPage() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Locality FAQs */}
+      <div className="space-y-6">
+        <h2 className="text-2xl sm:text-3xl font-extrabold">Borivali Scrap Pickup FAQs</h2>
+        <Accordion type="single" collapsible className="space-y-3">
+          {faqs.map((faq, idx) => (
+            <AccordionItem key={idx} value={`faq-${idx}`} className="border rounded-2xl px-6 py-1">
+              <AccordionTrigger className="font-bold text-sm">{faq.q}</AccordionTrigger>
+              <AccordionContent className="text-xs text-muted-foreground">{faq.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ export function Footer() {
             <li><Link to="/locations/andheri" className="hover:text-emerald-400 transition-colors">Andheri Scrap Pickup</Link></li>
             <li><Link to="/locations/bandra" className="hover:text-emerald-400 transition-colors">Bandra &amp; BKC Pickup</Link></li>
             <li><Link to="/blog" className="hover:text-emerald-400 transition-colors">Recycling Blog &amp; Guides</Link></li>
-            <li><Link to="/about" className="hover:text-emerald-400 transition-colors">About ScrapBuddy</Link></li>
+            <li><Link to="/about" className="hover:text-emerald-400 transition-colors">About My Scrap Buddy</Link></li>
             <li><Link to="/contact" className="hover:text-emerald-400 transition-colors">Contact Support</Link></li>
           </ul>
         </div>

@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 export const Route = createFileRoute("/blog/how-scrap-prices-are-determined")({
   head: () => ({
     meta: [
-      { title: "How Scrap Prices Are Determined in Mumbai | ScrapBuddy" },
+      { title: "How Scrap Prices Are Determined in Mumbai | My Scrap Buddy" },
       {
         name: "description",
         content:
@@ -18,12 +18,12 @@ export const Route = createFileRoute("/blog/how-scrap-prices-are-determined")({
       },
       { name: "robots", content: "index, follow" },
       { property: "og:type", content: "article" },
-      { property: "og:site_name", content: "ScrapBuddy" },
-      { property: "og:title", content: "How Scrap Prices Are Determined in Mumbai | ScrapBuddy" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "How Scrap Prices Are Determined in Mumbai | My Scrap Buddy" },
       { property: "og:url", content: "https://scrapbuddy.org/blog/how-scrap-prices-are-determined" },
       { property: "og:image", content: "https://scrapbuddy.org/og-image.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "How Scrap Prices Are Determined in Mumbai | ScrapBuddy" },
+      { name: "twitter:title", content: "How Scrap Prices Are Determined in Mumbai | My Scrap Buddy" },
       { name: "twitter:image", content: "https://scrapbuddy.org/og-image.png" },
     ],
     links: [{ rel: "canonical", href: "https://scrapbuddy.org/blog/how-scrap-prices-are-determined" }],
@@ -36,7 +36,7 @@ function ScrapPricingGuideBlogPage() {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "How Daily Scrap Prices Are Determined in Mumbai",
-    "author": { "@type": "Organization", "name": "ScrapBuddy" },
+    "author": { "@type": "Organization", "name": "My Scrap Buddy" },
     "url": "https://scrapbuddy.org/blog/how-scrap-prices-are-determined"
   };
 
@@ -69,7 +69,7 @@ function ScrapPricingGuideBlogPage() {
         </ul>
 
         <p className="pt-2">
-          At <strong>ScrapBuddy</strong>, we monitor Mandi and foundry benchmarks every morning to publish live per-kilogram pricing on our <Link to="/pricing" className="text-emerald-600 font-semibold hover:underline">Scrap Price List</Link>.
+          At <strong>My Scrap Buddy</strong>, we monitor Mandi and foundry benchmarks every morning to publish live per-kilogram pricing on our <Link to="/pricing" className="text-emerald-600 font-semibold hover:underline">Scrap Price List</Link>.
         </p>
       </div>
 
