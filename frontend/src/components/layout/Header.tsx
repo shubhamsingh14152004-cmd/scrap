@@ -6,9 +6,12 @@ import logoImg from "@/assets/logo.png";
 
 const navItems = [
   { to: "/", label: "Home" },
+  { to: "/scrap-pickup", label: "Services" },
+  { to: "/locations/mumbai", label: "Locations" },
   { to: "/pricing", label: "Price List" },
-  { to: "/request-pickup", label: "Request Pickup" },
+  { to: "/blog", label: "Blog" },
   { to: "/about", label: "About" },
+  { to: "/contact", label: "Contact" },
 ];
 
 export function Header() {

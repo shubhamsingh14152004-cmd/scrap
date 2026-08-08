@@ -40,26 +40,27 @@ export function Footer() {
 
         {/* Quick Links */}
         <div className="space-y-3">
-          <h4 className="text-xs font-extrabold uppercase tracking-wider text-white">Services & Links</h4>
+          <h4 className="text-xs font-extrabold uppercase tracking-wider text-white">Pages &amp; Services</h4>
           <ul className="space-y-2 text-xs text-slate-400">
-            <li><Link to="/" className="hover:text-emerald-400 transition-colors">Home Pickup</Link></li>
+            <li><Link to="/scrap-pickup" className="hover:text-emerald-400 transition-colors">Doorstep Scrap Pickup</Link></li>
+            <li><Link to="/e-waste-recycling" className="hover:text-emerald-400 transition-colors">E-Waste Recycling</Link></li>
+            <li><Link to="/paper-scrap" className="hover:text-emerald-400 transition-colors">Paper &amp; Cardboard</Link></li>
+            <li><Link to="/metal-scrap" className="hover:text-emerald-400 transition-colors">Metal &amp; Steel Scrap</Link></li>
             <li><Link to="/pricing" className="hover:text-emerald-400 transition-colors">Live Price List</Link></li>
-            <li><Link to="/request-pickup" className="hover:text-emerald-400 transition-colors">Book Free Pickup</Link></li>
-            <li><Link to="/about" className="hover:text-emerald-400 transition-colors">About Us</Link></li>
-            <li><Link to="/admin/login" className="hover:text-emerald-400 transition-colors">Admin Portal</Link></li>
+            <li><Link to="/request-pickup" className="hover:text-emerald-400 transition-colors">Book Pickup</Link></li>
           </ul>
         </div>
 
-        {/* Categories Accepted */}
+        {/* Resources & Locations */}
         <div className="space-y-3">
-          <h4 className="text-xs font-extrabold uppercase tracking-wider text-white">Categories Accepted</h4>
+          <h4 className="text-xs font-extrabold uppercase tracking-wider text-white">Locations &amp; Resources</h4>
           <ul className="space-y-2 text-xs text-slate-400">
-            <li>Construction Scrap & Renovation Waste</li>
-            <li>Iron Rods, TMT & Industrial Steel</li>
-            <li>E-Waste & IT Corporate Disposal</li>
-            <li>Home & Office Furniture</li>
-            <li>Metals (Copper, Brass, Aluminium)</li>
-            <li>Appliance Recycling (AC, Fridges)</li>
+            <li><Link to="/locations/mumbai" className="hover:text-emerald-400 transition-colors">Mumbai All Localities</Link></li>
+            <li><Link to="/locations/andheri" className="hover:text-emerald-400 transition-colors">Andheri Scrap Pickup</Link></li>
+            <li><Link to="/locations/bandra" className="hover:text-emerald-400 transition-colors">Bandra &amp; BKC Pickup</Link></li>
+            <li><Link to="/blog" className="hover:text-emerald-400 transition-colors">Recycling Blog &amp; Guides</Link></li>
+            <li><Link to="/about" className="hover:text-emerald-400 transition-colors">About ScrapBuddy</Link></li>
+            <li><Link to="/contact" className="hover:text-emerald-400 transition-colors">Contact Support</Link></li>
           </ul>
         </div>
 

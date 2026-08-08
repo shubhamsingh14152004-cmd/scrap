@@ -10,16 +10,47 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ScrapPickupRouteImport } from './routes/scrap-pickup'
+import { Route as ScrapCollectionRouteImport } from './routes/scrap-collection'
 import { Route as RequestPickupRouteImport } from './routes/request-pickup'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PlasticScrapRouteImport } from './routes/plastic-scrap'
+import { Route as PaperScrapRouteImport } from './routes/paper-scrap'
+import { Route as OldFurnitureScrapRouteImport } from './routes/old-furniture-scrap'
+import { Route as OldApplianceScrapRouteImport } from './routes/old-appliance-scrap'
+import { Route as MetalScrapRouteImport } from './routes/metal-scrap'
+import { Route as EWasteRecyclingRouteImport } from './routes/e-waste-recycling'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as LocationsPowaiRouteImport } from './routes/locations/powai'
+import { Route as LocationsMumbaiRouteImport } from './routes/locations/mumbai'
+import { Route as LocationsMaladRouteImport } from './routes/locations/malad'
+import { Route as LocationsBorivaliRouteImport } from './routes/locations/borivali'
+import { Route as LocationsBandraRouteImport } from './routes/locations/bandra'
+import { Route as LocationsAndheriRouteImport } from './routes/locations/andheri'
+import { Route as BlogScrapPickupVsTraditionalKabadiwalaRouteImport } from './routes/blog/scrap-pickup-vs-traditional-kabadiwala'
+import { Route as BlogHowToSellScrapOnlineInMumbaiRouteImport } from './routes/blog/how-to-sell-scrap-online-in-mumbai'
+import { Route as BlogHowToRecycleEWasteResponsiblyMumbaiRouteImport } from './routes/blog/how-to-recycle-e-waste-responsibly-mumbai'
+import { Route as BlogHowScrapPricesAreDeterminedRouteImport } from './routes/blog/how-scrap-prices-are-determined'
+import { Route as BlogDoorstepScrapPickupHowItWorksRouteImport } from './routes/blog/doorstep-scrap-pickup-how-it-works'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScrapPickupRoute = ScrapPickupRouteImport.update({
+  id: '/scrap-pickup',
+  path: '/scrap-pickup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScrapCollectionRoute = ScrapCollectionRouteImport.update({
+  id: '/scrap-collection',
+  path: '/scrap-collection',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RequestPickupRoute = RequestPickupRouteImport.update({
@@ -32,6 +63,41 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlasticScrapRoute = PlasticScrapRouteImport.update({
+  id: '/plastic-scrap',
+  path: '/plastic-scrap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaperScrapRoute = PaperScrapRouteImport.update({
+  id: '/paper-scrap',
+  path: '/paper-scrap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OldFurnitureScrapRoute = OldFurnitureScrapRouteImport.update({
+  id: '/old-furniture-scrap',
+  path: '/old-furniture-scrap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OldApplianceScrapRoute = OldApplianceScrapRouteImport.update({
+  id: '/old-appliance-scrap',
+  path: '/old-appliance-scrap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MetalScrapRoute = MetalScrapRouteImport.update({
+  id: '/metal-scrap',
+  path: '/metal-scrap',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EWasteRecyclingRoute = EWasteRecyclingRouteImport.update({
+  id: '/e-waste-recycling',
+  path: '/e-waste-recycling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -42,11 +108,76 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocationsPowaiRoute = LocationsPowaiRouteImport.update({
+  id: '/locations/powai',
+  path: '/locations/powai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsMumbaiRoute = LocationsMumbaiRouteImport.update({
+  id: '/locations/mumbai',
+  path: '/locations/mumbai',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsMaladRoute = LocationsMaladRouteImport.update({
+  id: '/locations/malad',
+  path: '/locations/malad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsBorivaliRoute = LocationsBorivaliRouteImport.update({
+  id: '/locations/borivali',
+  path: '/locations/borivali',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsBandraRoute = LocationsBandraRouteImport.update({
+  id: '/locations/bandra',
+  path: '/locations/bandra',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsAndheriRoute = LocationsAndheriRouteImport.update({
+  id: '/locations/andheri',
+  path: '/locations/andheri',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogScrapPickupVsTraditionalKabadiwalaRoute =
+  BlogScrapPickupVsTraditionalKabadiwalaRouteImport.update({
+    id: '/blog/scrap-pickup-vs-traditional-kabadiwala',
+    path: '/blog/scrap-pickup-vs-traditional-kabadiwala',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogHowToSellScrapOnlineInMumbaiRoute =
+  BlogHowToSellScrapOnlineInMumbaiRouteImport.update({
+    id: '/blog/how-to-sell-scrap-online-in-mumbai',
+    path: '/blog/how-to-sell-scrap-online-in-mumbai',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogHowToRecycleEWasteResponsiblyMumbaiRoute =
+  BlogHowToRecycleEWasteResponsiblyMumbaiRouteImport.update({
+    id: '/blog/how-to-recycle-e-waste-responsibly-mumbai',
+    path: '/blog/how-to-recycle-e-waste-responsibly-mumbai',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogHowScrapPricesAreDeterminedRoute =
+  BlogHowScrapPricesAreDeterminedRouteImport.update({
+    id: '/blog/how-scrap-prices-are-determined',
+    path: '/blog/how-scrap-prices-are-determined',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const BlogDoorstepScrapPickupHowItWorksRoute =
+  BlogDoorstepScrapPickupHowItWorksRouteImport.update({
+    id: '/blog/doorstep-scrap-pickup-how-it-works',
+    path: '/blog/doorstep-scrap-pickup-how-it-works',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
@@ -56,69 +187,216 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/e-waste-recycling': typeof EWasteRecyclingRoute
+  '/metal-scrap': typeof MetalScrapRoute
+  '/old-appliance-scrap': typeof OldApplianceScrapRoute
+  '/old-furniture-scrap': typeof OldFurnitureScrapRoute
+  '/paper-scrap': typeof PaperScrapRoute
+  '/plastic-scrap': typeof PlasticScrapRoute
   '/pricing': typeof PricingRoute
   '/request-pickup': typeof RequestPickupRoute
+  '/scrap-collection': typeof ScrapCollectionRoute
+  '/scrap-pickup': typeof ScrapPickupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
+  '/blog/doorstep-scrap-pickup-how-it-works': typeof BlogDoorstepScrapPickupHowItWorksRoute
+  '/blog/how-scrap-prices-are-determined': typeof BlogHowScrapPricesAreDeterminedRoute
+  '/blog/how-to-recycle-e-waste-responsibly-mumbai': typeof BlogHowToRecycleEWasteResponsiblyMumbaiRoute
+  '/blog/how-to-sell-scrap-online-in-mumbai': typeof BlogHowToSellScrapOnlineInMumbaiRoute
+  '/blog/scrap-pickup-vs-traditional-kabadiwala': typeof BlogScrapPickupVsTraditionalKabadiwalaRoute
+  '/locations/andheri': typeof LocationsAndheriRoute
+  '/locations/bandra': typeof LocationsBandraRoute
+  '/locations/borivali': typeof LocationsBorivaliRoute
+  '/locations/malad': typeof LocationsMaladRoute
+  '/locations/mumbai': typeof LocationsMumbaiRoute
+  '/locations/powai': typeof LocationsPowaiRoute
   '/admin/': typeof AdminIndexRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/e-waste-recycling': typeof EWasteRecyclingRoute
+  '/metal-scrap': typeof MetalScrapRoute
+  '/old-appliance-scrap': typeof OldApplianceScrapRoute
+  '/old-furniture-scrap': typeof OldFurnitureScrapRoute
+  '/paper-scrap': typeof PaperScrapRoute
+  '/plastic-scrap': typeof PlasticScrapRoute
   '/pricing': typeof PricingRoute
   '/request-pickup': typeof RequestPickupRoute
+  '/scrap-collection': typeof ScrapCollectionRoute
+  '/scrap-pickup': typeof ScrapPickupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
+  '/blog/doorstep-scrap-pickup-how-it-works': typeof BlogDoorstepScrapPickupHowItWorksRoute
+  '/blog/how-scrap-prices-are-determined': typeof BlogHowScrapPricesAreDeterminedRoute
+  '/blog/how-to-recycle-e-waste-responsibly-mumbai': typeof BlogHowToRecycleEWasteResponsiblyMumbaiRoute
+  '/blog/how-to-sell-scrap-online-in-mumbai': typeof BlogHowToSellScrapOnlineInMumbaiRoute
+  '/blog/scrap-pickup-vs-traditional-kabadiwala': typeof BlogScrapPickupVsTraditionalKabadiwalaRoute
+  '/locations/andheri': typeof LocationsAndheriRoute
+  '/locations/bandra': typeof LocationsBandraRoute
+  '/locations/borivali': typeof LocationsBorivaliRoute
+  '/locations/malad': typeof LocationsMaladRoute
+  '/locations/mumbai': typeof LocationsMumbaiRoute
+  '/locations/powai': typeof LocationsPowaiRoute
   '/admin': typeof AdminIndexRoute
+  '/blog': typeof BlogIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/e-waste-recycling': typeof EWasteRecyclingRoute
+  '/metal-scrap': typeof MetalScrapRoute
+  '/old-appliance-scrap': typeof OldApplianceScrapRoute
+  '/old-furniture-scrap': typeof OldFurnitureScrapRoute
+  '/paper-scrap': typeof PaperScrapRoute
+  '/plastic-scrap': typeof PlasticScrapRoute
   '/pricing': typeof PricingRoute
   '/request-pickup': typeof RequestPickupRoute
+  '/scrap-collection': typeof ScrapCollectionRoute
+  '/scrap-pickup': typeof ScrapPickupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
+  '/blog/doorstep-scrap-pickup-how-it-works': typeof BlogDoorstepScrapPickupHowItWorksRoute
+  '/blog/how-scrap-prices-are-determined': typeof BlogHowScrapPricesAreDeterminedRoute
+  '/blog/how-to-recycle-e-waste-responsibly-mumbai': typeof BlogHowToRecycleEWasteResponsiblyMumbaiRoute
+  '/blog/how-to-sell-scrap-online-in-mumbai': typeof BlogHowToSellScrapOnlineInMumbaiRoute
+  '/blog/scrap-pickup-vs-traditional-kabadiwala': typeof BlogScrapPickupVsTraditionalKabadiwalaRoute
+  '/locations/andheri': typeof LocationsAndheriRoute
+  '/locations/bandra': typeof LocationsBandraRoute
+  '/locations/borivali': typeof LocationsBorivaliRoute
+  '/locations/malad': typeof LocationsMaladRoute
+  '/locations/mumbai': typeof LocationsMumbaiRoute
+  '/locations/powai': typeof LocationsPowaiRoute
   '/admin/': typeof AdminIndexRoute
+  '/blog/': typeof BlogIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/contact'
+    | '/e-waste-recycling'
+    | '/metal-scrap'
+    | '/old-appliance-scrap'
+    | '/old-furniture-scrap'
+    | '/paper-scrap'
+    | '/plastic-scrap'
     | '/pricing'
     | '/request-pickup'
+    | '/scrap-collection'
+    | '/scrap-pickup'
     | '/sitemap.xml'
     | '/admin/login'
+    | '/blog/doorstep-scrap-pickup-how-it-works'
+    | '/blog/how-scrap-prices-are-determined'
+    | '/blog/how-to-recycle-e-waste-responsibly-mumbai'
+    | '/blog/how-to-sell-scrap-online-in-mumbai'
+    | '/blog/scrap-pickup-vs-traditional-kabadiwala'
+    | '/locations/andheri'
+    | '/locations/bandra'
+    | '/locations/borivali'
+    | '/locations/malad'
+    | '/locations/mumbai'
+    | '/locations/powai'
     | '/admin/'
+    | '/blog/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
+    | '/contact'
+    | '/e-waste-recycling'
+    | '/metal-scrap'
+    | '/old-appliance-scrap'
+    | '/old-furniture-scrap'
+    | '/paper-scrap'
+    | '/plastic-scrap'
     | '/pricing'
     | '/request-pickup'
+    | '/scrap-collection'
+    | '/scrap-pickup'
     | '/sitemap.xml'
     | '/admin/login'
+    | '/blog/doorstep-scrap-pickup-how-it-works'
+    | '/blog/how-scrap-prices-are-determined'
+    | '/blog/how-to-recycle-e-waste-responsibly-mumbai'
+    | '/blog/how-to-sell-scrap-online-in-mumbai'
+    | '/blog/scrap-pickup-vs-traditional-kabadiwala'
+    | '/locations/andheri'
+    | '/locations/bandra'
+    | '/locations/borivali'
+    | '/locations/malad'
+    | '/locations/mumbai'
+    | '/locations/powai'
     | '/admin'
+    | '/blog'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/contact'
+    | '/e-waste-recycling'
+    | '/metal-scrap'
+    | '/old-appliance-scrap'
+    | '/old-furniture-scrap'
+    | '/paper-scrap'
+    | '/plastic-scrap'
     | '/pricing'
     | '/request-pickup'
+    | '/scrap-collection'
+    | '/scrap-pickup'
     | '/sitemap.xml'
     | '/admin/login'
+    | '/blog/doorstep-scrap-pickup-how-it-works'
+    | '/blog/how-scrap-prices-are-determined'
+    | '/blog/how-to-recycle-e-waste-responsibly-mumbai'
+    | '/blog/how-to-sell-scrap-online-in-mumbai'
+    | '/blog/scrap-pickup-vs-traditional-kabadiwala'
+    | '/locations/andheri'
+    | '/locations/bandra'
+    | '/locations/borivali'
+    | '/locations/malad'
+    | '/locations/mumbai'
+    | '/locations/powai'
     | '/admin/'
+    | '/blog/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  EWasteRecyclingRoute: typeof EWasteRecyclingRoute
+  MetalScrapRoute: typeof MetalScrapRoute
+  OldApplianceScrapRoute: typeof OldApplianceScrapRoute
+  OldFurnitureScrapRoute: typeof OldFurnitureScrapRoute
+  PaperScrapRoute: typeof PaperScrapRoute
+  PlasticScrapRoute: typeof PlasticScrapRoute
   PricingRoute: typeof PricingRoute
   RequestPickupRoute: typeof RequestPickupRoute
+  ScrapCollectionRoute: typeof ScrapCollectionRoute
+  ScrapPickupRoute: typeof ScrapPickupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  BlogDoorstepScrapPickupHowItWorksRoute: typeof BlogDoorstepScrapPickupHowItWorksRoute
+  BlogHowScrapPricesAreDeterminedRoute: typeof BlogHowScrapPricesAreDeterminedRoute
+  BlogHowToRecycleEWasteResponsiblyMumbaiRoute: typeof BlogHowToRecycleEWasteResponsiblyMumbaiRoute
+  BlogHowToSellScrapOnlineInMumbaiRoute: typeof BlogHowToSellScrapOnlineInMumbaiRoute
+  BlogScrapPickupVsTraditionalKabadiwalaRoute: typeof BlogScrapPickupVsTraditionalKabadiwalaRoute
+  LocationsAndheriRoute: typeof LocationsAndheriRoute
+  LocationsBandraRoute: typeof LocationsBandraRoute
+  LocationsBorivaliRoute: typeof LocationsBorivaliRoute
+  LocationsMaladRoute: typeof LocationsMaladRoute
+  LocationsMumbaiRoute: typeof LocationsMumbaiRoute
+  LocationsPowaiRoute: typeof LocationsPowaiRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  BlogIndexRoute: typeof BlogIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -128,6 +406,20 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scrap-pickup': {
+      id: '/scrap-pickup'
+      path: '/scrap-pickup'
+      fullPath: '/scrap-pickup'
+      preLoaderRoute: typeof ScrapPickupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/scrap-collection': {
+      id: '/scrap-collection'
+      path: '/scrap-collection'
+      fullPath: '/scrap-collection'
+      preLoaderRoute: typeof ScrapCollectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/request-pickup': {
@@ -144,6 +436,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/plastic-scrap': {
+      id: '/plastic-scrap'
+      path: '/plastic-scrap'
+      fullPath: '/plastic-scrap'
+      preLoaderRoute: typeof PlasticScrapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paper-scrap': {
+      id: '/paper-scrap'
+      path: '/paper-scrap'
+      fullPath: '/paper-scrap'
+      preLoaderRoute: typeof PaperScrapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/old-furniture-scrap': {
+      id: '/old-furniture-scrap'
+      path: '/old-furniture-scrap'
+      fullPath: '/old-furniture-scrap'
+      preLoaderRoute: typeof OldFurnitureScrapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/old-appliance-scrap': {
+      id: '/old-appliance-scrap'
+      path: '/old-appliance-scrap'
+      fullPath: '/old-appliance-scrap'
+      preLoaderRoute: typeof OldApplianceScrapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/metal-scrap': {
+      id: '/metal-scrap'
+      path: '/metal-scrap'
+      fullPath: '/metal-scrap'
+      preLoaderRoute: typeof MetalScrapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/e-waste-recycling': {
+      id: '/e-waste-recycling'
+      path: '/e-waste-recycling'
+      fullPath: '/e-waste-recycling'
+      preLoaderRoute: typeof EWasteRecyclingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -158,11 +499,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/powai': {
+      id: '/locations/powai'
+      path: '/locations/powai'
+      fullPath: '/locations/powai'
+      preLoaderRoute: typeof LocationsPowaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/mumbai': {
+      id: '/locations/mumbai'
+      path: '/locations/mumbai'
+      fullPath: '/locations/mumbai'
+      preLoaderRoute: typeof LocationsMumbaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/malad': {
+      id: '/locations/malad'
+      path: '/locations/malad'
+      fullPath: '/locations/malad'
+      preLoaderRoute: typeof LocationsMaladRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/borivali': {
+      id: '/locations/borivali'
+      path: '/locations/borivali'
+      fullPath: '/locations/borivali'
+      preLoaderRoute: typeof LocationsBorivaliRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/bandra': {
+      id: '/locations/bandra'
+      path: '/locations/bandra'
+      fullPath: '/locations/bandra'
+      preLoaderRoute: typeof LocationsBandraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations/andheri': {
+      id: '/locations/andheri'
+      path: '/locations/andheri'
+      fullPath: '/locations/andheri'
+      preLoaderRoute: typeof LocationsAndheriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/scrap-pickup-vs-traditional-kabadiwala': {
+      id: '/blog/scrap-pickup-vs-traditional-kabadiwala'
+      path: '/blog/scrap-pickup-vs-traditional-kabadiwala'
+      fullPath: '/blog/scrap-pickup-vs-traditional-kabadiwala'
+      preLoaderRoute: typeof BlogScrapPickupVsTraditionalKabadiwalaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/how-to-sell-scrap-online-in-mumbai': {
+      id: '/blog/how-to-sell-scrap-online-in-mumbai'
+      path: '/blog/how-to-sell-scrap-online-in-mumbai'
+      fullPath: '/blog/how-to-sell-scrap-online-in-mumbai'
+      preLoaderRoute: typeof BlogHowToSellScrapOnlineInMumbaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/how-to-recycle-e-waste-responsibly-mumbai': {
+      id: '/blog/how-to-recycle-e-waste-responsibly-mumbai'
+      path: '/blog/how-to-recycle-e-waste-responsibly-mumbai'
+      fullPath: '/blog/how-to-recycle-e-waste-responsibly-mumbai'
+      preLoaderRoute: typeof BlogHowToRecycleEWasteResponsiblyMumbaiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/how-scrap-prices-are-determined': {
+      id: '/blog/how-scrap-prices-are-determined'
+      path: '/blog/how-scrap-prices-are-determined'
+      fullPath: '/blog/how-scrap-prices-are-determined'
+      preLoaderRoute: typeof BlogHowScrapPricesAreDeterminedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/doorstep-scrap-pickup-how-it-works': {
+      id: '/blog/doorstep-scrap-pickup-how-it-works'
+      path: '/blog/doorstep-scrap-pickup-how-it-works'
+      fullPath: '/blog/doorstep-scrap-pickup-how-it-works'
+      preLoaderRoute: typeof BlogDoorstepScrapPickupHowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/login': {
@@ -178,11 +603,35 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  EWasteRecyclingRoute: EWasteRecyclingRoute,
+  MetalScrapRoute: MetalScrapRoute,
+  OldApplianceScrapRoute: OldApplianceScrapRoute,
+  OldFurnitureScrapRoute: OldFurnitureScrapRoute,
+  PaperScrapRoute: PaperScrapRoute,
+  PlasticScrapRoute: PlasticScrapRoute,
   PricingRoute: PricingRoute,
   RequestPickupRoute: RequestPickupRoute,
+  ScrapCollectionRoute: ScrapCollectionRoute,
+  ScrapPickupRoute: ScrapPickupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AdminLoginRoute: AdminLoginRoute,
+  BlogDoorstepScrapPickupHowItWorksRoute:
+    BlogDoorstepScrapPickupHowItWorksRoute,
+  BlogHowScrapPricesAreDeterminedRoute: BlogHowScrapPricesAreDeterminedRoute,
+  BlogHowToRecycleEWasteResponsiblyMumbaiRoute:
+    BlogHowToRecycleEWasteResponsiblyMumbaiRoute,
+  BlogHowToSellScrapOnlineInMumbaiRoute: BlogHowToSellScrapOnlineInMumbaiRoute,
+  BlogScrapPickupVsTraditionalKabadiwalaRoute:
+    BlogScrapPickupVsTraditionalKabadiwalaRoute,
+  LocationsAndheriRoute: LocationsAndheriRoute,
+  LocationsBandraRoute: LocationsBandraRoute,
+  LocationsBorivaliRoute: LocationsBorivaliRoute,
+  LocationsMaladRoute: LocationsMaladRoute,
+  LocationsMumbaiRoute: LocationsMumbaiRoute,
+  LocationsPowaiRoute: LocationsPowaiRoute,
   AdminIndexRoute: AdminIndexRoute,
+  BlogIndexRoute: BlogIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
