@@ -25,11 +25,35 @@ export const Route = createFileRoute("/pricing")({
         content:
           "Live scrap prices per kg in Mumbai. Updated market rates for metals, iron rods, steel, e-waste, construction scrap, paper, plastic & appliances. Commercial bulk rates available.",
       },
+      {
+        name: "keywords",
+        content:
+          "scrap rate Mumbai, iron scrap price today, copper rate Mumbai, e-waste price per kg, paper scrap rate, construction scrap rate, plastic scrap rate Mumbai",
+      },
+      { name: "robots", content: "index, follow" },
+      // Open Graph
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
       { property: "og:title", content: "Scrap Price List & Bulk Pricing — My Scrap Buddy Mumbai" },
       {
         property: "og:description",
         content: "Transparent daily market rates per kg for household, office & construction scrap in Mumbai.",
       },
+      { property: "og:url", content: "https://myscrapbuddy.com/pricing" },
+      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      // Twitter / X
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Scrap Price List & Bulk Pricing — My Scrap Buddy Mumbai" },
+      {
+        name: "twitter:description",
+        content: "Transparent daily market rates per kg for household, office & construction scrap in Mumbai.",
+      },
+      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://myscrapbuddy.com/pricing" },
     ],
   }),
   component: Pricing,

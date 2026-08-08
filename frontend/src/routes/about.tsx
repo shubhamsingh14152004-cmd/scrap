@@ -6,17 +6,36 @@ import { Card } from "@/components/ui/card";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About My Scrap Buddy — Sustainable Scrap Recycling" },
+      { title: "About My Scrap Buddy — Sustainable Scrap Recycling in Mumbai" },
       {
         name: "description",
         content:
           "My Scrap Buddy is a trusted scrap collection service in Mumbai. We purchase household scrap, office scrap, industrial scrap, electronic waste, construction waste, iron, steel, copper, aluminium, brass and other recyclable materials.",
       },
-      { property: "og:title", content: "About My Scrap Buddy" },
+      { name: "robots", content: "index, follow" },
+      // Open Graph
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "About My Scrap Buddy — Sustainable Scrap Recycling in Mumbai" },
       {
         property: "og:description",
-        content: "Making recycling simple, fair and sustainable for everyone.",
+        content: "Making recycling simple, fair and sustainable for everyone in Mumbai.",
       },
+      { property: "og:url", content: "https://myscrapbuddy.com/about" },
+      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      // Twitter / X
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "About My Scrap Buddy — Sustainable Scrap Recycling in Mumbai" },
+      {
+        name: "twitter:description",
+        content: "Making recycling simple, fair and sustainable for everyone in Mumbai.",
+      },
+      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://myscrapbuddy.com/about" },
     ],
   }),
   component: About,

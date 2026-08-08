@@ -26,11 +26,35 @@ export const Route = createFileRoute("/request-pickup")({
         content:
           "Schedule a free doorstep scrap pickup in Mumbai. Household, office, construction waste, iron rods, steel, e-waste & appliances. Digital weighing & instant payment.",
       },
+      {
+        name: "keywords",
+        content:
+          "book scrap pickup Mumbai, schedule scrap collection, free doorstep pickup Mumbai, scrap pickup request, e-waste pickup booking Mumbai",
+      },
+      { name: "robots", content: "index, follow" },
+      // Open Graph
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
       { property: "og:title", content: "Book Free Doorstep Scrap Pickup — My Scrap Buddy Mumbai" },
       {
         property: "og:description",
         content: "Schedule a free doorstep scrap pickup across Mumbai in under 2 minutes.",
       },
+      { property: "og:url", content: "https://myscrapbuddy.com/request-pickup" },
+      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      // Twitter / X
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Book Free Doorstep Scrap Pickup — My Scrap Buddy Mumbai" },
+      {
+        name: "twitter:description",
+        content: "Schedule a free doorstep scrap pickup across Mumbai in under 2 minutes.",
+      },
+      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://myscrapbuddy.com/request-pickup" },
     ],
   }),
   component: RequestPickup,

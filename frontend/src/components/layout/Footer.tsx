@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Recycle, Mail, Phone, MapPin, Instagram, ShieldCheck, Leaf } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, ShieldCheck } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSettings } from "../../lib/api";
+import logoImg from "@/assets/logo.png";
 
 export function Footer() {
   const { data: settings } = useQuery({
@@ -24,9 +25,7 @@ export function Footer() {
         {/* Brand info */}
         <div className="md:col-span-1 space-y-4">
           <div className="flex items-center gap-2.5">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-md">
-              <Recycle className="h-6 w-6" />
-            </span>
+            <img src={logoImg} alt="My Scrap Buddy Logo" width={40} height={46} className="h-11 w-auto object-contain" />
             <span className="font-display text-xl font-extrabold tracking-tight text-white">
               My Scrap Buddy
             </span>

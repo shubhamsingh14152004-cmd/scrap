@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Recycle, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImg from "@/assets/logo.png";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -16,10 +17,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-primary text-primary-foreground shadow-card">
-            <Recycle className="h-5 w-5" />
-          </span>
+        <Link to="/" className="flex items-center gap-2.5">
+          <img src={logoImg} alt="My Scrap Buddy Logo" width={36} height={42} className="h-10 w-auto object-contain" />
           <span className="font-display text-lg font-extrabold tracking-tight">
             My Scrap Buddy
           </span>

@@ -11,12 +11,13 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
+import { reportAppError } from "../lib/error-reporting";
 import { Header } from "../components/layout/Header";
 import { Footer } from "../components/layout/Footer";
 import { Toaster } from "../components/ui/sonner";
 import { FloatingContact } from "../components/common/FloatingContact";
 import { JsonLdSchema } from "../components/seo/JsonLdSchema";
+import { SplashScreen } from "../components/common/SplashScreen";
 
 function NotFoundComponent() {
   return (
@@ -44,7 +45,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportAppError(error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
@@ -83,25 +84,56 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "My Scrap Buddy — Doorstep Scrap & E-Waste Pickup Mumbai" },
+      { title: "My Scrap Buddy – Scrap & E-Waste Recycling" },
       {
         name: "description",
         content:
-          "My Scrap Buddy is Mumbai's premier doorstep scrap buyer. Sell household scrap, office scrap, construction waste, iron rods, steel & e-waste at daily live market rates with instant UPI payouts.",
+          "Book doorstep scrap pickup in Mumbai for paper, plastic, metal, e-waste, office scrap, construction scrap and bulk recycling. Government authorized recycler with instant payment and transparent pricing.",
+      },
+      {
+        name: "keywords",
+        content:
+          "scrap buyer Mumbai, doorstep scrap pickup, scrap collection Mumbai, e-waste recycling Mumbai, plastic recycling, paper recycling, metal scrap buyer, office scrap pickup, construction scrap buyer, old furniture recycling, My Scrap Buddy",
       },
       { name: "author", content: "My Scrap Buddy" },
-      { property: "og:title", content: "My Scrap Buddy — Doorstep Scrap & E-Waste Pickup Mumbai" },
+      { name: "robots", content: "index, follow" },
+      { name: "theme-color", content: "#0f4a28" },
+      { name: "msapplication-TileColor", content: "#0f4a28" },
+      // Open Graph
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "My Scrap Buddy – Scrap & E-Waste Recycling" },
       {
         property: "og:description",
         content:
-          "Government authorized scrap buyer in Mumbai. Free doorstep pickup, transparent digital weighing & instant UPI payouts.",
+          "Book doorstep scrap pickup in Mumbai for paper, plastic, metal, e-waste, office scrap, construction scrap and bulk recycling. Government authorized recycler with instant payment and transparent pricing.",
       },
-      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://myscrapbuddy.com" },
+      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "My Scrap Buddy — Mumbai's Trusted Doorstep Scrap & E-Waste Pickup" },
+      { property: "og:locale", content: "en_IN" },
+      // Twitter / X
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@myscrapbuddy" },
+      { name: "twitter:title", content: "My Scrap Buddy – Scrap & E-Waste Recycling" },
+      {
+        name: "twitter:description",
+        content:
+          "Book doorstep scrap pickup in Mumbai for paper, plastic, metal, e-waste, office scrap, construction scrap and bulk recycling. Government authorized recycler with instant payment and transparent pricing.",
+      },
+      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { name: "twitter:image:alt", content: "My Scrap Buddy — Mumbai's Trusted Doorstep Scrap & E-Waste Pickup" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "canonical", href: "https://myscrapbuddy.com" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "manifest", href: "/site.webmanifest" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -124,6 +156,26 @@ function RootShell({ children }: { children: ReactNode }) {
         <JsonLdSchema />
       </head>
       <body>
+        <div
+          id="static-splash"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 999999,
+            backgroundColor: "#020617",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src="/logo.png"
+            alt="My Scrap Buddy"
+            style={{ width: "160px", height: "auto", maxHeight: "200px", objectFit: "contain" }}
+          />
+        </div>
+        <SplashScreen />
         {children}
         <Scripts />
       </body>

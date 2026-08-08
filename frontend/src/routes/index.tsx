@@ -34,19 +34,44 @@ import { CategoryDetailModal, type CategoryDetailData } from "@/components/home/
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "My Scrap Buddy — Doorstep Scrap & E-Waste Pickup in Mumbai" },
+      { title: "My Scrap Buddy | Doorstep Scrap & E-Waste Pickup in Mumbai" },
       {
         name: "description",
         content:
           "Sell household scrap, office scrap, construction waste, iron rods, steel, e-waste & appliances in Mumbai. Free doorstep pickup, digital weighing & instant UPI payment.",
       },
-      { property: "og:title", content: "My Scrap Buddy — Doorstep Scrap & E-Waste Pickup in Mumbai" },
+      {
+        name: "keywords",
+        content:
+          "scrap buyer Mumbai, doorstep scrap pickup, scrap collection Mumbai, e-waste recycling Mumbai, plastic recycling, paper recycling, metal scrap buyer, office scrap pickup, construction scrap buyer, My Scrap Buddy",
+      },
+      { name: "robots", content: "index, follow" },
+      // Open Graph
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "My Scrap Buddy" },
+      { property: "og:title", content: "My Scrap Buddy | Doorstep Scrap & E-Waste Pickup in Mumbai" },
       {
         property: "og:description",
         content:
           "Government authorized scrap buyer in Mumbai. Fast doorstep pickup, transparent digital weighing & instant payouts.",
       },
-      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://myscrapbuddy.com" },
+      { property: "og:image", content: "https://myscrapbuddy.com/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "My Scrap Buddy — Mumbai's Trusted Doorstep Scrap & E-Waste Pickup" },
+      // Twitter / X
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "My Scrap Buddy | Doorstep Scrap & E-Waste Pickup in Mumbai" },
+      {
+        name: "twitter:description",
+        content:
+          "Government authorized scrap buyer in Mumbai. Fast doorstep pickup, transparent digital weighing & instant payouts.",
+      },
+      { name: "twitter:image", content: "https://myscrapbuddy.com/og-image.png" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://myscrapbuddy.com" },
     ],
   }),
   component: Index,
