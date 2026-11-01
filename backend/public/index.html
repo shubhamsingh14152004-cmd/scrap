@@ -67,16 +67,24 @@
 <body class="font-sans antialiased">
   <div class="min-h-screen flex">
     
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/60 z-30 hidden md:hidden backdrop-blur-sm transition-opacity"></div>
+
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-slate-100 flex flex-col border-r border-slate-800 shrink-0">
-      <div class="p-6 flex items-center gap-3 border-b border-slate-800">
-        <span class="p-2 bg-emerald-500 rounded-lg text-white">
-          <i data-lucide="leaf" class="h-6 w-6"></i>
-        </span>
-        <div>
-          <h1 class="font-bold text-lg leading-tight">My Scrap Buddy</h1>
-          <span class="text-xs text-slate-400 font-medium tracking-wider uppercase">Admin Panel</span>
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-100 flex flex-col border-r border-slate-800 shrink-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out">
+      <div class="p-6 flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <span class="p-2 bg-emerald-500 rounded-lg text-white">
+            <i data-lucide="leaf" class="h-6 w-6"></i>
+          </span>
+          <div>
+            <h1 class="font-bold text-lg leading-tight">My Scrap Buddy</h1>
+            <span class="text-xs text-slate-400 font-medium tracking-wider uppercase">Admin Panel</span>
+          </div>
         </div>
+        <button onclick="toggleSidebar()" class="md:hidden p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800" title="Close menu">
+          <i data-lucide="x" class="h-5 w-5"></i>
+        </button>
       </div>
 
       <nav class="flex-1 px-4 py-6 space-y-1">
@@ -109,8 +117,13 @@
     <main class="flex-1 flex flex-col min-w-0">
       
       <!-- Top Navbar -->
-      <header class="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-10">
-        <h2 id="page-title" class="font-bold text-xl text-slate-800">Dashboard</h2>
+      <header class="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-md flex items-center justify-between px-4 sm:px-8 sticky top-0 z-10">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSidebar()" class="md:hidden p-2 text-slate-600 hover:text-emerald-600 rounded-lg hover:bg-slate-100 transition-colors" title="Toggle Navigation Menu">
+            <i data-lucide="menu" class="h-5 w-5"></i>
+          </button>
+          <h2 id="page-title" class="font-bold text-lg sm:text-xl text-slate-800">Dashboard</h2>
+        </div>
         <div class="flex items-center gap-4">
           <button onclick="fetchData()" class="p-2 text-slate-500 hover:text-emerald-600 rounded-lg hover:bg-slate-100 transition-colors" title="Refresh Data">
             <i data-lucide="refresh-cw" class="h-5 w-5"></i>
@@ -135,7 +148,7 @@
 
 
       <!-- Content Views -->
-      <div class="flex-1 p-8 overflow-y-auto">
+      <div class="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
         
         <!-- Tab: Dashboard -->
         <div id="tab-dashboard" class="space-y-8">
@@ -201,7 +214,7 @@
 
         <!-- Tab: Pickup Requests -->
         <div id="tab-requests" class="hidden space-y-6">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
             <!-- Filter buttons -->
             <div class="flex flex-wrap gap-2">
               <button onclick="filterRequests('all')" id="filter-all" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-900 text-white transition-all">All</button>
@@ -214,14 +227,14 @@
 
           <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
-              <table class="w-full text-left border-collapse">
+              <table class="w-full min-w-[880px] text-left border-collapse">
                 <thead>
-                  <tr class="bg-slate-50 border-b border-slate-100">
-                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Customer</th>
-                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Details</th>
-                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Date & Slot</th>
-                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                    <th class="p-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                  <tr class="bg-slate-50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    <th class="p-4 w-[20%] min-w-[160px]">Customer</th>
+                    <th class="p-4 w-[42%] min-w-[300px]">Details</th>
+                    <th class="p-4 w-[16%] min-w-[140px]">Date & Slot</th>
+                    <th class="p-4 w-[10%] min-w-[100px]">Status</th>
+                    <th class="p-4 w-[12%] min-w-[170px] text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="requests-tbody" class="divide-y divide-slate-100">
@@ -397,8 +410,35 @@
     let trendChart = null;
     let materialChart = null;
 
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      if (sidebar && overlay) {
+        const isClosed = sidebar.classList.contains('-translate-x-full');
+        if (isClosed) {
+          sidebar.classList.remove('-translate-x-full');
+          overlay.classList.remove('hidden');
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          overlay.classList.add('hidden');
+        }
+      }
+    }
+
+    function closeSidebarMobile() {
+      if (window.innerWidth < 768) {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        if (sidebar && overlay) {
+          sidebar.classList.add('-translate-x-full');
+          overlay.classList.add('hidden');
+        }
+      }
+    }
+
     // Switch active tabs
     function switchTab(tabId) {
+      closeSidebarMobile();
       document.getElementById(`tab-${currentTab}`).classList.add('hidden');
       document.getElementById(`nav-${currentTab}`).classList.remove('bg-emerald-600', 'text-white');
       document.getElementById(`nav-${currentTab}`).classList.add('text-slate-300', 'hover:bg-slate-800', 'hover:text-white');
@@ -533,82 +573,135 @@
       }
       document.getElementById('no-requests').classList.add('hidden');
 
+      const materialMap = {
+        ewaste: 'E-Waste',
+        metal: 'Metals',
+        paper: 'Paper & Cardboard',
+        plastic: 'Plastics',
+        appliance: 'Appliances',
+        mixed: 'Mixed / Bulk',
+        cardboard: 'Cardboard',
+        newspaper: 'Newspaper',
+        books: 'Books / Magazines',
+        iron: 'Iron / Steel',
+        aluminium: 'Aluminium',
+        brass: 'Brass',
+        copper: 'Copper',
+        pet_bottles: 'PET Bottles',
+        hard_plastic: 'Hard Plastic',
+        laptop: 'Laptop',
+        cpu: 'Desktop CPU',
+        mobile: 'Mobile Phone',
+        refrigerator: 'Refrigerator',
+        construction_scrap: 'Construction Scrap & Debris',
+        iron_rods_steel: 'Iron Rods, TMT & Steel',
+        furniture: 'Old Furniture & Bulk Scrap'
+      };
+
+      const quantityMap = {
+        small: 'Under 10 kg',
+        medium: '10 – 50 kg',
+        large: '50 – 200 kg',
+        bulk: '200 kg +'
+      };
+
+      const statusColors = {
+        pending: 'bg-amber-100 text-amber-800 border-amber-200',
+        approved: 'bg-sky-100 text-sky-800 border-sky-200',
+        completed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+        cancelled: 'bg-slate-100 text-slate-600 border-slate-200'
+      };
+
+      const slotMap = {
+        morning: 'Morning (9am - 12pm)',
+        afternoon: 'Afternoon (12pm - 4pm)',
+        evening: 'Evening (4pm - 7pm)'
+      };
+
       filtered.forEach(req => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50/50 transition-colors';
+        tr.className = 'hover:bg-slate-50/50 transition-colors align-top';
 
-        const materialMap = {
-          ewaste: 'E-Waste',
-          metal: 'Metals',
-          paper: 'Paper & Cardboard',
-          plastic: 'Plastics',
-          appliance: 'Appliances',
-          mixed: 'Mixed / Bulk'
-        };
+        let materialName = materialMap[req.scrapType];
+        if (!materialName && Array.isArray(materialsData)) {
+          const foundMat = materialsData.find(m => m.id === req.scrapType);
+          if (foundMat) materialName = foundMat.name;
+        }
+        if (!materialName) materialName = req.scrapType || 'Scrap Material';
 
-        const quantityMap = {
-          small: 'Under 10 kg',
-          medium: '10 – 50 kg',
-          large: '50 – 200 kg',
-          bulk: '200 kg +'
-        };
-
-        const statusColors = {
-          pending: 'bg-amber-100 text-amber-800 border-amber-200',
-          approved: 'bg-sky-100 text-sky-800 border-sky-200',
-          completed: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-          cancelled: 'bg-slate-100 text-slate-600 border-slate-200'
-        };
-
-        const dateStr = new Date(req.preferredDate).toLocaleDateString('en-IN', {
-          day: 'numeric',
-          month: 'short',
-          year: 'numeric'
-        });
-
-        const slotMap = {
-          morning: 'Morning (9am - 12pm)',
-          afternoon: 'Afternoon (12pm - 4pm)',
-          evening: 'Evening (4pm - 7pm)'
-        };
+        const dateObj = req.preferredDate ? new Date(req.preferredDate) : null;
+        const dateStr = (dateObj && !isNaN(dateObj.getTime()))
+          ? dateObj.toLocaleDateString('en-IN', {
+              day: 'numeric',
+              month: 'short',
+              year: 'numeric'
+            })
+          : (escapeHtml(req.preferredDate) || 'Not specified');
 
         let actionButtons = '';
         if (req.status === 'pending') {
           actionButtons = `
-            <button onclick="updateRequestStatus('${req.id}', 'approved')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-sky-200 text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors mr-1">Approve</button>
-            <button onclick="updateRequestStatus('${req.id}', 'cancelled')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 bg-slate-50 hover:bg-slate-100 transition-colors">Cancel</button>
+            <div class="flex items-center justify-end gap-1.5 flex-wrap">
+              <button onclick="updateRequestStatus('${req.id}', 'approved')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-sky-200 text-sky-700 bg-sky-50 hover:bg-sky-100 transition-colors whitespace-nowrap">Approve</button>
+              <button onclick="updateRequestStatus('${req.id}', 'cancelled')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 bg-slate-50 hover:bg-slate-100 transition-colors whitespace-nowrap">Cancel</button>
+            </div>
           `;
         } else if (req.status === 'approved') {
           actionButtons = `
-            <button onclick="updateRequestStatus('${req.id}', 'completed')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors mr-1">Mark Completed</button>
-            <button onclick="updateRequestStatus('${req.id}', 'cancelled')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 bg-slate-50 hover:bg-slate-100 transition-colors">Cancel</button>
+            <div class="flex items-center justify-end gap-1.5 flex-wrap">
+              <button onclick="updateRequestStatus('${req.id}', 'completed')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors whitespace-nowrap">Mark Completed</button>
+              <button onclick="updateRequestStatus('${req.id}', 'cancelled')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 bg-slate-50 hover:bg-slate-100 transition-colors whitespace-nowrap">Cancel</button>
+            </div>
           `;
         } else {
           actionButtons = `
-            <button onclick="deleteRequest('${req.id}')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors">Delete Log</button>
+            <div class="flex items-center justify-end">
+              <button onclick="deleteRequest('${req.id}')" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-rose-200 text-rose-600 bg-rose-50 hover:bg-rose-100 transition-colors whitespace-nowrap">Delete Log</button>
+            </div>
           `;
         }
 
+        const quantityText = quantityMap[req.quantity] || req.quantity || 'Standard';
+
         tr.innerHTML = `
-          <td class="p-4">
-            <div class="font-bold text-slate-800">${escapeHtml(req.name)}</div>
-            <div class="text-xs text-slate-400 flex items-center gap-1 mt-0.5"><i data-lucide="phone" class="h-3 w-3"></i> ${escapeHtml(req.phone)}</div>
+          <td class="p-4 align-top">
+            <div class="font-bold text-slate-800 break-words">${escapeHtml(req.name)}</div>
+            <div class="text-xs text-slate-500 flex items-center gap-1.5 mt-1">
+              <i data-lucide="phone" class="h-3.5 w-3.5 text-slate-400 shrink-0"></i>
+              <span class="font-medium">${escapeHtml(req.phone)}</span>
+            </div>
           </td>
-          <td class="p-4 max-w-xs">
-            <div class="text-sm text-slate-600 font-semibold">${materialMap[req.scrapType] || req.scrapType} (${quantityMap[req.quantity] || req.quantity})</div>
-            <div class="text-xs text-slate-400 mt-1 truncate" title="${escapeHtml(req.address)}">${escapeHtml(req.address)}</div>
-            ${req.notes ? `<div class="text-[11px] text-slate-500 italic mt-0.5 truncate">Note: ${escapeHtml(req.notes)}</div>` : ''}
+          <td class="p-4 align-top">
+            <div class="text-sm font-semibold text-slate-800 break-words whitespace-normal">
+              ${escapeHtml(materialName)}
+              <span class="inline-block text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 ml-1 whitespace-nowrap">
+                ${escapeHtml(quantityText)}
+              </span>
+            </div>
+            <div class="text-xs text-slate-600 mt-2 flex items-start gap-1.5 break-words whitespace-normal leading-relaxed">
+              <i data-lucide="map-pin" class="h-3.5 w-3.5 text-slate-400 shrink-0 mt-0.5"></i>
+              <span class="break-words font-normal">${escapeHtml(req.address || 'No address provided')}</span>
+            </div>
+            ${req.notes ? `
+              <div class="text-xs text-slate-700 mt-2 p-2.5 bg-slate-50 rounded-lg border border-slate-200/80 break-words whitespace-normal leading-relaxed">
+                <span class="font-semibold text-slate-700 block mb-0.5">Note:</span>
+                <span class="font-normal text-slate-600">${escapeHtml(req.notes)}</span>
+              </div>
+            ` : ''}
           </td>
-          <td class="p-4">
+          <td class="p-4 align-top whitespace-nowrap">
             <div class="text-sm font-semibold text-slate-700">${dateStr}</div>
-            <div class="text-xs text-slate-400 flex items-center gap-1 mt-0.5"><i data-lucide="clock" class="h-3 w-3"></i> ${slotMap[req.preferredSlot] || req.preferredSlot}</div>
+            <div class="text-xs text-slate-500 flex items-center gap-1.5 mt-1">
+              <i data-lucide="clock" class="h-3.5 w-3.5 text-slate-400 shrink-0"></i>
+              <span>${escapeHtml(slotMap[req.preferredSlot] || req.preferredSlot || 'Anytime')}</span>
+            </div>
           </td>
-          <td class="p-4">
+          <td class="p-4 align-top whitespace-nowrap">
             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${statusColors[req.status] || ''} capitalize">
-              ${req.status}
+              ${escapeHtml(req.status)}
             </span>
           </td>
-          <td class="p-4 text-right">
+          <td class="p-4 align-top text-right">
             ${actionButtons}
           </td>
         `;
@@ -620,8 +713,8 @@
 
     // Helper to escape HTML characters
     function escapeHtml(text) {
-      if (!text) return '';
-      return text
+      if (text === null || text === undefined) return '';
+      return String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
